@@ -127,6 +127,7 @@ function SectionCard({ title, children, actions }: { title: string, children: Re
     <Card
       title={title}
       header={actions}
+      className="p-4"
     >
       {children}
     </Card>

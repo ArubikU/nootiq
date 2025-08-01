@@ -10,7 +10,8 @@ export const buttonVariants = cva(
         primary: "bg-iris text-white hover:bg-iris/90",
         secondary: "bg-gray-500 text-white hover:bg-gray-500/90",
         outline: "border border-iris text-iris hover:bg-iris hover:text-white",
-        ghost: "text-iris hover:bg-iris/10"
+        ghost: "text-iris hover:bg-iris/10",
+        destructive: "bg-red-500 text-white hover:bg-red-600",
       },
       size: {
         sm: "px-3 py-1.5 text-sm",

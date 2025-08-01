@@ -3,13 +3,13 @@
 export function getLimits(plan: string) {
 
   if (plan === "premium") {
-    return { aiGenerations: 10, rooms: 15, aiPerMonth: 20, filesPerRoom: 3 };
+    return { aiGenerations: 20, rooms: 20, aiPerMonth: 100, filesPerRoom: 10 };
   } else if (plan === "ultimate") {
     return { aiGenerations: Number.POSITIVE_INFINITY, rooms: Number.POSITIVE_INFINITY, aiPerMonth: Number.POSITIVE_INFINITY, filesPerRoom: Number.POSITIVE_INFINITY };
   } else if (plan === "ultra") {
     return { aiGenerations: Number.POSITIVE_INFINITY, rooms: Number.POSITIVE_INFINITY, aiPerMonth: Number.POSITIVE_INFINITY, filesPerRoom: Number.POSITIVE_INFINITY };
   } else {
-    return { aiGenerations: 3, rooms: 5, aiPerMonth: 7, filesPerRoom: 1 };
+    return { aiGenerations: 5, rooms: 5, aiPerMonth: 25, filesPerRoom: 3 };
   }
 }
 

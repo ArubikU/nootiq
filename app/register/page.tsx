@@ -49,7 +49,7 @@ export default function SignUpPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              Sign up to get started with ReApp
+              Sign up to get started with Nootiq
             </motion.p>
           </header>
 

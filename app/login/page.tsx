@@ -39,7 +39,7 @@ export default function SignInPage() {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Sign in to ReApp
+              Sign in to Nootiq
             </motion.h1>
             <motion.p
               className="mt-2 text-rage"
