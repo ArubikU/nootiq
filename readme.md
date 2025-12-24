@@ -223,7 +223,7 @@ Nootiq utiliza [Clerk](https://clerk.dev) para gestionar la autenticación y aut
 // Ejemplo de metadata de usuario
 {
   publicMetadata: {
-    plan: "premium" // free, premium, ultimate, ultra
+    plan: "premium" // free, premium, ultimate
   }
 }
 ```
@@ -267,7 +267,7 @@ Este proyecto es privado y pertenece a [ArubikU](https://github.com/ArubikU).
 
 ## 📩 Contacto
 
-Desarrollado con 💻 y ☕ por [Arubik](https://github.com/arubiku)
+Desarrollado con 💻 y ☕ por [ArubikU](https://github.com/ArubikU)
 
 ¿Preguntas o sugerencias? Abre un issue o contáctanos directamente.
 
