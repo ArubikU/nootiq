@@ -3,6 +3,9 @@
 import type React from "react"
 
 import { getTierObject, importTypes } from "@/lib/getLimits"
+import { useCustomAlerts } from "@/hooks/use-custom-alerts"
+import { useErrorHandler } from "@/hooks/use-error-handler"
+import { useTranslation } from "react-i18next"
 import { useUser } from "@clerk/nextjs"
 import { useRef, useState } from "react"
 
@@ -17,10 +20,13 @@ interface UploadDocumentProps {
 
 export default function DocumentUpload({ roomId, onUploadComplete, aiGenerationsLeft, aiGenerationsLimit, filesCount = 0, filesPerRoomLimit = 1 }: UploadDocumentProps) {
   const { user } = useUser()
+  const { alert } = useCustomAlerts()
+  const { getErrorMessage } = useErrorHandler()
   const [isUploading, setIsUploading] = useState(false)
   const [uploadType, setUploadType] = useState<importTypes>("pdf")
   const [link, setLink] = useState("")
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const {t} = useTranslation()
 
   // Get user plan from metadata
   const userPlan = getTierObject((user?.publicMetadata?.plan as string) || "free")
@@ -29,7 +35,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
   let canUploadMoreFiles = filesCount < filesPerRoomLimit || userPlan.isUltimate || userPlan.isUltra
 
 
-  // Function to upload a file to Vercel Blob Storage
+  // Function to upload a file to Vercel Blob Stotext-secondary
   const uploadFile = async (file: File) => {
     try {
       // Crear un FormData para enviar el archivo
@@ -43,7 +49,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
       })
 
       if (!response.ok) {
-        throw new Error("Error al subir el archivo")
+        throw new Error(t('errors.upload_failed'))
       }
 
       const data = await response.json()
@@ -59,7 +65,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
 
     // Check if file is PDF
     if (file.type !== "application/pdf") {
-      alert("Solo se permiten archivos PDF")
+      alert(getErrorMessage('INVALID_FILE_TYPE', 'Solo se permiten archivos PDF'), "error")
       return
     }
 
@@ -74,7 +80,13 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
       const response = await saveDocument(url, uploadType)
 
       if (!response.success) {
-        throw new Error(response.error || "Error al guardar el documento")
+        if (response.error?.code) {
+          const errorMessage = getErrorMessage(response.error.code)
+          alert(errorMessage, "error")
+        } else {
+          alert(response.error || t('errors.save_document_failed'), "error")
+        }
+        return
       }
 
 
@@ -92,13 +104,14 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
       }
     } catch (error) {
       console.error("Error uploading file:", error)
-      let errorMessage = "Error al subir el archivo. Por favor, intenta de nuevo."
-
-      if ((error as Error).message.includes("límite de documentos")) {
-        errorMessage = "Has alcanzado el límite de documentos para esta sala."
+      
+      // Si es un error de la API que ya procesamos, no mostrar el toast genérico
+      if ((error as any)?.code) {
+        const errorMessage = getErrorMessage((error as any).code)
+        alert(errorMessage, "error")
+      } else {
+        alert(t('errors.upload_failed_retry'), "error")
       }
-
-      alert(errorMessage)
     } finally {
       setIsUploading(false)
     }
@@ -111,7 +124,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
 
     // Basic URL validation
     if (!link.startsWith("http://") && !link.startsWith("https://")) {
-      alert("Por favor, ingresa una URL válida")
+      alert(t('errors.invalid_url'), "error")
       return
     }
 
@@ -122,7 +135,13 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
       const response = await saveDocument(link, "pdf-link")
 
       if (!response.success) {
-        throw new Error(response.error || "Error al guardar el enlace")
+        if (response.error?.code) {
+          const errorMessage = getErrorMessage(response.error.code)
+          alert(errorMessage, "error")
+        } else {
+          alert(response.error || t('errors.save_link_failed'), "error")
+        }
+        return
       }
 
 
@@ -138,13 +157,13 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
       }
     } catch (error) {
       console.error("Error saving link:", error)
-      let errorMessage = "Error al guardar el enlace. Por favor, intenta de nuevo."
-
-      if ((error as Error).message.includes("límite de documentos")) {
-        errorMessage = "Has alcanzado el límite de documentos para esta sala."
+      
+      if ((error as any)?.code) {
+        const errorMessage = getErrorMessage((error as any).code)
+        alert(errorMessage, "error")
+      } else {
+        alert(t('errors.save_link_failed_retry'), "error")
       }
-
-      alert(errorMessage)
     } finally {
       setIsUploading(false)
     }
@@ -163,11 +182,18 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
       }),
     })
 
+    const data = await response.json()
+
     if (!response.ok) {
-      throw new Error("Error al guardar el documento")
+      // Si la API devuelve un error estructurado con messageKey
+      if (data.error?.code) {
+        return { success: false, error: data.error }
+      }
+      // Error genérico
+      throw new Error(data.error || t('errors.save_document_failed'))
     }
 
-    return response.json()
+    return { ...data, success: true }
   }
 
 
@@ -175,10 +201,10 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
   return (
     <div className="card">
       <div className="card-header">
-        <h2 className="text-xl font-semibold">Subir Documento</h2>
+        <h2 className="text-xl font-semibold">{t('rooms.upload.title')}</h2>
       </div>
       <div className="card-body">
-        <div className="flex border-b mb-4">
+        <div className="flex mb-4">
           <select
             value={uploadType}
             onChange={(e) => setUploadType(e.target.value as importTypes)}
@@ -206,7 +232,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
 
         {uploadType === "pdf" && (
           <div>
-            <p className="text-sm text-ink mb-4">
+            <p className="text-sm text-text mb-4">
               Sube un archivo PDF para generar material de estudio automáticamente.
             </p>
             <input
@@ -214,17 +240,17 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
               ref={fileInputRef}
               accept=".pdf"
               onChange={handleFileUpload}
-              className="block w-full text-sm text-ink
+              className="block w-full text-sm text-primary
           file:mr-4 file:py-2 file:px-4
           file:rounded-md file:border-0
           file:text-sm file:font-medium
-          file:bg-iris file:text-white
-          hover:file:bg-irisdark
+          file:bg-accent file:text-primary
+          hover:file:bg-accent-heavy
               "
               disabled={isUploading || !canUploadMoreFiles}
             />
             {!canUploadMoreFiles && (
-              <p className="text-xs text-red-500 mt-2">
+              <p className="text-xs text-error mt-2">
                 Has alcanzado el límite de archivos para esta sala.
                 {!userPlan.isUltimate && " Considera actualizar tu plan para obtener más espacio."}
               </p>
@@ -234,7 +260,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
 
         {uploadType === "img" && (
           <div>
-            <p className="text-sm text-ink mb-4">
+            <p className="text-sm text-text mb-4">
               Sube una imagen (JPG, PNG) para generar material de estudio automáticamente.
             </p>
             <input
@@ -242,12 +268,12 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
               ref={fileInputRef}
               accept="image/png, image/jpeg"
               onChange={handleFileUpload}
-              className="block w-full text-sm text-ink
+              className="block w-full text-sm text-text
           file:mr-4 file:py-2 file:px-4
           file:rounded-md file:border-0
           file:text-sm file:font-medium
-          file:bg-iris file:text-white
-          hover:file:bg-irisdark
+          file:bg-accent file:text-white
+          hover:file:bg-accent-heavy
               "
               disabled={isUploading || !canUploadMoreFiles}
             />
@@ -262,7 +288,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
 
         {uploadType === "csv" && (
           <div>
-            <p className="text-sm text-ink mb-4">
+            <p className="text-sm text-text mb-4">
               Sube un archivo CSV para importar datos y generar material de estudio automáticamente.
             </p>
             <input
@@ -270,12 +296,12 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
               ref={fileInputRef}
               accept=".csv,text/csv"
               onChange={handleFileUpload}
-              className="block w-full text-sm text-ink
+              className="block w-full text-sm text-text
           file:mr-4 file:py-2 file:px-4
           file:rounded-md file:border-0
           file:text-sm file:font-medium
-          file:bg-iris file:text-white
-          hover:file:bg-irisdark
+          file:bg-accent file:text-white
+          hover:file:bg-accent-heavy
               "
               disabled={isUploading || !canUploadMoreFiles}
             />
@@ -290,7 +316,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
 
         {uploadType === "pdf-link" && (
           <form onSubmit={handleLinkSubmit}>
-            <p className="text-sm text-ink mb-4">
+            <p className="text-sm text-text mb-4">
               Añade un enlace a un PDF, artículo o página web para generar material de estudio.
             </p>
             <div className="flex">
@@ -298,7 +324,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
                 type="url"
                 value={link}
                 onChange={(e) => setLink(e.target.value)}
-                placeholder="https://ejemplo.com/documento.pdf"
+                placeholder={t('rooms.upload.url_placeholder')}
                 className="input flex-grow"
                 disabled={isUploading || !canUploadMoreFiles}
                 required
@@ -318,7 +344,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
 
         {/* AI Generation Option */}
         <div className="mt-4">
-          <div className="text-xs text-ink mt-1">
+          <div className="text-xs text-text mt-1">
             {!userPlan.isUltimate && <>Generaciones de IA disponibles: {aiGenerationsLeft} de {aiGenerationsLimit}</>}
             <p></p>
             {!userPlan.isUltimate && (<>Documentos: {filesCount} de {filesPerRoomLimit} permitidos</>
@@ -330,7 +356,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
                 </p>
                 <span className="inline-flex items-center ml-2 group relative">
                   <svg
-                    className="w-4 h-4 text-iris group-hover:text-[#1E293B] transition-colors cursor-pointer"
+                    className="w-4 h-4 text-custom-accent group-hover:text-[#1E293B] transition-colors cursor-pointer"
                     fill="none"
                     stroke="currentColor"
                     strokeWidth={2}
@@ -342,7 +368,7 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
                     <circle cx="12" cy="8" r="1" />
                   </svg>
                   <span
-                    className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-52 rounded bg-iris text-white text-xs px-3 py-2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-auto transition-opacity z-20 shadow-lg"
+                    className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-52 rounded bg-custom-accent text-white text-xs px-3 py-2 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 pointer-events-auto transition-opacity z-20 shadow-lg"
                     style={{ whiteSpace: "normal" }}
                     tabIndex={-1}
                     role="tooltip"
@@ -356,9 +382,9 @@ export default function DocumentUpload({ roomId, onUploadComplete, aiGenerations
 
         {isUploading && (
           <div className="mt-4 text-center">
-            <p className="text-sm text-ink">Subiendo documento...</p>
+            <p className="text-sm text-text">{t('rooms.upload.uploading')}</p>
             <div className="w-full h-2 bg-gray-200 rounded-full mt-2">
-              <div className="h-full bg-iris rounded-full animate-pulse"></div>
+              <div className="h-full bg-custom-accent rounded-full animate-pulse"></div>
             </div>
           </div>
         )}

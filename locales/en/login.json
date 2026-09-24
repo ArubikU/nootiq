@@ -1,0 +1,30 @@
+{
+  "title": "Sign In",
+  "subtitle": "Access your Nootiq account",
+  "welcome_back": "Welcome back!",
+  "continue_learning": "Continue your learning journey",
+  "form": {
+    "email": "Email address",
+    "password": "Password",
+    "remember_me": "Remember me",
+    "forgot_password": "Forgot your password?",
+    "sign_in": "Sign In",
+    "signing_in": "Signing in..."
+  },
+  "social": {
+    "title": "or",
+    "google": "Continue with Google",
+    "github": "Continue with GitHub"
+  },
+  "no_account": {
+    "text": "Don't have an account?",
+    "link": "Create one"
+  },
+  "benefits": {
+    "title": "Why Nootiq?",
+    "benefit1": "Convert PDFs into study material",
+    "benefit2": "Automatically generated flashcards",
+    "benefit3": "AI-powered personalized quizzes",
+    "benefit4": "Track your progress"
+  }
+}

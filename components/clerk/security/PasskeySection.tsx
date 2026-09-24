@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { useTranslation } from "@/hooks/use-translation"
 import { Trash2 } from "lucide-react"
 import { useState } from "react"
 
@@ -12,6 +13,8 @@ interface Passkey {
 }
 
 export const PasskeySection = () => {
+  const { t } = useTranslation()
+  
   // Estado para las PassKeys
   const [passkeys, setPasskeys] = useState<Passkey[]>([
     {
@@ -62,7 +65,7 @@ export const PasskeySection = () => {
 
   return (
     <div className="space-y-4 border-t pt-4">
-      <h3 className="text-sm font-medium">Passkeys</h3>
+      <h3 className="text-sm font-medium">{t('clerk.security.passkey_section.title')}</h3>
       <p className="text-sm text-muted-foreground">
         Las passkeys te permiten iniciar sesión de forma segura sin necesidad de contraseña, utilizando
         la biometría de tu dispositivo (huella digital, reconocimiento facial) o un PIN de sistema.
@@ -74,11 +77,11 @@ export const PasskeySection = () => {
             <div>
               <div className="font-medium">{passkey.name}</div>
               <div className="text-sm text-muted-foreground">
-                Creada: {passkey.createdAt}
+                {t('clerk.security.passkey_section.created')}: {passkey.createdAt}
               </div>
               {passkey.lastUsed && (
                 <div className="text-sm text-muted-foreground">
-                  Último uso: {passkey.lastUsed}
+                  {t('clerk.security.passkey_section.last_used')}: {passkey.lastUsed}
                 </div>
               )}
             </div>
@@ -95,7 +98,7 @@ export const PasskeySection = () => {
       
       {!isAddingPasskey ? (
         <Button onClick={() => setIsAddingPasskey(true)}>
-          Agregar passkey
+          {t('clerk.security.passkey_section.add_passkey')}
         </Button>
       ) : (
         <div className="space-y-4">

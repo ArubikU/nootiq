@@ -17,15 +17,19 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useCustomAlerts } from "@/hooks/use-custom-alerts";
+import { useErrorHandler } from "@/hooks/use-error-handler";
+import { useDateFormatter } from "@/hooks/use-date-formatter";
 import { motion } from "framer-motion";
 import { BadgeCheck } from "lucide-react";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface PromoClientPageProps {
   currentPlan: string;
   planId: string;
-  expirationDate: string;
+  expirationDate: string | null;
+  initialCode?: string;
 }
 
 export default function PromoClientPage({
@@ -33,9 +37,13 @@ export default function PromoClientPage({
   currentPlan,
   planId,
   expirationDate,
+  initialCode,
 }: PromoClientPageProps) {
   const { alert } = useCustomAlerts();
+  const { getErrorMessage } = useErrorHandler();
   const router = useRouter();
+  const { t } = useTranslation();
+  const { formatDateString } = useDateFormatter();
 
   const [promoCode, setPromoCode] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -49,15 +57,34 @@ useEffect(() => {
   if (didLoadPromoCode.current) return;
   didLoadPromoCode.current = true;
 
+  // Primero intentar obtener el código de la URL
   const params = new URLSearchParams(window.location.search);
-  const code = params.get("promoCode");
-  if (code) setPromoCode(code);
-}, []);
+  const urlCode = params.get("code");
+  
+  // Si hay código en la URL, usarlo y guardarlo en localStorage
+  if (urlCode) {
+    setPromoCode(urlCode);
+    localStorage.setItem("pendingPromoCode", urlCode);
+    return;
+  }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Si no hay código en URL pero hay initialCode del servidor, usarlo
+  if (initialCode) {
+    setPromoCode(initialCode);
+    return;
+  }
+
+  // Finalmente, intentar obtener desde localStorage
+  const storedCode = localStorage.getItem("pendingPromoCode");
+  if (storedCode) {
+    setPromoCode(storedCode);
+  }
+}, [initialCode]);
+
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     if (!promoCode.trim()) {
-      setError("Por favor, introduce un código promocional");
+      setError(t("promo.redeemForm.emptyError"));
       return;
     }
 
@@ -73,9 +100,15 @@ useEffect(() => {
 
       const data = await res.json();
       if (!res.ok || data.success === false) {
-        const message = data.message || "Error al reclamar el código promocional";
-        setError(message);
-        alert(message, "error");
+        if (data.error?.code) {
+          const errorMessage = getErrorMessage(data.error.code);
+          setError(errorMessage);
+          alert(errorMessage, "error");
+        } else {
+          const message = data.message || t("promo.errors.generic");
+          setError(message);
+          alert(message, "error");
+        }
         return;
       }
 
@@ -83,29 +116,36 @@ useEffect(() => {
       setClaimedPlan(data.planName);
       setClaimedDuration(data.duration);
 
+      // Limpiar el código del localStorage una vez reclamado exitosamente
+      localStorage.removeItem("pendingPromoCode");
+
       setTimeout(() => router.refresh(), 3000);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Error inesperado");
+      setError(err instanceof Error ? err.message : t("promo.errors.unexpected"));
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [promoCode, t, getErrorMessage, alert, router]);
+
+  const handlePromoCodeChange = useCallback((val: string) => {
+    setPromoCode(val);
+  }, []);
 
   const PromoInfoCard = () => (
-    <Card className="shadow-md px-4 py-5 p-2">
+    <Card className="shadow-md p-8 bg-secondary">
       <CardHeader>
-        <CardTitle className="text-irisdark">Tu Plan Actual</CardTitle>
-        <CardDescription>Detalles de tu suscripción activa</CardDescription>
+        <CardTitle className="text-accent-heavy">{t("promo.currentPlan.title")}</CardTitle>
+        <CardDescription>{t("promo.currentPlan.description")}</CardDescription>
       </CardHeader>
       <CardContent className="grid gap-3 text-sm">
         <div className="flex justify-between">
-          <span className="font-medium text-muted-foreground">Plan:</span>
-          <span className="font-semibold text-irisdark">{currentPlan}</span>
+          <span className="font-medium ">{t("promo.currentPlan.plan")}</span>
+          <span className="font-semibold text-accent-heavy">{currentPlan}</span>
         </div>
-        {expirationDate !== "No disponible" && planId !== "free" && (
+        {expirationDate && planId !== "free" && (
           <div className="flex justify-between">
-            <span className="font-medium text-muted-foreground">Expira el:</span>
-            <span>{expirationDate}</span>
+            <span className="font-medium ">{t("promo.currentPlan.expires")}</span>
+            <span>{formatDateString(expirationDate, 'medium')}</span>
           </div>
         )}
       </CardContent>
@@ -118,27 +158,27 @@ useEffect(() => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ type: "spring", stiffness: 120 }}
     >
-      <Card className="bg-green-50 border border-green-200 px-4 py-5 p-2">
+      <Card className="border border-success p-8 bg-secondary">
         <CardHeader>
-          <CardTitle className="text-green-700">
-            ¡Código Promocional Activado!
+          <CardTitle className="text-secondary">
+            {t("promo.success.title")}
           </CardTitle>
         </CardHeader>
         <CardContent className="grid gap-3 text-sm">
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Plan Activado:</span>
-            <span className="font-bold text-irisdark">{claimedPlan}</span>
+            <span className="">{t("promo.success.planActivated")}</span>
+            <span className="font-bold text-accent-heavy">{claimedPlan}</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-muted-foreground">Duración:</span>
-            <span>{claimedDuration} días</span>
+            <span className="">{t("promo.success.duration")}</span>
+            <span>{claimedDuration} {t("promo.success.days")}</span>
           </div>
           <div className="mt-4 border-t pt-4">
-            <h4 className="font-semibold mb-2">Beneficios del plan:</h4>
+            <h4 className="font-semibold mb-2">{t("promo.success.benefits")}</h4>
             <ul className="space-y-2">
-              {getPlanById(claimedPlan!.toLowerCase())?.features.map((feature, index) => (
+              {getPlanById(claimedPlan!.toLowerCase(), t)?.features.map((feature, index) => (
                 <li key={index} className="flex items-start text-sm">
-                  <BadgeCheck className="h-5 w-5 text-green-600 mr-2 mt-0.5" />
+                  <BadgeCheck className="h-5 w-5 text-success mr-2 mt-0.5" />
                   {feature}
                 </li>
               ))}
@@ -147,49 +187,46 @@ useEffect(() => {
         </CardContent>
         <CardFooter>
           <Button
-            className="w-full bg-iris hover:bg-irisdark"
-            onClick={() => router.push("/dashboard")}
+            className="w-full bg-accent hover:bg-accent-heavy"
+            onClick={() => router.push("/rooms")}
             disabled={isLoading}
           >
-            Ir al Dashboard
+            {t("promo.success.goToDashboard")}
           </Button>
         </CardFooter>
       </Card>
     </motion.div>
   );
 
-  const PromoInput = () => (
-            <div className="grid gap-2">
-              <label htmlFor="promoCode" className="text-sm font-medium">
-                Código Promocional
-              </label>
-              <Input
-                placeholder="ej. LAVANDA2025"
-                value={promoCode}
-                onChange={(e) => setPromoCode(e)}
-              />
-            </div>
-          );
-
-  const PromoForm = () => (
+  const PromoForm = useMemo(() => (
     <form onSubmit={handleSubmit}>
       <motion.div
         initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ type: "spring", stiffness: 120 }}
       >
-        <Card className="shadow-sm px-4 py-5 p-2">
+        <Card className="shadow-sm p-8 bg-secondary">
           <CardHeader>
-            <CardTitle className="text-irisdark">Canjea tu Código</CardTitle>
+            <CardTitle className="text-accent-heavy">{t("promo.redeemForm.title")}</CardTitle>
             <CardDescription>
-              Introduce tu código promocional para mejorar tu plan
+              {t("promo.redeemForm.description")}
             </CardDescription>
           </CardHeader>
           <CardContent className="grid gap-4">
-            <PromoInput />
+            <div className="grid gap-2">
+              <label htmlFor="promoCode" className="text-sm font-medium">
+                {t("promo.redeemForm.label")}
+              </label>
+              <Input
+                placeholder={t("promo.redeemForm.placeholder")}
+                value={promoCode}
+                onChange={handlePromoCodeChange}
+                className="text-primary bg-primary border-none"
+              />
+            </div>
             {error && (
               <Alert variant="destructive">
-                <AlertTitle>Error</AlertTitle>
+                <AlertTitle>{t("promo.errors.errorTitle")}</AlertTitle>
                 <AlertDescription>{error}</AlertDescription>
               </Alert>
             )}
@@ -197,26 +234,34 @@ useEffect(() => {
           <CardFooter>
             <Button
               type="submit"
-              className="w-full bg-iris hover:bg-irisdark"
+              className="w-full bg-accent hover:bg-accent-heavy"
               disabled={isLoading}
             >
-              {isLoading ? "Reclamando..." : "Reclamar Código"}
+              {isLoading ? t("promo.redeemForm.redeeming") : t("promo.redeemForm.redeemButton")}
             </Button>
           </CardFooter>
         </Card>
       </motion.div>
     </form>
-  );
+  ), [handleSubmit, t, promoCode, handlePromoCodeChange, error, isLoading]);
 
   return (
-    <motion.div
-      className="flex flex-col gap-6 w-full max-w-2xl mx-auto"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.3 }}
-    >
-      <PromoInfoCard />
-      {success ? <SuccessCard /> : <PromoForm />}
-    </motion.div>
+    <div className="container mx-auto py-10">
+      <div className="text-center mb-10">
+        <h1 className="text-4xl font-bold mb-4">{t("promo.title")}</h1>
+        <p className="text-xl text-text max-w-2xl mx-auto">
+          {t("promo.subtitle")}
+        </p>
+      </div>
+      <motion.div
+        className="flex flex-col gap-6 w-full max-w-2xl mx-auto"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
+      >
+        <PromoInfoCard />
+        {success ? <SuccessCard /> : PromoForm}
+      </motion.div>
+    </div>
   );
 }

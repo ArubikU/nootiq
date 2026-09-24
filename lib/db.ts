@@ -1,4 +1,4 @@
-import { AuthObject, ClerkClient } from "@clerk/backend"
+import { AuthObject, ClerkClient, SessionAuthObject } from "@clerk/backend"
 import { clerkClient } from "@clerk/nextjs/server"
 import { neon } from "@neondatabase/serverless"
 import { extractTextFromUrl, summarizeDocument } from "./cohere"
@@ -235,7 +235,8 @@ export async function createAiCurrentLimits(referred_id: string, type: string, c
   return id
 }
 
-export async function getLeftRoomsCount(user: AuthObject) {
+export async function getLeftRoomsCount(user: SessionAuthObject) {
+  
   const limit = await getAiCurrentLimits(user.userId!, "rooms")
 
   const client = await clerkClient()
@@ -254,7 +255,7 @@ export async function getLeftRoomsCount(user: AuthObject) {
   return limit.count
 }
 
-export async function updateRoomCount(user: AuthObject) {
+export async function updateRoomCount(user: SessionAuthObject) {
   //verify rooms that user has
   const userId = await sql`
     SELECT * FROM users WHERE clerk_id = ${user.userId!}
@@ -283,7 +284,7 @@ export async function updateRoomCount(user: AuthObject) {
   }
   return newCurrentLeft
 }
-export async function canGenerateAi(user: AuthObject, roomId: string, limits: { rooms: number, filesPerRoom: number, aiGenerations: number, aiPerMonth: number }) {
+export async function canGenerateAi(user: SessionAuthObject, roomId: string, limits: { rooms: number, filesPerRoom: number, aiGenerations: number, aiPerMonth: number }) {
 
   // Check per-room AI limit
   let roomLimit = await getAiCurrentLimits(roomId, "ai")
@@ -322,7 +323,7 @@ export async function canGenerateAi(user: AuthObject, roomId: string, limits: { 
   return { roomAiLimit: roomLimit.count, userAiMonthLimit: userMonthLimit.count }
 }
 
-export async function consumeGenerations(user: AuthObject, roomId: string): Promise<boolean> {
+export async function consumeGenerations(user: SessionAuthObject, roomId: string): Promise<boolean> {
   // Decrement per-room AI limit if possible
   const roomLimit = await getAiCurrentLimits(roomId, "ai")
   const userMonthLimit = await getAiCurrentLimits(user.userId!, "aiPerMonth")
@@ -612,52 +613,229 @@ export async function getUserByClerkId(clerkId: string) {
 // plan_id: varchar(255) NOT NULL,
 // uses_left: int NOT NULL DEFAULT 1,
 // plan_duration: int NOT NULL DEFAULT 31,
+// type: varchar(50) DEFAULT 'general',
 
-export async function createPromoCode(planId: string, usesLeft: number) {
+export async function createPromoCode(planId: string, usesLeft: number, type: string = 'general', planDuration: number = 31) {
   const id = generateId()
   await sql`
-    INSERT INTO promo_codes (id, plan_id, uses_left)
-    VALUES (${id}, ${planId}, ${usesLeft})
+    INSERT INTO promo_codes (id, plan_id, uses_left, plan_duration, type)
+    VALUES (${id}, ${planId}, ${usesLeft}, ${planDuration}, ${type})
   `
   return id
+}
+
+// Referral system functions
+export async function createReferralCode(userId: string): Promise<string> {
+  // Check if user already has an active referral code
+  const existingCode = await sql`
+    SELECT * FROM referral_codes WHERE user_id = ${userId} AND is_active = true
+  `
+  
+  if (existingCode.length > 0) {
+    return existingCode[0].code
+  }
+
+  const id = generateId()
+  const code = await generateReferralCode()
+  
+  await sql`
+    INSERT INTO referral_codes (id, user_id, code, uses_left, total_uses, is_active)
+    VALUES (${id}, ${userId}, ${code}, 100, 0, true)
+  `
+  return code
+}
+
+export async function getReferralCodeByUser(userId: string) {
+  const codes = await sql`
+    SELECT * FROM referral_codes WHERE user_id = ${userId} AND is_active = true
+  `
+  return codes[0] || null
+}
+
+export async function getReferralCodeByCode(code: string) {
+  const codes = await sql`
+    SELECT * FROM referral_codes WHERE code = ${code} AND is_active = true
+  `
+  return codes[0] || null
+}
+
+export async function generateReferralCode(): Promise<string> {
+  let code: string
+  let exists = true
+  
+  while (exists) {
+    // Generate a random 8-character code
+    code = Math.random().toString(36).substring(2, 10).toUpperCase()
+    const existing = await sql`
+      SELECT id FROM referral_codes WHERE code = ${code}
+    `
+    exists = existing.length > 0
+  }
+  
+  return code!
+}
+
+export async function claimReferralCode(referralCode: string, newUserId: string): Promise<{ success: boolean, error?: string, referrerId?: string, planId?: string, duration?: number }> {
+  try {
+    // Get referral code info
+    const referralInfo = await getReferralCodeByCode(referralCode)
+    if (!referralInfo) {
+      return { success: false, error: "Referral code not found" }
+    }
+
+    if (referralInfo.uses_left <= 0) {
+      return { success: false, error: "Referral code has no uses left" }
+    }
+
+    // Check if user is trying to use their own referral code
+    if (referralInfo.user_id === newUserId) {
+      return { success: false, error: "Cannot use your own referral code" }
+    }
+
+    // Check if user already used a referral code
+    const existingClaim = await sql`
+      SELECT * FROM referral_claims WHERE referred_user_id = ${newUserId}
+    `
+    if (existingClaim.length > 0) {
+      return { success: false, error: "User already used a referral code" }
+    }
+
+    // Default referral reward: premium plan for 1 day
+    const rewardPlan = 'premium'
+    const rewardDuration = 1
+
+    // Create referral claim
+    const claimId = generateId()
+    await sql`
+      INSERT INTO referral_claims (id, referral_code_id, referred_user_id, referrer_user_id, reward_duration)
+      VALUES (${claimId}, ${referralInfo.id}, ${newUserId}, ${referralInfo.user_id}, ${rewardDuration})
+    `
+
+    // Update referral code usage
+    await sql`
+      UPDATE referral_codes 
+      SET uses_left = uses_left - 1, total_uses = total_uses + 1 
+      WHERE id = ${referralInfo.id}
+    `
+
+    // Update user's referred_by field
+    await sql`
+      UPDATE users 
+      SET referred_by = ${referralInfo.user_id}, referral_code_used = ${referralCode}
+      WHERE clerk_id = ${newUserId}
+    `
+
+    // Give premium plan to new user for 1 day
+    const user = await getUserByClerkId(newUserId)
+    if (user) {
+      await storePayment(user.id, rewardPlan, `referral_${generateId()}`, 0, 'PEN', 'success', new Date(), rewardDuration)
+      
+      // Update user metadata
+      const client = await clerkClient()
+      await updateMetadata(newUserId, client, [{ key: "plan", value: rewardPlan }])
+    }
+
+    return { 
+      success: true, 
+      referrerId: referralInfo.user_id,
+      planId: rewardPlan,
+      duration: rewardDuration
+    }
+  } catch (error) {
+    console.error('Error claiming referral code:', error)
+    return { success: false, error: "Failed to claim referral code" }
+  }
+}
+
+export async function getUserReferralStats(userId: string) {
+  const referralCode = await getReferralCodeByUser(userId)
+  
+  if (!referralCode) {
+    return null
+  }
+
+  const claims = await sql`
+    SELECT rc.*, u.email, u.clerk_id 
+    FROM referral_claims rc
+    JOIN users u ON rc.referred_user_id = u.clerk_id
+    WHERE rc.referrer_user_id = ${userId}
+    ORDER BY rc.claimed_at DESC
+  `
+
+  return {
+    code: referralCode.code,
+    usesLeft: referralCode.uses_left,
+    totalUses: referralCode.total_uses,
+    claims: claims
+  }
+}
+
+export async function hasClaimedPromoType(userId: string, promoType: string): Promise<boolean> {
+  const claims = await sql`
+    SELECT * FROM promo_claims WHERE user_id = ${userId} AND promo_type = ${promoType}
+  `
+  return claims.length > 0
 }
 export async function claimPromoCode(promoCode: string, clerckId: string) {
   const promoCodes = await sql`
     SELECT * FROM promo_codes WHERE id = ${promoCode}
   `
   if (promoCodes.length > 0) {
-    const promoCode = promoCodes[0]
-    if (promoCode.uses_left > 0) {
+    const promoCodeData = promoCodes[0]
+    if (promoCodeData.uses_left > 0) {
       const user = await getUserByClerkId(clerckId)
       if (!user) {
         throw new Error("User not found")
       }
+
+      // Check if user already claimed a promo code of this type
+      const hasClaimedType = await hasClaimedPromoType(user.id, promoCodeData.type)
+      if (hasClaimedType) {
+        return { 
+          error: `You have already claimed a ${promoCodeData.type} promo code`, 
+          code: "ALREADY_CLAIMED_TYPE" 
+        }
+      }
+
       const client = await clerkClient()
 
-      //check if user already have that plan 
+      // Check if user already has that plan 
       const userPlan = await sql`
         SELECT * FROM payments WHERE user_id = ${user.id} ORDER BY payment_date DESC
       `
       if (userPlan.length > 0) {
         const plan = userPlan[0]
         if (
-          (plan.plan_id === "ultra" && promoCode.plan_id === "ultimate") ||
-          (plan.plan_id === "ultimate" && promoCode.plan_id === "ultra") ||
-          plan.plan_id === promoCode.plan_id
+          (plan.plan_id === "ultra" && promoCodeData.plan_id === "ultimate") ||
+          (plan.plan_id === "ultimate" && promoCodeData.plan_id === "ultra") ||
+          plan.plan_id === promoCodeData.plan_id
         ) {
           return { error: "You already have this plan" }
         }
       }
+
+      // Update promo code uses
       await sql`
-        UPDATE promo_codes SET uses_left = ${promoCode.uses_left - 1} WHERE id = ${promoCode.id}
+        UPDATE promo_codes SET uses_left = ${promoCodeData.uses_left - 1} WHERE id = ${promoCodeData.id}
       `
-      await updateMetadata(user.clerk_id, client, [{ key: "plan", value: promoCode.plan_id }])
-      //create a fake payment
-      await storePayment(user.id, promoCode.plan_id, "promo_code_" + generateId(), 0, "PEN", "success", new Date(), promoCode.plan_duration)
+
+      // Record the claim
+      const claimId = generateId()
+      await sql`
+        INSERT INTO promo_claims (id, user_id, promo_code_id, promo_type)
+        VALUES (${claimId}, ${user.id}, ${promoCodeData.id}, ${promoCodeData.type})
+      `
+
+      // Update user metadata
+      await updateMetadata(user.clerk_id, client, [{ key: "plan", value: promoCodeData.plan_id }])
+      
+      // Create a fake payment
+      await storePayment(user.id, promoCodeData.plan_id, "promo_code_" + generateId(), 0, "PEN", "success", new Date(), promoCodeData.plan_duration)
+      
       return {
-        planId: promoCode.plan_id,
-        duration: promoCode.plan_duration,
-        planName: promoCode.plan_id === "ultimate" ? "Ultimate" : "Ultra"
+        planId: promoCodeData.plan_id,
+        duration: promoCodeData.plan_duration,
+        planName: promoCodeData.plan_id === "ultimate" ? "Ultimate" : promoCodeData.plan_id === "premium" ? "Premium" : "Ultra"
       }
     }
   }
@@ -703,10 +881,18 @@ export async function getSummaryById(id: string) {
   const uploads = await sql`
     SELECT * FROM uploads WHERE url = ${roomDocuments[0].url}
   `
-  if (uploads.length > 0) {
-    return uploads[0].summary
-  }
-  return null
+  const doc = roomDocuments[0]
+  
+      if (uploads.length > 0 && uploads[0].summary && uploads[0].summary !== "NONE") {
+        return uploads[0].summary
+      }
+      const text = await extractTextFromUrl(doc.url, doc.type as importTypes)
+      sql`
+        UPDATE uploads SET text = ${text} WHERE url = ${doc.url}
+      `
+      const summary = await summarizeDocument(text)
+      await uploadSummary(doc.url, summary)
+      return summary
 }
 
 export async function getChatHistoryByDocumentId(documentId: string, clerkId: string) {

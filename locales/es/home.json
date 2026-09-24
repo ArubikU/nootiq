@@ -1,0 +1,76 @@
+{
+  "hero": {
+    "title": "Transforma tus documentos en <span className=\"text-iris\">material de estudio</span> con Nootiq",
+    "title_part_1": "Transforma tus ",
+    "title_part_2": [
+      "documentos",
+      "apuntes",
+      "PDFs",
+      "libros",
+      "artículos"
+    ],
+    "title_part_3": " en",
+    "title_part_4": [
+      "material de estudio",
+      "flashcards",
+      "quizzes",
+      "resúmenes"
+    ],
+    "subtitle": "Convierte PDFs y enlaces en flashcards, quizzes y resúmenes.\nListo para estudiar de forma más simple.",
+    "cta_dashboard": "Ir al Dashboard",
+    "cta_start": "Comenzar Gratis",
+    "cta_learn_more": "Cómo Funciona"
+  },
+  "how_it_works": {
+    "title": "Cómo Funciona",
+    "steps": {
+      "upload": {
+        "title": "Sube tu documento",
+        "description": "PDFs o links a artículos, ¡lo que necesites!"
+      },
+      "process": {
+        "title": "Procesamiento IA",
+        "description": "Nootiq analiza y genera contenido automáticamente."
+      },
+      "study": {
+        "title": "Estudia y Aprende",
+        "description": "Usa material de estudio listos para repasar."
+      }
+    }
+  },
+  "features": {
+    "title": "Características",
+    "list": {
+      "flashcards": {
+        "title": "Flashcards Interactivas",
+        "description": "Creadas automáticamente a partir de tus documentos."
+      },
+      "quizzes": {
+        "title": "Quizzes Personalizados",
+        "description": "Preguntas generadas con IA para reforzar tus conocimientos."
+      },
+      "notebooks": {
+        "title": "Organización por Notebooks",
+        "description": "Agrupa tu estudio por temas o asignaturas."
+      },
+      "export": {
+        "title": "Exportación de Material",
+        "description": "Descarga en PDF o CSV para estudiar offline."
+      },
+      "progress": {
+        "title": "Seguimiento de Progreso",
+        "description": "Mide tu avance y enfócate en lo necesario."
+      },
+      "customization": {
+        "title": "Personalización Manual",
+        "description": "Edita fácilmente las tarjetas y preguntas generadas."
+      }
+    }
+  },
+  "cta": {
+    "title": "Comienza a transformar tu forma de estudiar",
+    "subtitle": "Súmate a Nootiq y crea materiales de estudio en segundos.",
+    "cta_dashboard": "Ir al Dashboard",
+    "cta_register": "Registrarse Gratis"
+  }
+}

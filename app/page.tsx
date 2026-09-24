@@ -2,58 +2,60 @@
 import { MotionCard } from "@/components/ui/motion-card"
 import { useAuth } from "@clerk/nextjs"
 import { motion } from "framer-motion"
+import { useTranslation } from "@/hooks/use-translation"
+import "@/lib/i18n"
 import Link from "next/link"
 
 export default function Home() {
   const { userId } = useAuth()
+  const { t } = useTranslation()
 
   return (
-    <main className="bg-gray-50 scroll-smooth">
+    <main className="scroll-smooth">
       {/* HERO */}
-      <section className="py-24 bg-ivory">
+      <section className="py-24">
         <div className="container mx-auto px-4 text-center max-w-5xl">
           <motion.h1 
-            className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight"
+            className="text-4xl md:text-6xl font-extrabold mb-6 leading-tight text-primary"
             initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-          >
-            Transforma tus documentos en <span className="text-iris">material de estudio</span> con Nootiq
-          </motion.h1>
-          <p className="text-lg md:text-xl text-ink mb-8">
-            IA que convierte PDFs y enlaces en material de estudio interactivos para aprender mejor.
+            dangerouslySetInnerHTML={{ __html: t('home.hero.title') }}
+          />
+          <p className="text-lg md:text-xl text-text mb-8">
+            {t('home.hero.subtitle')}
           </p>
           <div className="flex justify-center gap-4 flex-wrap">
-            <Link href={userId ? "/dashboard" : "/register"} legacyBehavior>
-              <a className="bg-iris hover:bg-irisdark text-white font-semibold py-3 px-6 rounded-xl shadow-md transition-all text-lg">
-                {userId ? "Ir al Dashboard" : "Comenzar Gratis"}
+            <Link href={userId ? "/rooms" : "/register"} legacyBehavior>
+              <a className="bg-accent hover:bg-accent-heavy text-light hover:text-light font-semibold py-3 px-6 rounded-xl shadow-md transition-all text-lg">
+                {userId ? t('home.hero.cta_dashboard') : t('home.hero.cta_start')}
               </a>
             </Link>
-            <a href="#como-funciona" className="border border-iris text-iris font-semibold py-3 px-6 rounded-xl hover:bg-irisforeground transition text-lg">
-              Cómo Funciona
-            </a>
+            <Link href="#como-funciona" className="border border-accent border-2 text-primary hover:text-negated-primary font-semibold py-3 px-6 rounded-xl hover:bg-accent transition text-lg">
+              {t('home.hero.cta_learn_more')}
+            </Link>
           </div>
         </div>
       </section>
 
       {/* HOW IT WORKS */}
-      <section id="como-funciona" className="py-20 bg-gray-100">
+      <section id="como-funciona" className="py-20 bg-secondary">
         <div className="container mx-auto px-4 max-w-6xl">
-          <h2 className="text-3xl font-bold text-center mb-16">Cómo Funciona</h2>
+          <h2 className="text-3xl font-bold text-center mb-16 text-primary">{t('home.how_it_works.title')}</h2>
           <div className="grid md:grid-cols-3 gap-10">
             {[
-              { title: "Sube tu documento", desc: "PDFs o links a artículos, ¡lo que necesites!" },
-              { title: "Procesamiento IA", desc: "Nootiq analiza y genera contenido automáticamente." },
-              { title: "Estudia y Aprende", desc: "Usa material de estudio listos para repasar." },
+              { title: t('home.how_it_works.steps.upload.title'), desc: t('home.how_it_works.steps.upload.description') },
+              { title: t('home.how_it_works.steps.process.title'), desc: t('home.how_it_works.steps.process.description') },
+              { title: t('home.how_it_works.steps.study.title'), desc: t('home.how_it_works.steps.study.description') },
             ].map((step, i) => (
               <motion.div 
                 key={i}
-                className="bg-ivory p-8 rounded-2xl shadow-md text-center hover:shadow-lg transition"
+                className="bg-primary p-8 rounded-2xl shadow-md text-center hover:shadow-lg transition"
                 whileHover={{ scale: 1.03 }}
               >
-                <div className="w-14 h-14 mx-auto mb-4 flex items-center justify-center text-white bg-iris rounded-full text-xl font-bold">
+                <div className="w-14 h-14 mx-auto mb-4 flex items-center justify-center text-light bg-accent rounded-full text-xl font-bold">
                   {i + 1}
                 </div>
-                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                <p className="text-ink">{step.desc}</p>
+                <h3 className="text-xl font-semibold mb-2 text-primary">{step.title}</h3>
+                <p className="text-secondary">{step.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -61,40 +63,40 @@ export default function Home() {
       </section>
 
       {/* FEATURES */}
-      <section className="py-20 bg-ivory">
+      <section className="py-20 ">
         <div className="container mx-auto px-4 max-w-6xl">
-          <h2 className="text-3xl font-bold text-center mb-16">Características</h2>
+          <h2 className="text-3xl font-bold text-center mb-16 text-primary">{t('home.features.title')}</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              ["Flashcards Interactivas", "Creadas automáticamente a partir de tus documentos."],
-              ["Quizzes Personalizados", "Preguntas generadas con IA para reforzar tus conocimientos."],
-              ["Organización por Rooms", "Agrupa tu estudio por temas o asignaturas."],
-              ["Exportación de Material", "Descarga en PDF o CSV para estudiar offline."],
-              ["Seguimiento de Progreso", "Mide tu avance y enfócate en lo necesario."],
-              ["Personalización Manual", "Edita fácilmente las tarjetas y preguntas generadas."],
+              [t('home.features.list.flashcards.title'), t('home.features.list.flashcards.description')],
+              [t('home.features.list.quizzes.title'), t('home.features.list.quizzes.description')],
+              [t('home.features.list.notebooks.title'), t('home.features.list.notebooks.description')],
+              [t('home.features.list.export.title'), t('home.features.list.export.description')],
+              [t('home.features.list.progress.title'), t('home.features.list.progress.description')],
+              [t('home.features.list.customization.title'), t('home.features.list.customization.description')],
             ].map(([title, desc], i) => (
-              <MotionCard title={title} description={desc} key={i} variant="tertiary"
-              className="py-4 px-4 pb-2"></MotionCard>
+              <MotionCard title={title} description={desc} key={i} 
+              className="py-4 px-4 pb-2 bg-accent text-light"></MotionCard>
             ))}
           </div>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-20 bg-iris relative overflow-hidden">
+      <section className="py-20 bg-secondary relative overflow-hidden">
         <div className="container mx-auto px-4 text-center max-w-4xl">
           <motion.h2 
-            className="text-3xl md:text-4xl font-bold text-white mb-6"
+            className="text-3xl md:text-4xl font-bold text-primary mb-6"
             initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }}
           >
-            Comienza a transformar tu forma de estudiar
+            {t('home.cta.title')}
           </motion.h2>
-          <p className="text-lg text-white/90 mb-8">
-            Súmate a Nootiq y crea materiales de estudio en segundos.
+          <p className="text-lg text-secondary mb-8">
+            {t('home.cta.subtitle')}
           </p>
-          <Link href={userId ? "/dashboard" : "/register"} legacyBehavior>
-            <a className="bg-ivory text-iris font-semibold py-3 px-8 rounded-xl text-lg hover:bg-gray-100 transition shadow">
-              {userId ? "Ir al Dashboard" : "Registrarse Gratis"}
+          <Link href={userId ? "/rooms" : "/register"} legacyBehavior>
+            <a className="bg-info text-negated-primary font-semibold py-3 px-8 rounded-xl text-lg hover:bg-gray-100 transition shadow">
+              {userId ? t('home.cta.cta_dashboard') : t('home.cta.cta_register')}
             </a>
           </Link>
         </div>

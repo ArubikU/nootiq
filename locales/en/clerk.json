@@ -1,0 +1,150 @@
+{
+  "settings": {
+    "title": "Account Settings",
+    "notifications": {
+      "title": "Notifications",
+      "email_notifications": "Receive email notifications",
+      "product_updates": "Receive product updates"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "theme": "Theme",
+      "language": "Language"
+    },
+    "save_changes": "Save changes"
+  },
+  "profile": {
+    "title": "Profile details",
+    "profile_section": {
+      "title": "Profile",
+      "update_profile": "Update profile",
+      "upload": "Upload",
+      "upload_recommendation": "Recommended size 1:1, up to 10MB.",
+      "first_name": "First name",
+      "last_name": "Last name",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "username_section": {
+      "title": "Username",
+      "update_username": "Update Username",
+      "no_username": "No username set",
+      "set_username": "Set username",
+      "username_placeholder": "Username",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "email_section": {
+      "title": "Email addresses",
+      "primary": "Primary",
+      "unverified": "Unverified",
+      "add_email": "Add email address",
+      "remove": "Remove",
+      "make_primary": "Make primary",
+      "resend_verification": "Resend verification"
+    },
+    "connected_accounts": {
+      "title": "Connected accounts",
+      "connect": "Connect",
+      "connected": "Connected",
+      "disconnect": "Disconnect",
+      "no_accounts": "No connected accounts",
+      "unverified": "Unverified",
+      "all_providers_connected": "All providers connected"
+    }
+  },
+  "security": {
+    "title": "Security",
+    "password_section": {
+      "title": "Password",
+      "update_password": "Update Password",
+      "set_password": "Set password",
+      "new_password": "New Password",
+      "current_password": "Current Password",
+      "confirm_password": "Confirm Password",
+      "confirm_new_password": "Confirm New Password",
+      "enter_current_password": "Enter your current password",
+      "enter_new_password": "Enter new password",
+      "confirm_new_password_placeholder": "Confirm new password",
+      "password_security_message": "For your security, please confirm your current password to continue.",
+      "confirm_your_password": "Confirm your password",
+      "update_your_password": "Update your password",
+      "password_required": "Password is required",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "passkey_section": {
+      "title": "Passkeys",
+      "add_passkey": "Add passkey",
+      "remove": "Remove",
+      "created": "Created",
+      "last_used": "Last used",
+      "passkey_name_label": "Passkey name",
+      "passkey_name_placeholder": "e.g. Work laptop"
+    },
+    "mfa_section": {
+      "title": "Two-factor authentication",
+      "description": "Increase your account security by adding additional authentication methods.",
+      "enable_totp": "Enable TOTP authenticator",
+      "disable_totp": "Disable TOTP authenticator",
+      "backup_codes": "Backup codes",
+      "generate_codes": "Generate codes",
+      "view_codes": "View codes",
+      "setup_authenticator": "Setup authenticator",
+      "enter_6_digit_code": "Enter the 6-digit code",
+      "methods": {
+        "totp": {
+          "name": "Authenticator",
+          "description": "Use an authentication app like Google Authenticator"
+        },
+        "sms": {
+          "name": "SMS",
+          "description": "Receive a code via text message"
+        },
+        "backup_code": {
+          "name": "Backup codes",
+          "description": "One-time use codes for emergencies"
+        }
+      },
+      "status": {
+        "enabled": "Enabled",
+        "disabled": "Disabled"
+      },
+      "actions": {
+        "configure": "Configure",
+        "disable": "Disable",
+        "cancel": "Cancel",
+        "verify": "Verify"
+      },
+      "setup": {
+        "totp": {
+          "title": "Setup authenticator",
+          "scan_instruction": "Scan this QR code with your authentication app:",
+          "manual_instruction": "Or enter this code manually:",
+          "verification_label": "Verification code",
+          "verification_placeholder": "Enter the 6-digit code",
+          "qr_example": "Example QR code"
+        }
+      }
+    },
+    "active_devices": {
+      "title": "Active devices",
+      "current_device": "Current device",
+      "revoke": "Revoke",
+      "last_active": "Last active"
+    },
+    "delete_account": {
+      "title": "Delete account",
+      "description": "Permanently delete your account and all associated data.",
+      "delete_button": "Delete account",
+      "warning": "This action cannot be undone.",
+      "question": "Are you sure you want to delete your account?",
+      "deleting": "Deleting...",
+      "confirm_deletion": "Confirm deletion"
+    }
+  },
+  "account": {
+    "title": "Account",
+    "manage_info": "Manage your account info."
+  }
+}

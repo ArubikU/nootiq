@@ -1,0 +1,5 @@
+{
+  "title": "¡Pago Exitoso!",
+  "message": "Tu pago ha sido procesado correctamente. Tu cuenta ha sido actualizada al plan {planName}.",
+  "go_to_dashboard": "Ir al Dashboard"
+}

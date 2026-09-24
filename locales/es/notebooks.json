@@ -1,0 +1,37 @@
+{
+  "title": "Notebooks",
+  "create_notebook": "Crear Notebook",
+  "my_notebooks": "Mis Notebooks",
+  "no_notebooks": "No tienes notebooks creados",
+  "create_first": "Crea tu primer notebook para comenzar a generar material de estudio",
+  "notebook_name": "Nombre del Notebook",
+  "description": "Descripción",
+  "create": "Crear",
+  "cancel": "Cancelar",
+  "edit": "Editar",
+  "delete": "Eliminar",
+  "view": "Ver",
+  "last_modified": "Última modificación",
+  "flashcards": "Flashcards",
+  "quizzes": "Quizzes",
+  "search_placeholder": "🔍 Buscar por nombre o #tag",
+  "sort": {
+    "name_asc": "Nombre (A-Z)",
+    "name_desc": "Nombre (Z-A)",
+    "date_desc": "Recientes",
+    "date_asc": "Antiguos"
+  },
+  "form": {
+    "title": "Título",
+    "title_placeholder": "Ej: Fundamentos de Biología",
+    "description_placeholder": "Describe brevemente el contenido de este notebook",
+    "tags": "Etiquetas (separadas por comas)",
+    "tags_placeholder": "Ej: biología, ciencia, universidad",
+    "creating": "Creando...",
+    "information": "Información del Notebook"
+  },
+  "alerts": {
+    "limit_reached": "Has alcanzado el límite de notebooks. Por favor, elimina uno para crear otro.",
+    "create_error": "Ocurrió un error al crear el notebook. Por favor, intenta de nuevo."
+  }
+}

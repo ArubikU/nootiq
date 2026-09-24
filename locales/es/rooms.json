@@ -1,0 +1,33 @@
+{
+  "title": "Salas",
+  "sections": {
+    "documents": "Documentos",
+    "flashcards": "Flashcards", 
+    "quizzes": "Quizzes"
+  },
+  "actions": {
+    "view_all": "Ver todas",
+    "view_summary": "Ver resumen",
+    "generate_flashcards": "Generar Flashcards",
+    "generate_quiz": "Generar Quiz"
+  },
+  "upload": {
+    "title": "Subir Documento",
+    "uploading": "Subiendo documento...",
+    "url_placeholder": "https://ejemplo.com/documento.pdf"
+  },
+  "empty_states": {
+    "no_documents": "No hay documentos",
+    "no_documents_description": "Sube un documento para comenzar",
+    "no_flashcards": "No hay flashcards",
+    "no_quizzes": "No hay quizzes"
+  },
+  "quiz": {
+    "options": "Opciones:",
+    "download_formats": {
+      "markdown": "Markdown",
+      "csv": "CSV", 
+      "pdf": "PDF"
+    }
+  }
+}

@@ -9,7 +9,7 @@ export const Input = ({ placeholder, value, onChange, onKeyPress, disabled, clas
 }) => (
   <input
     ref={ref}
-    className={`border border-mist bg-ivory rounded-xl px-4 py-2 w-full text-ink focus:outline-none focus:ring-2 focus:ring-iris ${className || ''}`}
+    className={`border border-bg bg-bg-light rounded-xl px-4 py-2 w-full text-text focus:outline-none focus:ring-2 focus:ring-custom-accent ${className || ''}`}
     placeholder={placeholder}
     value={value}
     onChange={(e) => onChange(e.target.value)}

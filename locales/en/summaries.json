@@ -1,0 +1,13 @@
+{
+  "title": "Summary",
+  "not_found": "Summary not found",
+  "back_to_dashboard": "Back to Dashboard",
+  "chat": {
+    "title": "Chat with Summary",
+    "placeholder": "Ask something about the summary...",
+    "empty_state": "Ask a question about this summary!",
+    "send": "Send",
+    "error": "Could not send message",
+    "load_error": "Could not load chat history"
+  }
+}

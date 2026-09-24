@@ -1,92 +1,112 @@
-import { BookOpenCheck, BrainCog, Lightbulb, UploadCloud } from "lucide-react"; // Puedes reemplazar si no usas lucide
+"use client"
+
+import { BookOpenCheck, BrainCog, Lightbulb, UploadCloud, Users, Target, TrendingUp, Zap } from "lucide-react";
 import Link from "next/link";
+import { useTranslation } from "@/hooks/use-translation";
+import "@/lib/i18n";
+import { useAuth } from "@clerk/nextjs";
 
 export default function AboutPage() {
+  const { t } = useTranslation();
+  const { userId } = useAuth();
+
   return (
-    <div className="bg-ivory text-ink">
-      <div className="container mx-auto px-6 py-16 max-w-5xl">
-        <h1 className="text-5xl font-extrabold text-center text-iris mb-8">Descubre Nootiq</h1>
-        <p className="text-center text-lg text-ink mb-12">
-          Nootiq convierte documentos en material de estudio con inteligencia artificial. Estudiar nunca fue tan fácil.
+    <div className="bg-secondary">
+            <div className="container mx-auto px-6 py-16 max-w-5xl">
+        <h1 className="text-5xl font-extrabold text-center text-accent mb-8">{t('about.title')}</h1>
+        <p className="text-center text-lg text-primary mb-12">
+          {t('about.subtitle')}
         </p>
 
         {/* Sección: Misión */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-4">
-            <Lightbulb className="text-iris" />
-            <h2 className="text-2xl font-bold">Nuestra Misión</h2>
+            <Target className="text-accent" />
+            <h2 className="text-2xl font-bold text-primary">{t('about.mission.title')}</h2>
           </div>
-          <p className="text-ink leading-relaxed">
-            En Nootiq, el objetivo es simplificar el aprendizaje. Convertir materiales densos en experiencias memorables,
-            personalizadas y accesibles, para estudiantes, autodidactas y profesionales que valoran su tiempo.
+          <p className="leading-relaxed">
+            {t('about.mission.content')}
           </p>
         </section>
 
-        {/* Sección: Cómo funciona */}
+        {/* Sección: Historia */}
         <section className="mb-16">
           <div className="flex items-center gap-3 mb-4">
-            <BrainCog className="text-iris" />
-            <h2 className="text-2xl font-bold">¿Cómo Funciona?</h2>
+            <Lightbulb className="text-accent" />
+            <h2 className="text-2xl font-bold text-primary">{t('about.story.title')}</h2>
           </div>
-          <div className="grid md:grid-cols-3 gap-6 mt-6">
+          <p className="text-text leading-relaxed">
+            {t('about.story.content')}
+          </p>
+        </section>
+
+        {/* Sección: Características */}
+        <section className="mb-16">
+          <div className="flex items-center gap-3 mb-4">
+            <Zap className="text-accent" />
+            <h2 className="text-2xl font-bold text-primary">{t('about.features.title')}</h2>
+          </div>
+          <div className="grid md:grid-cols-2 gap-6 mt-6">
             {[
               {
-                icon: <UploadCloud className="w-8 h-8" />,
-                title: "1. Sube tu Documento",
-                text: "Carga un PDF o pega un link. Nootiq se encarga del resto."
-              },
-              {
                 icon: <BrainCog className="w-8 h-8" />,
-                title: "2. Procesamiento Inteligente",
-                text: "La IA analiza y genera material de estudio automáticamente."
+                title: t('about.features.ai_processing.title'),
+                text: t('about.features.ai_processing.description')
               },
               {
                 icon: <BookOpenCheck className="w-8 h-8" />,
-                title: "3. Estudia con Estilo",
-                text: "Refuerza conocimientos con métodos interactivos y eficaces."
+                title: t('about.features.interactive_materials.title'),
+                text: t('about.features.interactive_materials.description')
+              },
+              {
+                icon: <UploadCloud className="w-8 h-8" />,
+                title: t('about.features.organization.title'),
+                text: t('about.features.organization.description')
+              },
+              {
+                icon: <TrendingUp className="w-8 h-8" />,
+                title: t('about.features.progress_tracking.title'),
+                text: t('about.features.progress_tracking.description')
               }
             ].map(({ icon, title, text }, idx) => (
-              <div key={idx} className="bg-ivory shadow-lg rounded-xl p-6 transition hover:scale-[1.02] duration-300">
-                <div className="mb-4 text-iris">{icon}</div>
-                <h3 className="font-semibold text-lg mb-2">{title}</h3>
-                <p className="text-ink">{text}</p>
+              <div key={idx} className="bg-primary shadow-lg rounded-xl p-6 transition hover:scale-[1.02] duration-300">
+                <div className="mb-4 text-accent">{icon}</div>
+                <h3 className="font-semibold text-lg mb-2 text-primary">{title}</h3>
+                <p >{text}</p>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Sección: Tecnología */}
+        {/* Sección: Equipo
         <section className="mb-16">
-          <h2 className="text-2xl font-bold mb-4">Tecnología que Impulsa Nootiq</h2>
-          <p className="text-ink mb-4">
-            Todo el sistema está construido sobre una base sólida de tecnología moderna:
+          <div className="flex items-center gap-3 mb-4">
+            <Users className="text-accent" />
+            <h2 className="text-2xl font-bold text-primary">{t('about.team.title')}</h2>
+          </div>
+          <p className="text-text leading-relaxed">
+            {t('about.team.description')}
           </p>
-          <ul className="list-disc pl-6 text-ink space-y-2">
-            <li><strong>Cohere AI</strong> – Generación de contenido educativo con procesamiento de lenguaje natural.</li>
-            <li><strong>Next.js</strong> – Navegación ultrarrápida y experiencia fluida.</li>
-            <li><strong>Neon PostgreSQL</strong> – Almacenamiento seguro y escalable.</li>
-            <li><strong>Vercel Blob</strong> – Manejo de documentos eficiente y confiable.</li>
-          </ul>
-        </section>
-
-        {/* Sección: Equipo */}
-        <section className="mb-20">
-          <h2 className="text-2xl font-bold mb-4">Quién está detrás</h2>
-          <p className="text-ink leading-relaxed">
-            Nootiq nace de la mente de <strong>arubik</strong>, una persona apasionada por la educación, la eficiencia
-            y el potencial de la inteligencia artificial. La plataforma busca empoderar a quienes desean aprender
-            mejor y más rápido, con una herramienta intuitiva y poderosa.
-          </p>
-        </section>
+        </section> */}
 
         {/* CTA Final */}
-        <div className="text-center">
-          <Link href="/register" legacyBehavior>
-            <a className="bg-iris hover:bg-irisdark text-white px-10 py-4 rounded-full text-lg font-semibold transition">
-              Comienza a usar Nootiq hoy
+        <div className="bg-accent-to-heavy rounded-2xl p-8 text-center text-negated-primary mb-8">
+          <h2 className="text-3xl font-bold mb-4">{t('about.cta.title')}</h2>
+          <p className="text-lg mb-6 opacity-90">{t('about.cta.description')}</p>
+          <Link href={userId ? "/dashboard" : "/register"} legacyBehavior>
+            <a className="bg-primary text-accent hover:bg-surface px-8 py-3 rounded-full text-lg font-semibold transition inline-block">
+              {userId ? t('navbar.dashboard') : t('about.cta.button')}
             </a>
           </Link>
         </div>
+
+          {/*
+        <div className="text-center">
+          <Link href="/" className="text-accent font-semibold hover:underline">
+            ← Volver al inicio
+          </Link>
+        </div>
+        */}
       </div>
     </div>
   )

@@ -35,7 +35,7 @@ export const Drawer = ({ isOpen, onClose, children, side = 'right' }: DrawerProp
             initial={variants[side].closed}
             animate={variants[side].open}
             exit={variants[side].closed}
-            className={`fixed top-0 ${side}-0 h-full w-80 bg-ivory shadow-xl z-50 p-6`}
+            className={`fixed top-0 ${side}-0 h-full w-80 bg-bg-light shadow-xl z-50 p-6`}
           >
             {children}
           </motion.div>

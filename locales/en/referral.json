@@ -1,0 +1,32 @@
+{
+  "tab_title": "Referrals",
+  "title": "Referral System",
+  "your_code": "Your Referral Code",
+  "your_referral_code": "Your referral code:",
+  "copy_link": "Copy Link",
+  "total_referrals": "Total Referrals",
+  "remaining_uses": "Remaining Uses",
+  "recent_referrals": "Recent Referrals",
+  "loading": "Loading stats...",
+  "how_it_works": "How It Works?",
+  "step_1": "Share your referral code with friends",
+  "step_2": "When they register using your code, they get 1 day of Premium free",
+  "step_3": "You can use up to 100 referral codes",
+  "popup": {
+    "title": "Congratulations!",
+    "subtitle": "You have received a reward for using a referral code",
+    "plan_activated": "Activated",
+    "day": "day",
+    "days": "days",
+    "free": "free",
+    "features_included": "Features included",
+    "start_exploring": "Start Exploring",
+    "thanks_message": "Thank you for joining Nootiq!",
+    "success_message": "Referral code applied successfully!",
+    "features": {
+      "unlimited_rooms": "Up to 20 study rooms",
+      "advanced_ai": "20 AI generations per room",
+      "priority_support": "100 monthly AI generations"
+    }
+  }
+}

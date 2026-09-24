@@ -1,0 +1,23 @@
+{
+  "title": "Contact",
+  "subtitle": "Have a question or need help? We're here for you.",
+  "form": {
+    "name": "Name",
+    "email": "Email",
+    "subject": "Subject",
+    "message": "Message",
+    "send": "Send message",
+    "sending": "Sending...",
+    "success": "Message sent successfully!",
+    "error": "There was an error sending the message. Please try again."
+  },
+  "info": {
+    "title": "Contact information",
+    "email": "Email",
+    "response_time": "Response time",
+    "response_time_value": "24-48 hours",
+    "support": "Technical support",
+    "support_value": "Monday to Friday, 9:00 AM - 6:00 PM"
+  },
+  "back_to_home": "← Back to home"
+}

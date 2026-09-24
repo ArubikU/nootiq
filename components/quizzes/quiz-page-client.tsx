@@ -7,6 +7,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from "lucide-react"
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { useTranslation } from "react-i18next"
 
 interface QuizQuestion {
   question_text: string
@@ -23,6 +24,7 @@ interface QuizPageClientProps {
 }
 
 export default function QuizPageClient({ questions, quizTitle, roomId, quizId }: QuizPageClientProps) {
+  const { t } = useTranslation()
   const [currentPage, setCurrentPage] = useState(0)
   const [answered, setAnswered] = useState<boolean[]>(Array(questions.length).fill(false))
   const [completedQuestions, setCompletedQuestions] = useState(0)
@@ -106,12 +108,12 @@ export default function QuizPageClient({ questions, quizTitle, roomId, quizId }:
               onClick={() => handleGoToPage(index)}
               className={`h-8 w-8 rounded-full flex items-center justify-center transition-all ${
                 currentPage === index
-                  ? "bg-iris text-white"
+                  ? "bg-custom-accent text-white"
                   : answered[index]
                   ? correctAnswers[index]
                     ? "bg-green-100 text-green-800 border border-green-300"
                     : "bg-red-100 text-red-800 border border-red-300"
-                  : "bg-gray-100 text-ink hover:bg-gray-200"
+                  : "bg-gray-100 text-text hover:bg-gray-200"
               }`}
             >
               {index + 1}
@@ -147,7 +149,7 @@ export default function QuizPageClient({ questions, quizTitle, roomId, quizId }:
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="bg-ivory rounded-lg shadow-sm p-6 mb-8"
+        className="bg-bg-light rounded-lg shadow-sm p-6 mb-8"
       >
         <div className="text-center mb-8">
           <div className="inline-block p-4 bg-green-100 rounded-full mb-4">
@@ -165,13 +167,13 @@ export default function QuizPageClient({ questions, quizTitle, roomId, quizId }:
               } else if (percent >= 70) {
                 // Medal icon for good score
                 return (
-                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-irisdark">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent-dark">
                     <circle cx="12" cy="8" r="7"></circle>
                     <path d="M8.5 22l3.5-7 3.5 7"></path>
                   </svg>
                 )
               } else if (percent >= 40) {
-                // Star icon for average score
+                // Star icon for avetext-secondary score
                 return (
                   <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-blue-400">
                     <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
@@ -188,19 +190,19 @@ export default function QuizPageClient({ questions, quizTitle, roomId, quizId }:
               }
             })()}
           </div>
-          <h3 className="text-2xl font-bold mb-2">¡Quiz Completado!</h3>
-          <p className="text-xl font-medium">Has completado el quiz "{quizTitle}"</p>
+          <h3 className="text-2xl font-bold mb-2">{t('quiz_completed')}</h3>
+          <p className="text-xl font-medium">{t('results.completed_title', { title: quizTitle })}</p>
           
           <div className="mt-6 mb-4">
             <div className="flex items-center justify-center gap-2 text-lg">
-              <span>Tu puntuación:</span>
-              <span className="font-bold text-iris">{score} de {limitedQuestions.length}</span>
+              <span>{t('results.your_score')}</span>
+              <span className="font-bold text-custom-accent">{score} de {limitedQuestions.length}</span>
               <span>({Math.round((score / limitedQuestions.length) * 100)}%)</span>
             </div>
             
             <div className="mt-4 w-full max-w-sm mx-auto h-3 bg-gray-200 rounded-full overflow-hidden">
               <div 
-                className="h-full bg-iris rounded-full transition-all duration-500"
+                className="h-full bg-custom-accent rounded-full transition-all duration-500"
                 style={{ width: `${(score / limitedQuestions.length) * 100}%` }}
               ></div>
             </div>
@@ -231,12 +233,12 @@ export default function QuizPageClient({ questions, quizTitle, roomId, quizId }:
                   visible: { y: 0, opacity: 1 }
                 }}
               >
-                <p className="font-medium mb-2 text-sm">Pregunta {index + 1}</p>
+                <p className="font-medium mb-2 text-sm">{t('results.question_number', { number: index + 1 })}</p>
                 <p className="text-sm mb-1">{question.question_text}</p>
                 <p className={`text-xs font-medium ${
                   correctAnswers[index] ? "text-green-700" : "text-red-700"
                 }`}>
-                  {correctAnswers[index] ? "Correcta" : "Incorrecta"}
+                  {correctAnswers[index] ? t('results.question_correct') : t('results.question_incorrect')}
                 </p>
               </motion.div>
             ))}
@@ -251,11 +253,11 @@ export default function QuizPageClient({ questions, quizTitle, roomId, quizId }:
               setCurrentPage(0)
             }}
           >
-            Revisar preguntas
+            {t('results.review_questions')}
           </Button>
           <Button>
             <Link href={`/rooms/${roomId}/quizzes`}>
-              Volver a los Quizzes
+              {t('results.back_to_quizzes')}
             </Link>
           </Button>
         </div>
@@ -266,18 +268,18 @@ export default function QuizPageClient({ questions, quizTitle, roomId, quizId }:
     <div >
       <div className="mb-4 flex justify-between items-center">
         <div>
-          <span className="text-sm text-ink">
-            Pregunta {currentPage + 1} de {limitedQuestions.length}
+          <span className="text-sm text-text">
+            {t('question_of', { current: currentPage + 1, total: limitedQuestions.length })}
           </span>
         </div>
         <div className="flex items-center">
           <div className="w-48 h-2 bg-gray-200 rounded-full mr-2">
             <div 
-              className="h-full bg-iris rounded-full transition-all duration-300"
+              className="h-full bg-custom-accent rounded-full transition-all duration-300"
               style={{ width: `${(completedQuestions / limitedQuestions.length) * 100}%` }}
             ></div>
           </div>
-          <span className="text-sm text-ink">
+          <span className="text-sm text-text">
             {Math.round((completedQuestions / limitedQuestions.length) * 100)}%
           </span>
         </div>
@@ -287,7 +289,7 @@ export default function QuizPageClient({ questions, quizTitle, roomId, quizId }:
             className="bg-green-600 hover:bg-green-700"
             triggerConfetti={allQuestionsAnswered}
           >
-            Ver resultados
+            {t('results.see_results')}
           </ConfettiButton>
         )}
       </div>
@@ -312,8 +314,8 @@ export default function QuizPageClient({ questions, quizTitle, roomId, quizId }:
       
       {hasMoreQuestions && (
         <div className="mt-4 text-center">
-          <Link href={`/rooms/${roomId}/quizzes/${quizId}/questions`} className="text-sm text-iris hover:underline">
-            Ver todas las preguntas
+          <Link href={`/rooms/${roomId}/quizzes/${quizId}/questions`} className="text-sm text-custom-accent hover:underline">
+            {t('results.see_all_questions')}
           </Link>
         </div>
       )}

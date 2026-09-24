@@ -4,6 +4,7 @@ import { createPayPalOrder } from "@/lib/paypal";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { CURRENCY } from "./billingLabels";
+import { useTranslation } from "@/hooks/use-translation";
 
 interface CheckoutButtonProps {
   planId: string;
@@ -14,6 +15,7 @@ interface CheckoutButtonProps {
 }
 
 export default function CheckoutButton({ planId, isCurrentPlan, billingPeriod, disabled, currency }: CheckoutButtonProps) {
+  const { t } = useTranslation()
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -21,10 +23,10 @@ export default function CheckoutButton({ planId, isCurrentPlan, billingPeriod, d
   if (disabled) {
     return (
       <button
-        className="w-full py-2 px-4 bg-gray-300 text-ink font-medium rounded-md cursor-not-allowed"
+        className="w-full py-2 px-4 bg-muted text-text font-medium rounded-md cursor-not-allowed"
         disabled
       >
-        Ya estas en un plan superior
+        {t('pricing.buttons.alreadySuperior')}
       </button>
     );
   }
@@ -33,11 +35,11 @@ export default function CheckoutButton({ planId, isCurrentPlan, billingPeriod, d
   if (planId === "free") {
     return (
       <button
-        className="w-full py-2 px-4 bg-gray-800 text-white font-medium rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-2 px-4 bg-muted-heavy text-white font-medium rounded-md hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
         disabled={isCurrentPlan}
         onClick={() => router.push("/api/downgrade-to-free")}
       >
-        {isCurrentPlan ? "Plan Actual" : "Forzar a Plan Gratuito"}
+        {isCurrentPlan ? t('pricing.buttons.currentPlan') : t('pricing.buttons.forceToFree')}
       </button>
     );
   }
@@ -51,7 +53,8 @@ export default function CheckoutButton({ planId, isCurrentPlan, billingPeriod, d
       // Create PayPal order
       const order = await createPayPalOrder(
         planId,
-        (billingPeriod || "monthly")
+        (billingPeriod || "monthly"),
+        currency
       );
 
       // Find the approval URL
@@ -66,7 +69,7 @@ export default function CheckoutButton({ planId, isCurrentPlan, billingPeriod, d
       }
     } catch (err) {
       console.error("Checkout error:", err);
-      setError("Error al procesar el pago. Por favor, intenta de nuevo.");
+      setError(t('pricing.errors.paymentError'));
     } finally {
       setIsLoading(false);
     }
@@ -75,15 +78,17 @@ export default function CheckoutButton({ planId, isCurrentPlan, billingPeriod, d
   return (
     <div>
       <button
-        className="w-full py-2 px-4 bg-iris text-white font-medium rounded-md hover:bg-irisdark disabled:opacity-50 disabled:cursor-not-allowed"
+        className="w-full py-2 px-4 bg-accent text-white font-medium rounded-md hover:bg-accent-heavy disabled:opacity-50 disabled:cursor-not-allowed"
         onClick={handleCheckout}
         disabled={isLoading || isCurrentPlan}
       >
         {isLoading
-          ? "Procesando..."
+          ? t('pricing.buttons.processing')
           : isCurrentPlan
-          ? "Plan Actual"
-          : `Actualizar a ${planId === "ultimate" ? "Ultimate" : "Premium"}`}
+          ? t('pricing.buttons.currentPlan')
+          : planId === "ultimate" 
+          ? t('pricing.buttons.upgradeToUltimate')
+          : t('pricing.buttons.upgradeToPremium')}
       </button>
       {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
     </div>

@@ -71,7 +71,7 @@ const renderLatex = (value: string) => {
             onClick={() => handleOptionSelect(key)}
           >
             <div className="flex items-start ">
-              <div className="w-6 h-6 rounded-full border flex items-center justify-center mr-3 flex-shrink-0 transition-colors">
+              <div className="w-6 h-6 rounded-full border flex items-center justify-center mr-3 flex-shrtext-0 transition-colors">
                 {key}
               </div>
               <div className="better-box ">
@@ -85,8 +85,8 @@ const renderLatex = (value: string) => {
 
       {!isSubmitted && (
         <button 
-          className={`mt-6 bg-iris text-white px-4 py-2 rounded-md transition-all duration-300 ${
-            !selectedOption ? 'opacity-50 cursor-not-allowed' : 'hover:bg-irisdark'
+          className={`mt-6 bg-custom-accent text-white px-4 py-2 rounded-md transition-all duration-300 ${
+            !selectedOption ? 'opacity-50 cursor-not-allowed' : 'hover:bg-accent-dark'
           }`} 
           onClick={handleSubmit} 
           disabled={!selectedOption}

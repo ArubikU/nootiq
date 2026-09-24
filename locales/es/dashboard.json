@@ -1,0 +1,15 @@
+{
+  "welcome": "Bienvenido de vuelta",
+  "notebooks_remaining": "Notebooks restantes",
+  "recent_notebooks": "Notebooks Recientes",
+  "view_all_notebooks": "Ver todos los Notebooks",
+  "show_less": "Mostrar menos",
+  "no_notebooks_yet": "Aún no has creado ningún notebook.",
+  "create_first_notebook": "Crear tu primer Notebook",
+  "statistics": "Estadísticas",
+  "total_notebooks": "Total de Notebooks",
+  "flashcards_created": "Flashcards Creadas",
+  "quizzes_completed": "Quizzes Completados",
+  "account_error": "Error de cuenta",
+  "account_not_found": "No se pudo encontrar tu cuenta en nuestra base de datos. Por favor, contacta a soporte."
+}

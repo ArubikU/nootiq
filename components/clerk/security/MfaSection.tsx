@@ -2,14 +2,17 @@
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { useTranslation } from "react-i18next"
 import { useState } from "react"
 
 export const MfaSection = () => {
+  const { t } = useTranslation('clerk')
+  
   // Estado para MFA
   const [mfaMethods, setMfaMethods] = useState([
-    { id: "totp", name: "Autenticador", enabled: true },
-    { id: "sms", name: "SMS", enabled: false },
-    { id: "backup_code", name: "Códigos de respaldo", enabled: true }
+    { id: "totp", name: t('security.mfa_section.methods.totp.name'), enabled: true },
+    { id: "sms", name: t('security.mfa_section.methods.sms.name'), enabled: false },
+    { id: "backup_code", name: t('security.mfa_section.methods.backup_code.name'), enabled: true }
   ])
   
   const [showQRCode, setShowQRCode] = useState(false)
@@ -35,9 +38,9 @@ export const MfaSection = () => {
 
   return (
     <div className="space-y-4 border-t pt-4">
-      <h3 className="text-sm font-medium">Autenticación de dos factores</h3>
+      <h3 className="text-sm font-medium">{t('security.mfa_section.title')}</h3>
       <p className="text-sm text-muted-foreground">
-        Aumenta la seguridad de tu cuenta añadiendo métodos adicionales de autenticación.
+        {t('security.mfa_section.description')}
       </p>
       
       <div className="space-y-4">
@@ -46,13 +49,13 @@ export const MfaSection = () => {
             <div>
               <div className="font-medium">{method.name}</div>
               <div className="text-sm text-muted-foreground">
-                {method.id === "totp" && "Usa una aplicación de autenticación como Google Authenticator"}
-                {method.id === "sms" && "Recibe un código por mensaje de texto"}
-                {method.id === "backup_code" && "Códigos de un solo uso para emergencias"}
+                {method.id === "totp" && t('security.mfa_section.methods.totp.description')}
+                {method.id === "sms" && t('security.mfa_section.methods.sms.description')}
+                {method.id === "backup_code" && t('security.mfa_section.methods.backup_code.description')}
               </div>
             </div>
             <div className="flex items-center gap-2">
-              {method.enabled && <Badge label="Activado" variant="defaultrounded"></Badge>}
+              {method.enabled && <Badge label={t('security.mfa_section.status.enabled')} variant="defaultrounded"></Badge>}
               <Button 
                 variant={method.enabled ? "outline" : "primary"}
                 onClick={() => method.enabled 
@@ -60,7 +63,7 @@ export const MfaSection = () => {
                   : handleSetupMfa(method.id)
                 }
               >
-                {method.enabled ? "Desactivar" : "Configurar"}
+                {method.enabled ? t('security.mfa_section.actions.disable') : t('security.mfa_section.actions.configure')}
               </Button>
             </div>
           </div>
@@ -70,29 +73,29 @@ export const MfaSection = () => {
       {/* Diálogo para configurar TOTP */}
       {showQRCode && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-          <div className="bg-ivory p-6 rounded-lg shadow-lg max-w-md w-full">
-            <h2 className="text-xl font-bold mb-4">Configurar autenticador</h2>
+          <div className="bg-bg-light p-6 rounded-lg shadow-lg max-w-md w-full">
+            <h2 className="text-xl font-bold mb-4">{t('security.mfa_section.setup.totp.title')}</h2>
             <div className="space-y-4">
-              <p className="text-sm">Escanea este código QR con tu aplicación de autenticación:</p>
+              <p className="text-sm">{t('security.mfa_section.setup.totp.scan_instruction')}</p>
               {/* Aquí iría la imagen del código QR */}
               <div className="bg-gray-200 h-40 w-40 mx-auto flex items-center justify-center">
-                <p className="text-sm text-ink">Código QR de ejemplo</p>
+                <p className="text-sm text-text">{t('security.mfa_section.setup.totp.qr_example')}</p>
               </div>
-              <p className="text-sm">O ingresa este código manualmente:</p>
+              <p className="text-sm">{t('security.mfa_section.setup.totp.manual_instruction')}</p>
               <div className="bg-gray-100 p-2 rounded text-center font-mono">
                 ABCD-EFGH-IJKL-MNOP
               </div>
               <div>
-                <label className="block text-sm font-medium mb-1">Código de verificación</label>
+                <label className="block text-sm font-medium mb-1">{t('security.mfa_section.setup.totp.verification_label')}</label>
                 <input
                   type="text"
                   className="w-full border rounded-md p-2"
-                  placeholder="Ingresa el código de 6 dígitos"
+                  placeholder={t('security.mfa_section.setup.totp.verification_placeholder')}
                 />
               </div>
               <div className="flex justify-end space-x-2 pt-4">
                 <Button variant="outline" onClick={() => setShowQRCode(false)}>
-                  Cancelar
+                  {t('security.mfa_section.actions.cancel')}
                 </Button>
                 <Button onClick={() => {
                   // Aquí verificarías el código ingresado
@@ -100,7 +103,7 @@ export const MfaSection = () => {
                   handleToggleMfa("totp");
                   setShowQRCode(false);
                 }}>
-                  Verificar
+                  {t('security.mfa_section.actions.verify')}
                 </Button>
               </div>
             </div>

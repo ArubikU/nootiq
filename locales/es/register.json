@@ -1,0 +1,51 @@
+{
+  "title": "Crear Cuenta",
+  "subtitle": "Únete a Nootiq y transforma tu estudio",
+  "welcome": "¡Bienvenido a Nootiq!",
+  "start_journey": "Comienza tu viaje de aprendizaje inteligente",
+  "form": {
+    "first_name": "Nombre",
+    "last_name": "Apellido",
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "confirm_password": "Confirmar contraseña",
+    "agree_terms": "Acepto los términos y condiciones",
+    "privacy_policy": "política de privacidad",
+    "sign_up": "Crear Cuenta",
+    "signing_up": "Creando cuenta...",
+    "referral_code": "Código de Referido",
+    "referral_placeholder": "Ingresa código de referido"
+  },
+  "social": {
+    "title": "o",
+    "google": "Continuar con Google",
+    "github": "Continuar con GitHub"
+  },
+  "have_account": {
+    "text": "¿Ya tienes una cuenta?",
+    "link": "Inicia sesión"
+  },
+  "benefits": {
+    "title": "Lo que obtienes con Nootiq",
+    "benefit1": "Material de estudio generado automáticamente",
+    "benefit2": "Flashcards inteligentes y personalizadas",
+    "benefit3": "Quizzes adaptativos con IA",
+    "benefit4": "Organización por salas de estudio",
+    "benefit5": "Seguimiento detallado de progreso",
+    "benefit6": "Exportación en múltiples formatos"
+  },
+  "free_trial": {
+    "title": "Prueba gratuita",
+    "description": "Comienza con nuestra prueba gratuita. Sin tarjeta de crédito requerida."
+  },
+  "verification": {
+    "title": "Verifica tu correo electrónico",
+    "code_label": "Código de verificación",
+    "verify_button": "Verificar"
+  },
+  "continue": {
+    "title": "Continuar",
+    "username": "Nombre de usuario",
+    "continue_button": "Continuar"
+  }
+}

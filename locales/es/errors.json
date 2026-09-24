@@ -1,0 +1,127 @@
+{
+  "account": {
+    "not_found": {
+      "title": "Error de cuenta",
+      "message": "No se pudo encontrar tu cuenta en nuestra base de datos. Por favor, contacta a soporte."
+    },
+    "access_denied": {
+      "title": "Acceso denegado",
+      "message": "No tienes permiso para ver este contenido."
+    },
+    "unauthorized": {
+      "title": "No autorizado",
+      "message": "Debes iniciar sesión para acceder a esta página."
+    }
+  },
+  "room": {
+    "not_found": {
+      "title": "Notebook no encontrado",
+      "message": "Este notebook no existe o no tienes acceso a él."
+    },
+    "access_denied": {
+      "title": "Acceso denegado",
+      "message": "No tienes permiso para ver este notebook."
+    },
+    "limited": {
+      "title": "Notebook limitado",
+      "message": "No puedes crear más notebooks."
+    },
+    "creation_failed": {
+      "title": "Error al crear notebook",
+      "message": "No se pudo crear el notebook. Inténtalo de nuevo."
+    }
+  },
+  "document": {
+    "not_found": {
+      "title": "Documento no encontrado",
+      "message": "El documento solicitado no existe o no tienes acceso a él."
+    },
+    "upload_failed": {
+      "title": "Error en la subida",
+      "message": "No se pudo subir el documento. Verifica el formato e inténtalo de nuevo."
+    },
+    "processing_failed": {
+      "title": "Error de procesamiento",
+      "message": "No se pudo procesar el documento. Inténtalo de nuevo más tarde."
+    }
+  },
+  "flashcard": {
+    "not_found": {
+      "title": "Flashcard no encontrada",
+      "message": "La flashcard solicitada no existe o no tienes acceso a ella."
+    },
+    "generation_failed": {
+      "title": "Error al generar flashcards",
+      "message": "No se pudieron generar las flashcards. Inténtalo de nuevo."
+    }
+  },
+  "quiz": {
+    "not_found": {
+      "title": "Quiz no encontrado",
+      "message": "El quiz solicitado no existe o no tienes acceso a él."
+    },
+    "generation_failed": {
+      "title": "Error al generar quiz",
+      "message": "No se pudo generar el quiz. Inténtalo de nuevo."
+    }
+  },
+  "payment": {
+    "failed": {
+      "title": "Error en el pago",
+      "message": "No se pudo procesar el pago. Verifica tus datos e inténtalo de nuevo."
+    },
+    "subscription_expired": {
+      "title": "Suscripción expirada",
+      "message": "Tu suscripción ha expirado. Renueva para continuar usando todas las funciones."
+    }
+  },
+  "network": {
+    "connection_failed": {
+      "title": "Error de conexión",
+      "message": "No se pudo conectar al servidor. Verifica tu conexión a internet."
+    },
+    "server_error": {
+      "title": "Error del servidor",
+      "message": "Error interno del servidor. Inténtalo de nuevo más tarde."
+    },
+    "timeout": {
+      "title": "Tiempo agotado",
+      "message": "La operación tardó demasiado en completarse. Inténtalo de nuevo."
+    }
+  },
+  "validation": {
+    "invalid_email": {
+      "title": "Email inválido",
+      "message": "Por favor ingresa un email válido."
+    },
+    "required_field": {
+      "title": "Campo requerido",
+      "message": "Este campo es obligatorio."
+    },
+    "file_too_large": {
+      "title": "Archivo muy grande",
+      "message": "El archivo es demasiado grande. El tamaño máximo es {maxSize}."
+    },
+    "invalid_file_type": {
+      "title": "Tipo de archivo inválido",
+      "message": "Tipo de archivo no soportado. Los formatos permitidos son: {allowedTypes}."
+    }
+  },
+  "generic": {
+    "unexpected_error": {
+      "title": "Error inesperado",
+      "message": "Ha ocurrido un error inesperado. Inténtalo de nuevo."
+    },
+    "maintenance": {
+      "title": "Mantenimiento",
+      "message": "El sitio está en mantenimiento. Volveremos pronto."
+    }
+  },
+  "buttons": {
+    "back_to_rooms": "Volver a mis Rooms",
+    "back_to_dashboard": "Volver al Dashboard",
+    "try_again": "Intentar de nuevo",
+    "contact_support": "Contactar soporte",
+    "go_home": "Ir al inicio"
+  }
+}

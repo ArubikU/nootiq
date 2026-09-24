@@ -1,0 +1,49 @@
+{
+  "title": "Create Account",
+  "subtitle": "Join Nootiq and transform your study",
+  "welcome": "Welcome to Nootiq!",
+  "start_journey": "Start your smart learning journey",
+  "form": {
+    "first_name": "First name",
+    "last_name": "Last name",
+    "email": "Email address",
+    "password": "Password",
+    "confirm_password": "Confirm password",
+    "agree_terms": "I agree to the terms and conditions",
+    "privacy_policy": "privacy policy",
+    "sign_up": "Create Account",
+    "signing_up": "Creating account..."
+  },
+  "social": {
+    "title": "or",
+    "google": "Continue with Google",
+    "github": "Continue with GitHub"
+  },
+  "have_account": {
+    "text": "Already have an account?",
+    "link": "Sign in"
+  },
+  "benefits": {
+    "title": "What you get with Nootiq",
+    "benefit1": "Automatically generated study materials",
+    "benefit2": "Smart and personalized flashcards",
+    "benefit3": "AI-adaptive quizzes",
+    "benefit4": "Organization by study noteboks",
+    "benefit5": "Detailed progress tracking",
+    "benefit6": "Export in multiple formats"
+  },
+  "free_trial": {
+    "title": "Free trial",
+    "description": "Start with our free trial. No credit card required."
+  },
+  "verification": {
+    "title": "Verify your email",
+    "code_label": "Email code",
+    "verify_button": "Verify"
+  },
+  "continue": {
+    "title": "Continue",
+    "username": "Username",
+    "continue_button": "Continue"
+  }
+}

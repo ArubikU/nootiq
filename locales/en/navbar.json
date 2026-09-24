@@ -1,0 +1,14 @@
+{
+  "about": "About",
+  "privacy": "Privacy",
+  "pricing": "Pricing",
+  "dashboard": "Dashboard",
+  "notebooks": "Notebooks",
+  "documents": "Documents",
+  "signin": "Sign In",
+  "signup": "Sign Up",
+  "language": "Language",
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}

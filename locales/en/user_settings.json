@@ -1,0 +1,21 @@
+{
+  "title": "User Settings",
+  "account_settings": "Account Settings",
+  "language_section": {
+    "title": "Language",
+    "spanish": "Español",
+    "english": "English"
+  },
+  "notifications_section": {
+    "title": "Notifications",
+    "email_notifications": "Receive email notifications",
+    "product_updates": "Receive product updates"
+  },
+  "delete_account_section": {
+    "title": "Delete Account",
+    "delete_button": "Delete my account"
+  },
+  "profile_status": {
+    "active": "Active"
+  }
+}

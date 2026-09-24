@@ -2,10 +2,12 @@
 
 import { Button } from "@/components/ui/button"
 import { useUser } from "@clerk/nextjs"
+import { useTranslation } from "@/hooks/use-translation"
 import { useState } from "react"
 
 export default function PasswordSection() {
   const { user, isLoaded } = useUser()
+  const { t } = useTranslation()
 
   const [password, setPassword] = useState("")
   const [currentPassword, setCurrentPassword] = useState("")
@@ -17,22 +19,22 @@ export default function PasswordSection() {
   const content = () => {
     if (updatingPassword) {
       return (
-        <div className="border rounded-xl p-6 shadow-sm bg-ivory">
-          <h3 className="text-sm font-medium mb-4 text-gray-900">
-            Update Password
+        <div className=" rounded-xl p-6 shadow-sm bg-primary">
+          <h3 className="text-sm font-medium mb-4 text-primary">
+            {t('clerk.security.password_section.update_password')}
           </h3>
 
           <div className="flex flex-col md:flex-row gap-4 mb-4">
             <input
               type="password"
-              placeholder="New Password"
+              placeholder={t('clerk.security.password_section.new_password')}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="border rounded-xl px-4 py-2 w-full"
             />
             <input
               type="password"
-              placeholder="Current Password"
+              placeholder={t('clerk.security.password_section.current_password')}
               value={currentPassword}
               onChange={(e) => setCurrentPassword(e.target.value)}
               className="border rounded-xl px-4 py-2 w-full"
@@ -45,10 +47,10 @@ export default function PasswordSection() {
               className="hover:bg-gray-100 rounded-xl"
               onClick={() => setUpdatingPassword(false)}
             >
-              Cancel
+              {t('clerk.security.password_section.cancel')}
             </Button>
             <Button
-              className="bg-gray-800 rounded-xl text-white hover:bg-ink"
+              className="bg-gray-800 rounded-xl text-white hover:bg-text"
               disabled={password === ""}
               onClick={async () => {
                 await user.updatePassword({
@@ -58,7 +60,7 @@ export default function PasswordSection() {
                 setUpdatingPassword(false)
               }}
             >
-              Save
+              {t('clerk.security.password_section.save')}
             </Button>
           </div>
         </div>
@@ -74,16 +76,16 @@ export default function PasswordSection() {
           className="rounded-xl px-4 py-2 w-full md:w-auto text-gray-900"
         />
         <Button onClick={() => setUpdatingPassword(true)}>
-          Set password
+          {t('clerk.security.password_section.set_password')}
         </Button>
       </div>
     )
   }
 
   return (
-    <div className="flex flex-col md:flex-row items-start py-4 border-b gap-2 md:gap-4">
-      <p className="text-sm font-medium w-full md:w-32 shrink-0 mt-1">
-        Password
+    <div className="flex flex-col md:flex-row items-start py-4 gap-2 md:gap-4">
+      <p className="text-sm font-medium w-full md:w-32 shrtext-0 mt-1">
+        {t('clerk.security.password_section.title')}
       </p>
       <div className="flex-grow w-full">{content()}</div>
     </div>

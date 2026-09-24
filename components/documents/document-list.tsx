@@ -1,4 +1,6 @@
+"use client"
 import { importTypes } from "@/lib/getLimits"
+import { useTranslation } from "@/hooks/use-translation"
 
 interface DocumentListProps {
   documents: {
@@ -10,12 +12,14 @@ interface DocumentListProps {
 }
 
 export default function DocumentList({ documents, roomId }: DocumentListProps) {
+  const { t } = useTranslation()
+  
   return (
     <div>
       {documents.length > 0 ? (
         <div className="space-y-4">
           {documents.map((document) => (
-            <div key={document.id} className="border rounded-lg p-4">
+            <div key={document.id} className="bg-secondary rounded-xl p-4">
                 <p className="font-medium">
                 {document.type === "pdf"
                   ? "PDF"
@@ -35,14 +39,14 @@ export default function DocumentList({ documents, roomId }: DocumentListProps) {
                 href={document.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-iris hover:underline"
+                className="text-custom-accent hover:underline"
               >
                 {(document.url.includes("blob.vercel") ? document.url.split("/").pop() : document.url)?.replaceAll("%20", " ")}
               </a>
               <a
                 href={`/summaries/${document.id}`}
-                title="Ver resumen"
-                className="inline-flex items-center ml-2 text-ink hover:text-iris transition-colors"
+                title={t('rooms.actions.view_summary')}
+                className="inline-flex items-center ml-2 text-text hover:text-custom-accent transition-colors"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -64,8 +68,8 @@ export default function DocumentList({ documents, roomId }: DocumentListProps) {
         </div>
       ) : (
         <div className="text-center py-8">
-          <p className="text-ink mb-2">No hay documentos</p>
-          <p className="text-sm">Sube un documento para comenzar</p>
+          <p className="text-text mb-2">{t('rooms.empty_states.no_documents')}</p>
+          <p className="text-sm">{t('rooms.empty_states.no_documents_description')}</p>
         </div>
       )}
     </div>

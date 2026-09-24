@@ -1,26 +1,26 @@
 {
-  "name": "Nootiq - Transforma documentos en material de estudio",
+  "name": "Nootiq - Transform documents into study material",
   "short_name": "Nootiq",
-  "description": "Plataforma educativa que utiliza IA para convertir documentos en material de estudio",
+  "description": "Educational platform that uses AI to convert documents into study material. Create flashcards, quizzes and summaries automatically.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#6366f1",
   "orientation": "portrait-primary",
   "scope": "/",
-  "lang": "es",
+  "lang": "en",
   "categories": ["education", "productivity", "utilities"],
   "icons": [
     {
-      "src": "/logo.png",
+      "src": "/logo.svg",
       "sizes": "192x192",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
-      "src": "/logo.png",
+      "src": "/logo.svg",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "any maskable"
     },
     {
@@ -30,55 +30,39 @@
       "purpose": "apple touch icon"
     }
   ],
-  "screenshots": [
-    {
-      "src": "/screenshot-desktop.png",
-      "sizes": "1280x720",
-      "type": "image/png",
-      "form_factor": "wide",
-      "label": "Vista del dashboard principal"
-    },
-    {
-      "src": "/screenshot-mobile.png",
-      "sizes": "390x844",
-      "type": "image/png",
-      "form_factor": "narrow",
-      "label": "Vista móvil del dashboard"
-    }
-  ],
   "shortcuts": [
     {
       "name": "Dashboard",
       "short_name": "Dashboard",
-      "description": "Acceso directo al dashboard principal",
+      "description": "Access to the main dashboard",
       "url": "/dashboard",
       "icons": [
         {
-          "src": "/logo.png",
+          "src": "/logo.svg",
           "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "Subir Documento",
-      "short_name": "Subir",
-      "description": "Subir un nuevo documento",
+      "name": "Upload Document",
+      "short_name": "Upload",
+      "description": "Upload a new document",
       "url": "/documents",
       "icons": [
         {
-          "src": "/logo.png",
+          "src": "/logo.svg",
           "sizes": "96x96"
         }
       ]
     },
     {
-      "name": "Salas de Estudio",
-      "short_name": "Salas",
-      "description": "Acceder a las salas de estudio",
+      "name": "Study Rooms",
+      "short_name": "Rooms",
+      "description": "Access study rooms",
       "url": "/rooms",
       "icons": [
         {
-          "src": "/logo.png",
+          "src": "/logo.svg",
           "sizes": "96x96"
         }
       ]

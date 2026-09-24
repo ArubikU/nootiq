@@ -3,6 +3,7 @@
 import { Badge } from "@/components/ui/badge";
 import { useSession, useUser } from "@clerk/nextjs";
 import { ActClaim, ActiveSessionResource, ClerkResource, SessionActivity } from "@clerk/types";
+import { useTranslation } from "@/hooks/use-translation"
 import { useEffect, useState } from "react";
 
 interface SessionWithActivitiesResource extends ClerkResource {
@@ -18,16 +19,16 @@ interface SessionWithActivitiesResource extends ClerkResource {
 
 const MobileDevice = () => (
     <svg className="h-6 w-4" viewBox="0 0 24 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="2" y="2" width="20" height="44" rx="3" fill="#1F2937" />
-        <circle cx="12" cy="43" r="1.5" fill="#D1D5DB" />
+        <rect x="2" y="2" width="20" height="44" rx="3" fill="var(--text-negated-primary)" />
+        <circle cx="12" cy="43" r="1.5" fill="var(--text-primary)" />
     </svg>
 );
 
 const DesktopDevice = () => (
     <svg className="h-6 w-6" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <rect x="4" y="4" width="40" height="28" rx="2" fill="#1F2937" />
-        <rect x="18" y="34" width="12" height="4" fill="#1F2937" />
-        <rect x="22" y="32" width="4" height="2" fill="#1F2937" />
+        <rect x="4" y="4" width="40" height="28" rx="2" fill="var(--text-primary)" />
+        <rect x="18" y="34" width="12" height="4" fill="var(--text-secondary)" />
+        <rect x="22" y="32" width="4" height="2" fill="var(--text-secondary)" />
     </svg>
 );
 
@@ -102,12 +103,13 @@ export const formatDate = (date: Date): string => {
 export const ActiveDevicesCard = () => {
     const { user } = useUser();
     const { session } = useSession();
+    const { t } = useTranslation()
     const [devices, setDevices] = useState<Device[]>([]);
 
     useEffect(() => {
         if (user && session) {
             user.getSessions().then((sessions) => {
-                const activeDevices = sessions.map((se) => DeviceInfo({ session: se, current: session as ActiveSessionResource }));
+                const activeDevices = sessions.map((se) => DeviceInfo({ session: se, current: session as any as ActiveSessionResource }));
                 activeDevices.sort((a, b) => new Date(b.lastActive).getTime() - new Date(a.lastActive).getTime());
                 setDevices(activeDevices);
             });
@@ -118,13 +120,13 @@ export const ActiveDevicesCard = () => {
         <div className="space-y-4">
             {devices.map((device) => (
                 <div key={device.id} className="flex items-start sm:items-center sm:flex-row flex-col sm:space-x-4 space-y-2 sm:space-y-0">
-                    <div className="flex-shrink-0">{getDeviceIcon(device.type)}</div>
+                    <div className="flex-shrtext-0">{getDeviceIcon(device.type)}</div>
                     <div className="flex flex-col w-full overflow-hidden">
                         <div className="flex flex-wrap justify-between items-center w-full gap-2">
                             <div className="font-medium truncate">{device.title}</div>
-                            {device.isCurrent && <Badge variant="defaultrounded" label="Actual"/>}
+                            {device.isCurrent && <Badge variant="defaultrounded" label={t('clerk.security.active_devices.current_device')}/>}
                         </div>
-                        <div className="text-sm text-ink space-y-1 break-words">
+                        <div className="text-sm text-text space-y-1 break-words">
                             <div>{device.browser}</div>
                             <div className="truncate">{device.ip} {device.location && `(${device.location})`}</div>
                             <div>{formatDate(device.lastActive)}</div>
@@ -137,9 +139,11 @@ export const ActiveDevicesCard = () => {
 }
 
 function ActiveDevicesSection() {
+    const { t } = useTranslation()
+    
     return (
         <div className="flex flex-col sm:flex-row sm:items-start border-t pt-4 gap-4">
-            <p className="text-sm font-medium sm:w-32 shrink-0">Dispositivos activos</p>
+            <p className="text-sm font-medium sm:w-32 shrtext-0">{t('clerk.security.active_devices.title')}</p>
             <div className="flex-grow">
                 <ActiveDevicesCard />
             </div>

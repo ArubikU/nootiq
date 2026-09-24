@@ -1,0 +1,76 @@
+{
+  "hero": {
+    "title": "Transform your documents into <span className=\"text-iris\">study material</span> with Nootiq",
+    "subtitle": "Convert PDFs and links into flashcards, quizzes and summaries.\nReady to study in a simpler way.",
+    "cta_dashboard": "Go to Dashboard",
+    "cta_start": "Start for Free",
+    "cta_learn_more": "How It Works",
+    "title_part_1": "Transform your ",
+    "title_part_2": [
+    "documents",
+    "notes",
+    "PDFs",
+    "books",
+    "articles"
+    ],
+    "title_part_3": " into",
+    "title_part_4": [
+    "study material",
+    "flashcards",
+    "quizzes",
+    "summaries"
+    ]
+  },
+  "how_it_works": {
+    "title": "How It Works",
+    "steps": {
+      "upload": {
+        "title": "Upload your document",
+        "description": "PDFs or article links, whatever you need!"
+      },
+      "process": {
+        "title": "AI Processing",
+        "description": "Nootiq analyzes and generates content automatically."
+      },
+      "study": {
+        "title": "Study and Learn",
+        "description": "Use ready-made study materials for review."
+      }
+    }
+  },
+  "features": {
+    "title": "Features",
+    "list": {
+      "flashcards": {
+        "title": "Interactive Flashcards",
+        "description": "Created automatically from your documents."
+      },
+      "quizzes": {
+        "title": "Personalized Quizzes",
+        "description": "AI-generated questions to reinforce your knowledge."
+      },
+      "notebooks": {
+        "title": "Notebook Organization",
+        "description": "Group your study by topics or subjects."
+      },
+      "export": {
+        "title": "Material Export",
+        "description": "Download in PDF or CSV for offline study."
+      },
+      "progress": {
+        "title": "Progress Tracking",
+        "description": "Measure your progress and focus on what's needed."
+      },
+      "customization": {
+        "title": "Manual Customization",
+        "description": "Easily edit generated cards and questions."
+      }
+    }
+  },
+  "cta": {
+    "title": "Start transforming the way you study",
+    "subtitle": "Join Nootiq and create study materials in seconds.",
+    "cta_dashboard": "Go to Dashboard",
+    "cta_register": "Register for Free"
+  }
+}

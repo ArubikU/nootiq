@@ -1,15 +1,21 @@
 import { whenPlanExpires } from "@/lib/db";
 import { getTierObject } from "@/lib/getLimits";
 import { auth, clerkClient } from "@clerk/nextjs/server";
-import { redirect } from "next/navigation";
 import PromoClientPage from "./promo-client";
+import PromoRedirectHandler from "./promo-redirect-handler";
 
-export default async function PromoPage() {
+export default async function PromoPage({
+  searchParams,
+}: {
+  searchParams: { code?: string };
+}) {
     const authObject = await auth();
   const { userId } = authObject;
+  const params = await searchParams;
 
   if (!userId) {
-    redirect("/login");
+    // Si no está autenticado, renderizar el componente que manejará la redirección
+    return <PromoRedirectHandler searchParams={params} />;
   }
 
     const client = await clerkClient()
@@ -22,16 +28,11 @@ export default async function PromoPage() {
   
   return (
     <div className="container mx-auto py-10">
-    <div className="text-center mb-10">
-      <h1 className="text-4xl font-bold mb-4">Reclamar Código Promocional</h1>
-      <p className="text-xl text-ink max-w-2xl mx-auto">
-        Ingresa tu código promocional para obtener acceso a beneficios exclusivos en tu plan de estudio.
-      </p>
-    </div>
       <PromoClientPage 
         currentPlan={tierInfo.formattedName} 
         planId={tierInfo.id}
-        expirationDate={expDate ? expDate.toLocaleDateString('es-ES') : 'No disponible'} 
+        expirationDate={expDate ? expDate.toISOString() : null}
+        initialCode={params.code}
       />
     </div>
   );

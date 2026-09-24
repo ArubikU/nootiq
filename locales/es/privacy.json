@@ -1,0 +1,53 @@
+{
+  "title": "Política de Privacidad",
+  "last_updated": "Última actualización: {{date}}",
+  "introduction": {
+    "title": "Introducción",
+    "content": "En Nootiq, nos comprometemos a proteger tu privacidad y datos personales. Esta política de privacidad explica cómo recopilamos, usamos y protegemos tu información cuando utilizas nuestros servicios."
+  },
+  "data_collection": {
+    "title": "Información que recopilamos",
+    "content": "Recopilamos información que nos proporcionas directamente, como cuando creas una cuenta, subes documentos o nos contactas. También recopilamos información automáticamente sobre tu uso de nuestros servicios.",
+    "types": {
+      "personal": "Información personal",
+      "documents": "Contenido del usuario",
+      "usage": "Información de uso",
+      "technical": "Datos del dispositivo"
+    }
+  },
+  "data_usage": {
+    "title": "Cómo usamos tu información",
+    "purpose1": "Proporcionar y mejorar nuestros servicios",
+    "purpose2": "Procesar tus documentos y generar material de estudio",
+    "purpose3": "Comunicarnos contigo sobre tu cuenta y servicios",
+    "purpose4": "Cumplir con obligaciones legales",
+    "purpose5": "Personalizar tu experiencia",
+    "purpose6": "Garantizar la seguridad de la plataforma"
+  },
+  "data_protection": {
+    "title": "Protección de datos",
+    "content": "Implementamos medidas de seguridad técnicas y organizativas apropiadas para proteger tu información personal contra acceso no autorizado, alteración, divulgación o destrucción."
+  },
+  "user_rights": {
+    "title": "Tus derechos",
+    "right1": "Acceder a tu información personal",
+    "right2": "Rectificar información incorrecta",
+    "right3": "Eliminar tu información",
+    "right4": "Portabilidad de datos",
+    "right5": "Oponerte al procesamiento"
+  },
+  "contact_info": {
+    "title": "Contacto",
+    "content": "Si tienes preguntas sobre esta política de privacidad, puedes contactarnos a través de nuestra página de contacto",
+    "here": "aquí"
+  },
+  "navigation": {
+    "back_to_home": "Volver al inicio"
+  },
+  "data_collection_descriptions": {
+    "personal_desc": "Nombre, correo electrónico y contraseña al momento de registrarte.",
+    "documents_desc": "Documentos, flashcards, quizzes y todo el contenido que generes.",
+    "usage_desc": "Interacciones, tiempo de uso, páginas visitadas y funciones utilizadas.",
+    "technical_desc": "Tipo de dispositivo, navegador, sistema operativo y dirección IP."
+  }
+}

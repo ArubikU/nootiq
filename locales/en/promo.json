@@ -1,0 +1,36 @@
+{
+  "title": "Redeem Promotional Code",
+  "subtitle": "Enter your promotional code to get access to exclusive benefits on your study plan.",
+  "currentPlan": {
+    "title": "Your Current Plan",
+    "description": "Details of your active subscription",
+    "plan": "Plan:",
+    "expires": "Expires on:",
+    "notAvailable": "Not available"
+  },
+  "redeemForm": {
+    "title": "Redeem Your Code",
+    "description": "Enter your promotional code to upgrade your plan",
+    "label": "Promotional Code",
+    "placeholder": "e.g. LAVANDA2025",
+    "emptyError": "Please enter a promotional code",
+    "redeemButton": "Redeem Code",
+    "redeeming": "Redeeming..."
+  },
+  "success": {
+    "title": "Promotional Code Activated!",
+    "planActivated": "Plan Activated:",
+    "duration": "Duration:",
+    "days": "days",
+    "benefits": "Plan benefits:",
+    "goToDashboard": "Go to Dashboard"
+  },
+  "errors": {
+    "generic": "Error redeeming promotional code",
+    "unexpected": "Unexpected error",
+    "errorTitle": "Error"
+  },
+  "redirect": {
+    "loading": "Redirecting to login..."
+  }
+}

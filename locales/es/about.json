@@ -1,0 +1,40 @@
+{
+  "title": "Acerca de Nootiq",
+  "subtitle": "Transformando la manera en que estudias con inteligencia artificial",
+  "mission": {
+    "title": "Nuestra Misión",
+    "content": "En Nootiq, creemos que el aprendizaje debe ser más eficiente, personalizado y accesible. Nuestra misión es transformar cualquier documento en material de estudio interactivo utilizando la potencia de la inteligencia artificial."
+  },
+  "story": {
+    "title": "Nuestra Historia",
+    "content": "Nació de la necesidad real de estudiantes que pasaban horas creando flashcards y resúmenes manualmente. Decidimos automatizar este proceso para que puedas enfocarte en lo que realmente importa: aprender."
+  },
+  "features": {
+    "title": "Lo que ofrecemos",
+    "ai_processing": {
+      "title": "Procesamiento IA Avanzado",
+      "description": "Analizamos tus documentos y extraemos los conceptos más importantes automáticamente."
+    },
+    "interactive_materials": {
+      "title": "Material Interactivo",
+      "description": "Creamos flashcards, quizzes y resúmenes que se adaptan a tu ritmo de aprendizaje."
+    },
+    "organization": {
+      "title": "Organización Inteligente",
+      "description": "Agrupa tu contenido por temas, materias o proyectos para un estudio más estructurado."
+    },
+    "progress_tracking": {
+      "title": "Seguimiento de Progreso",
+      "description": "Mide tu avance y identifica áreas que necesitan más atención."
+    }
+  },
+  "team": {
+    "title": "Nuestro Equipo",
+    "description": "Somos un equipo apasionado de educadores, desarrolladores y expertos en IA comprometidos con mejorar la experiencia de aprendizaje."
+  },
+  "cta": {
+    "title": "¿Listo para transformar tu estudio?",
+    "description": "Únete a miles de estudiantes que ya están aprendiendo de manera más eficiente.",
+    "button": "Comenzar Ahora"
+  }
+}

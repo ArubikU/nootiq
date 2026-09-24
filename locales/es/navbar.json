@@ -1,0 +1,14 @@
+{
+  "about": "Acerca de",
+  "privacy": "Privacidad",
+  "pricing": "Planes",
+  "dashboard": "Dashboard",
+  "notebooks": "Notebooks",
+  "documents": "Documentos",
+  "signin": "Iniciar Sesión",
+  "signup": "Registrarse",
+  "language": "Idioma",
+  "footer": {
+    "rights": "Todos los derechos reservados."
+  }
+}

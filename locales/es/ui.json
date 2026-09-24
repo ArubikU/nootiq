@@ -1,0 +1,24 @@
+{
+  "accessibility": {
+    "close": "Cerrar",
+    "toggle_sidebar": "Alternar barra lateral",
+    "previous_slide": "Diapositiva anterior",
+    "next_slide": "Siguiente diapositiva",
+    "more_pages": "Más páginas"
+  },
+  "social_providers": {
+    "google": "Google",
+    "github": "GitHub", 
+    "linkedin": "LinkedIn"
+  },
+  "forms": {
+    "current_date": "Fecha actual:",
+    "spanish": "Español",
+    "english": "English"
+  },
+  "errors": {
+    "use_chart_context": "useChart debe usarse dentro de un <ChartContainer />",
+    "use_form_field_context": "useFormField debe usarse dentro de <FormField>",
+    "use_carousel_context": "useCarousel debe usarse dentro de un <Carousel />"
+  }
+}

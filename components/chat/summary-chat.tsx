@@ -4,13 +4,16 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { toast } from "@/hooks/use-toast"
+import { useCustomAlerts } from "@/hooks/use-custom-alerts"
+import { useErrorHandler } from "@/hooks/use-error-handler"
 import { chatHistory } from "@/lib/types"
 import { MathJax } from "better-react-mathjax"
-import { Bot, MessageCircle, Send, User } from "lucide-react"
+import { Bot, MessageCircle, Send, User, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import ReactMarkdown from "react-markdown"
 import rehypeHighlight from "rehype-highlight"
+import { useTranslation } from "@/hooks/use-translation"
+import Image from "next/image"
 
 interface SummaryChatProps {
   documentId: string
@@ -27,6 +30,9 @@ interface Message {
 }
 
 export default function SummaryChat({ documentId, className }: SummaryChatProps) {
+  const { t } = useTranslation()
+  const { alert } = useCustomAlerts()
+  const { handleError } = useErrorHandler()
   const [messages, setMessages] = useState<Message[]>([])
   const [inputMessage, setInputMessage] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -90,11 +96,7 @@ export default function SummaryChat({ documentId, className }: SummaryChatProps)
       }
     } catch (error) {
       console.error('Error loading chat history:', error)
-      toast({
-        title: "Error",
-        description: "No se pudo cargar el historial de chat",
-        variant: "destructive",
-      })
+      alert(t('summaries.chat.load_error'), 'error')
     }
   }
 
@@ -157,11 +159,8 @@ export default function SummaryChat({ documentId, className }: SummaryChatProps)
 
     } catch (error) {
       console.error('Error sending message:', error)
-      toast({
-        title: "Error",
-        description: error instanceof Error ? error.message : "No se pudo enviar el mensaje",
-        variant: "destructive",
-      })
+      const errorMessage = error instanceof Error ? error.message : t('summaries.chat.error')
+      alert(errorMessage, 'error')
       
       // Remover el mensaje del usuario si falló
       setMessages(prev => prev.slice(0, -1))
@@ -183,9 +182,14 @@ export default function SummaryChat({ documentId, className }: SummaryChatProps)
         <Button
           onClick={() => setIsOpen(true)}
           size="lg"
-          className="rounded-full h-14 w-14 shadow-lg hover:shadow-xl transition-all duration-200 bg-iris hover:bg-irisdark"
+          className="rounded-full h-24 w-24 shadow-lg hover:shadow-xl transition-all duration-200 bg-accent hover:bg-accent-heavy"
         >
-          <MessageCircle className="h-6 w-6" />
+          <Image
+            src="/logo_white.svg"
+            alt="Chat"
+            width={48}
+            height={48}
+          />
         </Button>
       </div>
     )
@@ -193,19 +197,17 @@ export default function SummaryChat({ documentId, className }: SummaryChatProps)
 
   return (
     <div className={`fixed bottom-6 right-6 z-50 ${className}`}>
-      <Card className="w-96 h-[500px] shadow-2xl border-0 bg-white dark:bg-gray-900"
-      variant="mist"
-      titleClassName="bg-iris rounded-t-xl py-2 px-4 "
-      title="Chat con el Resumen">
-        <CardHeader className="bg-iris text-white rounded-t-lg">
-          <div className="flex items-center justify-center relative">
+      <Card className="w-96 h-[500px] shadow-2xl border-0 bg-white dark:bg-gray-900 rounded-2xl overflow-hidden">
+        <CardHeader className="bg-accent  rounded-t-2xl p-4">
+          <div className="flex items-center justify-between">
+            <h3 className="font-semibold text-sm">{t('summaries.chat.title')}</h3>
             <Button
-              variant="ghost"
+              variant="clean"
               size="sm"
               onClick={() => setIsOpen(false)}
-              className="text-white hover:bg-white/20 h-8 w-8 p-0 absolute right-0"
+              className="text-heavy hover:text-light shadow-none"
             >
-              ×
+              <X className="h-6 w-6" />
             </Button>
           </div>
         </CardHeader>
@@ -215,7 +217,7 @@ export default function SummaryChat({ documentId, className }: SummaryChatProps)
             {messages.length === 0 ? (
               <div className="text-center text-gray-500 dark:text-gray-400 py-8">
                 <Bot className="h-12 w-12 mx-auto mb-3 opacity-50" />
-                <p className="text-sm">¡Haz una pregunta sobre este resumen!</p>
+                <p className="text-sm">{t('summaries.chat.empty_state')}</p>
               </div>
             ) : (
               <div className="space-y-4">
@@ -227,13 +229,13 @@ export default function SummaryChat({ documentId, className }: SummaryChatProps)
                     <div
                       className={`max-w-[85%] rounded-lg px-3 py-2 text-sm ${
                         message.isUser
-                          ? 'bg-iris text-white'
-                          : 'bg-gray-100 dark:bg-gray-800 text-gray-900 dark:text-gray-100'
+                          ? 'bg-accent text-dark '
+                          : 'bg-gray-100 text-dark'
                       }`}
                     >
                       <div className="flex items-start gap-2">
-                        {!message.isUser && <Bot className="h-4 w-4 mt-0.5 flex-shrink-0" />}
-                        {message.isUser && <User className="h-4 w-4 mt-0.5 flex-shrink-0" />}
+                        {!message.isUser && <Bot className="h-4 w-4 mt-0.5 flex-shrtext-0" />}
+                        {message.isUser && <User className="h-4 w-4 mt-0.5 flex-shrtext-0" />}
                         <div className="flex-1">                          {message.isUser ? (
                             <p>{message.content}</p>
                           ) : (
@@ -272,17 +274,17 @@ export default function SummaryChat({ documentId, className }: SummaryChatProps)
             <div className="flex gap-2">
               <Input
                 value={inputMessage}
-                onChange={(e) => setInputMessage(e)}
+                onChange={(value) => setInputMessage(value)}
                 onKeyPress={handleKeyPress}
-                placeholder="Pregunta algo sobre el resumen..."
+                placeholder={t('summaries.chat.placeholder')}
                 disabled={isLoading}
-                className="flex-1"
+                className="flex-1 text-dark"
               />
               <Button
                 onClick={sendMessage}
                 disabled={isLoading || !inputMessage.trim()}
                 size="sm"
-                className="bg-iris hover:bg-irisdark"
+                className="bg-accent hover:bg-accent-heavy"
               >
                 <Send className="h-4 w-4" />
               </Button>

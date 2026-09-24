@@ -1,7 +1,8 @@
-import QuizQuestionsClient from "@/components/quizzes/quiz-questions-client";
-import { getQuizById, isTheirRoom } from "@/lib/db";
+import ErrorMessage from "@/components/error-message";
+import { getQuizById, isTheirRoom, getUserByClerkId } from "@/lib/db";
 import { auth } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
+import QuizQuestionsContent from "./quiz-question-content";
 
 interface QuizQuestionPageProps {
   params: {
@@ -9,6 +10,7 @@ interface QuizQuestionPageProps {
     quizId: string;
   };
 }
+
 
 export default async function QuizQuestionsPage({ params }: QuizQuestionPageProps) {
   const { id: roomId, quizId } = await params;
@@ -19,29 +21,40 @@ export default async function QuizQuestionsPage({ params }: QuizQuestionPageProp
   }
 
   try {
+    const user = await getUserByClerkId(clerkId);
+    if (!user) {
+      return (
+          <ErrorMessage 
+            errorType="account.not_found" 
+            backLinkType="dashboard" 
+            backLink 
+            showSupport 
+          />
+      );
+    }
+
     // Obtener la sala para verificar acceso
     const isRoom = await isTheirRoom(clerkId, roomId);
     if (!isRoom) {
-      redirect("/rooms");
+      return (
+          <ErrorMessage errorType="room.access_denied" backLink />
+      );
     }
 
     const quiz = await getQuizById(quizId);
-    if (!quiz) {
-      redirect(`/rooms/${roomId}/quizzes`);
-    }
 
     return (
-      <div className="container mx-auto py-8">
-        <h1 className="text-2xl font-bold mb-6">Todas las preguntas: {quiz.title}</h1>
-        <QuizQuestionsClient 
-          questions={quiz.questions}
-          quizTitle={quiz.title}
-          roomId={roomId}
-        />
-      </div>
+        <QuizQuestionsContent quiz={quiz} roomId={roomId} />
     );
   } catch (error) {
     console.error("Error loading quiz:", error);
-    redirect("/dashboard");
+    return (
+        <ErrorMessage 
+          errorType="generic.unexpected_error" 
+          backLinkType="dashboard" 
+          backLink 
+          showSupport 
+        />
+    );
   }
 }

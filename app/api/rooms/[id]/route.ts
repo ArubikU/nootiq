@@ -1,24 +1,25 @@
 import { deleteRoom, updateRoomCount } from '@/lib/db';
+import { createApiError, createSuccessResponse, handleApiError } from "@/lib/api-errors"
 import { auth } from '@clerk/nextjs/server';
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest } from 'next/server';
 
 export async function DELETE(req: NextRequest, { params }: { params: { id: string } }) {
-    const AuthObject = await auth();
-    const { userId } = AuthObject;
-    const para = await params
-    if (!userId) {
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
+    try {
+        const AuthObject = await auth();
+        const { userId } = AuthObject;
+        const para = await params
+        
+        if (!userId) {
+            return createApiError('UNAUTHORIZED')
+        }
 
-    const roomId = para.id;
+        const roomId = para.id;
 
-    try{
-    await deleteRoom(roomId);
-    await updateRoomCount(AuthObject);
+        await deleteRoom(roomId);
+        await updateRoomCount(AuthObject);
+        
+        return createSuccessResponse({ roomId }, `Room ${roomId} eliminado exitosamente`)
     } catch (error) {
-        console.log('Error deleting room:', error);
-        return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+        return handleApiError(error)
     }
-
-    return NextResponse.json({ message: `Room ${roomId} deleted.` }, { status: 200 });
 }

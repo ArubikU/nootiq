@@ -14,7 +14,7 @@ export const Avatar = ({ src, alt, fallback }: AvatarProps) => {
         alt={alt}
         className="h-full w-full rounded-full object-cover"
       />
-      <AvatarPrimitive.Fallback className="flex h-full w-full items-center justify-center rounded-full bg-mist text-ink text-sm font-medium">
+      <AvatarPrimitive.Fallback className="flex h-full w-full items-center justify-center rounded-full bg-bg text-text text-sm font-medium">
         {fallback}
       </AvatarPrimitive.Fallback>
     </AvatarPrimitive.Root>

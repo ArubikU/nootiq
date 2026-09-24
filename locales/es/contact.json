@@ -1,0 +1,23 @@
+{
+  "title": "Contacto",
+  "subtitle": "¿Tienes alguna pregunta o necesitas ayuda? Estamos aquí para ti.",
+  "form": {
+    "name": "Nombre",
+    "email": "Correo electrónico",
+    "subject": "Asunto",
+    "message": "Mensaje",
+    "send": "Enviar mensaje",
+    "sending": "Enviando...",
+    "success": "¡Mensaje enviado exitosamente!",
+    "error": "Hubo un error al enviar el mensaje. Inténtalo de nuevo."
+  },
+  "info": {
+    "title": "Información de contacto",
+    "email": "Correo electrónico",
+    "response_time": "Tiempo de respuesta",
+    "response_time_value": "24-48 horas",
+    "support": "Soporte técnico",
+    "support_value": "Lunes a Viernes, 9:00 - 18:00"
+  },
+  "back_to_home": "← Volver al inicio"
+}

@@ -1,0 +1,79 @@
+{
+  "title": "Planes y Precios",
+  "subtitle": "Elige el plan que mejor se adapte a tus necesidades de estudio. Todos los planes incluyen acceso a nuestra tecnología de IA para generar material de estudio.",
+  "billing": {
+    "monthly": "Mensual",
+    "quarterly": "Cuatrismestral (-10%)",
+    "yearly": "Anual (-20%)",
+    "perMonth": "/mes",
+    "billedAnnually": "Facturado anualmente",
+    "billedQuarterly": "Facturado cuatrimestralmente",
+    "year": "/año",
+    "quarter": "/cuatrimestre"
+  },
+  "plans": {
+    "free": {
+      "name": "Free",
+      "description": "Para uso personal básico",
+      "features": [
+        "Hasta 5 Notebooks",
+        "5 generaciones de AI por Notebook",
+        "25 generaciones de AI mensuales",
+        "3 Archivos por notebook",
+        "Exportación básica de flashcards"
+      ],
+      "unavailable": ["Soporte prioritario"]
+    },
+    "premium": {
+      "name": "Premium",
+      "description": "Para estudiantes y profesionales",
+      "features": [
+        "Hasta 20 Notebooks",
+        "20 generaciones de AI por Notebook",
+        "100 generaciones de AI mensuales",
+        "10 Archivos por notebook",
+        "Exportación avanzada (CSV)",
+        "Documentos especiales (CSV)"
+      ],
+      "unavailable": ["Soporte prioritario"]
+    },
+    "ultimate": {
+      "name": "Ultimate",
+      "description": "Para uso intensivo",
+      "features": [
+        "Notebooks ilimitados",
+        "Generaciones de AI ilimitadas",
+        "Exportación ultimate (CSV, Anki)",
+        "Soporte prioritario",
+        "Documentos especiales (CSV, IMG)",
+        "Conversa con el documento"
+      ],
+      "unavailable": []
+    }
+  },
+  "buttons": {
+    "recommended": "Recomendado",
+    "free": "Gratuito",
+    "ultimate": "Plan Ultimate",
+    "chooseFreePlan": "Comenzar Gratis",
+    "choosePlan": "Elegir Plan",
+    "processing": "Procesando...",
+    "currentPlan": "Plan Actual",
+    "upgradeToUltimate": "Actualizar a Ultimate",
+    "upgradeToPremium": "Actualizar a Premium",
+    "forceToFree": "Forzar a Plan Gratuito",
+    "alreadySuperior": "Ya estas en un plan superior"
+  },
+  "promo": {
+    "title": "¿Tienes un código promocional?",
+    "claim": "Reclamar"
+  },
+  "support": {
+    "title": "¿Tienes preguntas?",
+    "description": "Contáctanos para obtener más información sobre nuestros planes y cómo podemos ayudarte.",
+    "contact": "Contactar al equipo de soporte"
+  },
+  "errors": {
+    "paymentError": "Error al procesar el pago. Por favor, intenta de nuevo."
+  }
+}

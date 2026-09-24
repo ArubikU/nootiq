@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function ProtectedByClerkFooter() {
     return (
         <footer className="flex items-center justify-center py-6  font-sans">
-            <span className="text-sm font-medium text-slate-600 mr-3 tracking-wide">
+            <span className="text-sm font-medium text-secondary mr-3 tracking-wide">
                 Protected by
             </span>
             <Link
@@ -23,7 +23,7 @@ export default function ProtectedByClerkFooter() {
                     height={32}
                     className="rounded-lg mr-2 "
                 />
-                <span className="text-base font-bold text-slate-800 tracking-wide">
+                <span className="text-base font-bold text-primary tracking-wide">
                     Clerk
                 </span>
             </Link>

@@ -1,0 +1,43 @@
+{
+  "title": "Flashcards",
+  "study_cards": "Study your flashcards",
+  "no_flashcards": "No flashcards in this Notebook",
+  "generate_flashcards": "Go back and generate flashcards",
+  "back_to_notebook": "Back to Notebook",
+  "notebook_not_found": "Notebook not found",
+  "notebook_not_found_desc": "The notebook you're looking for doesn't exist or you don't have access to it.",
+  "back_to_notebooks": "Back to my Notebooks",
+  "access_denied": "Access denied",
+  "access_denied_desc": "You don't have permission to view this notebook.",
+  "account_error": "Account error",
+  "account_error_desc": "Could not find your account in our database. Please contact support.",
+  "flashcard_available": "flashcard available",
+  "flashcards_available": "flashcards available",
+  "difficulty": "Difficulty",
+  "front": "Question",
+  "back": "Answer",
+  "card_of": "of",
+  "study_mode": "Study Mode",
+  "practice_mode": "Practice Mode",
+  "finished": "Completed!",
+  "finished_message": "You have reviewed all flashcards in this set.",
+  "study_again": "Study Again",
+  "download": "Download",
+  "controls": {
+    "previous": "Previous",
+    "next": "Next",
+    "flip": "Flip",
+    "show_answer": "Show Answer",
+    "know": "I know it",
+    "dont_know": "I don't know",
+    "shuffle": "Shuffle",
+    "reset": "Reset"
+  },
+  "stats": {
+    "correct": "Correct",
+    "incorrect": "Incorrect",
+    "progress": "Progress",
+    "session_complete": "Session Complete!",
+    "congratulations": "Congratulations! You've completed all flashcards."
+  }
+}

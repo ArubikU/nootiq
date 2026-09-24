@@ -7,7 +7,7 @@ interface MotionCardProps {
   children?: React.ReactNode;
   header?: React.ReactNode;
   className?: string;
-  variant?: 'default' | 'mist' | 'tertiary';
+  variant?: 'default' | 'bg' | 'surface';
 }
 
 export const MotionCard = ({ 

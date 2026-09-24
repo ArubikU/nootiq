@@ -1,0 +1,53 @@
+{
+  "title": "Privacy Policy",
+  "last_updated": "Last updated: {{date}}",
+  "introduction": {
+    "title": "Introduction",
+    "content": "At Nootiq, we are committed to protecting your privacy and personal data. This privacy policy explains how we collect, use, and protect your information when you use our services."
+  },
+  "data_collection": {
+    "title": "Information we collect",
+    "content": "We collect information you provide directly to us, such as when you create an account, upload documents, or contact us. We also automatically collect information about your use of our services.",
+    "types": {
+      "personal": "Personal information",
+      "documents": "User content",
+      "usage": "Usage information",
+      "technical": "Device data"
+    }
+  },
+  "data_usage": {
+    "title": "How we use your information",
+    "purpose1": "Provide and improve our services",
+    "purpose2": "Process your documents and generate study materials",
+    "purpose3": "Communicate with you about your account and services",
+    "purpose4": "Comply with legal obligations",
+    "purpose5": "Personalize your experience",
+    "purpose6": "Ensure platform security"
+  },
+  "data_protection": {
+    "title": "Data protection",
+    "content": "We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction."
+  },
+  "user_rights": {
+    "title": "Your rights",
+    "right1": "Access your personal information",
+    "right2": "Rectify incorrect information",
+    "right3": "Delete your information",
+    "right4": "Data portability",
+    "right5": "Object to processing"
+  },
+  "contact_info": {
+    "title": "Contact",
+    "content": "If you have questions about this privacy policy, you can contact us through our contact page",
+    "here": "here"
+  },
+  "navigation": {
+    "back_to_home": "Back to home"
+  },
+  "data_collection_descriptions": {
+    "personal_desc": "Name, email and password when you register.",
+    "documents_desc": "Documents, flashcards, quizzes and all content you generate.",
+    "usage_desc": "Interactions, usage time, pages visited and features used.",
+    "technical_desc": "Device type, browser, operating system and IP address."
+  }
+}

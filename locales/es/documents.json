@@ -1,0 +1,19 @@
+{
+  "title": "Documentos",
+  "upload_document": "Subir Documento",
+  "no_documents": "No tienes documentos subidos",
+  "upload_first": "Sube tu primer documento",
+  "processing": "Procesando...",
+  "ready": "Listo",
+  "error": "Error",
+  "delete": "Eliminar",
+  "view": "Ver",
+  "errors": {
+    "upload_failed": "Error al subir el archivo",
+    "upload_failed_retry": "Error al subir el archivo. Por favor, intenta de nuevo.",
+    "save_document_failed": "Error al guardar el documento",
+    "save_link_failed": "Error al guardar el enlace",
+    "save_link_failed_retry": "Error al guardar el enlace. Por favor, intenta de nuevo.",
+    "invalid_url": "Por favor, ingresa una URL válida"
+  }
+}

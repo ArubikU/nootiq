@@ -102,7 +102,7 @@ export async function POST(request: NextRequest) {
       amount = amount * 12
       isUpdate = false
     }
-    console.log(amount)
+    amount = Number.parseFloat(amount.toFixed(2))
 
     // Create PayPal order
     const paypalResponse = await fetch(`${process.env.PAYPAL_API_URL_PROD}/v2/checkout/orders`, {

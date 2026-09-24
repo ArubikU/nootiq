@@ -1,0 +1,19 @@
+{
+  "title": "Documents",
+  "upload_document": "Upload Document",
+  "no_documents": "You don't have any uploaded documents",
+  "upload_first": "Upload your first document",
+  "processing": "Processing...",
+  "ready": "Ready",
+  "error": "Error",
+  "delete": "Delete",
+  "view": "View",
+  "errors": {
+    "upload_failed": "Failed to upload file",
+    "upload_failed_retry": "Failed to upload file. Please try again.",
+    "save_document_failed": "Failed to save document",
+    "save_link_failed": "Failed to save link",
+    "save_link_failed_retry": "Failed to save link. Please try again.",
+    "invalid_url": "Please enter a valid URL"
+  }
+}

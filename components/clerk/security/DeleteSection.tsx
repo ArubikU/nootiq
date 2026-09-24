@@ -2,10 +2,12 @@
 
 import { Button } from "@/components/ui/button"
 import { useReverification, useUser } from "@clerk/nextjs"
+import { useTranslation } from "react-i18next"
 import { useState } from "react"
 
 export const DeleteSection = () => {
-  const { user }    = useUser()
+  const { user } = useUser()
+  const { t } = useTranslation('clerk')
   const [isDeleting, setIsDeleting] = useState(false)
   const [showConfirmation, setShowConfirmation] = useState(false)
 
@@ -15,41 +17,43 @@ export const DeleteSection = () => {
         setIsDeleting(false)
   });
 
-
   return (
     <div className="space-y-4 border-t pt-4">
-      <h3 className="text-sm font-medium">Eliminar cuenta</h3>
+      <h3 className="text-sm font-medium">{t('security.delete_account.title')}</h3>
       <p className="text-sm text-muted-foreground">
-        Una vez que elimines tu cuenta, todos tus datos serán permanentemente eliminados.
-        Esta acción no se puede deshacer.
+        {t('security.delete_account.description')}
+        {' '}
+        {t('security.delete_account.warning')}
       </p>
       
       {!showConfirmation ? (
         <Button
           variant="destructive"
-          className="bg-red-500 hover:bg-red-600 text-white rounded-xl"
+          className="rounded-xl"
           onClick={() => setShowConfirmation(true)}
         >
-          Eliminar cuenta
+          {t('security.delete_account.delete_button')}
         </Button>
       ) : (
         <div className="space-y-4">
           <p className="text-sm font-medium text-destructive">
-            ¿Estás seguro de que quieres eliminar permanentemente tu cuenta?
+            {t('security.delete_account.question')}
           </p>
           <div className="flex space-x-2">
             <Button
-              variant="outline"
+              variant="ghost"
+              className="rounded-xl"
               onClick={() => setShowConfirmation(false)}
             >
-              Cancelar
+              {t('security.password_section.cancel')}
             </Button>
             <Button
               variant="destructive"
+              className="rounded-xl"
               onClick={handleDeleteAccount}
               disabled={isDeleting}
             >
-              {isDeleting ? "Eliminando..." : "Confirmar eliminación"}
+              {isDeleting ? t('security.delete_account.deleting') : t('security.delete_account.confirm_deletion')}
             </Button>
           </div>
         </div>

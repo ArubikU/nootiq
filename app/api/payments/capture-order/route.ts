@@ -30,6 +30,8 @@ export async function GET(request: NextRequest) {
       days = 365
     }
 
+    waitedPrice = Number.parseFloat(waitedPrice.toFixed(2))
+
     // Capture the PayPal order
     const paypalResponse = await fetch(`${process.env.PAYPAL_API_URL_PROD}/v2/checkout/orders/${orderId}/capture`, {
       method: "POST",

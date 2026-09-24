@@ -1,0 +1,13 @@
+{
+  "title": "Resumen",
+  "not_found": "Resumen no encontrado",
+  "back_to_dashboard": "Volver al Dashboard", 
+  "chat": {
+    "title": "Chat con el Resumen",
+    "placeholder": "Pregunta algo sobre el resumen...",
+    "empty_state": "¡Haz una pregunta sobre este resumen!",
+    "send": "Enviar",
+    "error": "No se pudo enviar el mensaje",
+    "load_error": "No se pudo cargar el historial de chat"
+  }
+}

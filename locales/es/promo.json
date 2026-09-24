@@ -1,0 +1,36 @@
+{
+  "title": "Reclamar Código Promocional",
+  "subtitle": "Ingresa tu código promocional para obtener acceso a beneficios exclusivos en tu plan de estudio.",
+  "currentPlan": {
+    "title": "Tu Plan Actual",
+    "description": "Detalles de tu suscripción activa",
+    "plan": "Plan:",
+    "expires": "Expira el:",
+    "notAvailable": "No disponible"
+  },
+  "redeemForm": {
+    "title": "Canjea tu Código",
+    "description": "Introduce tu código promocional para mejorar tu plan",
+    "label": "Código Promocional",
+    "placeholder": "ej. LAVANDA2025",
+    "emptyError": "Por favor, introduce un código promocional",
+    "redeemButton": "Reclamar Código",
+    "redeeming": "Reclamando..."
+  },
+  "success": {
+    "title": "¡Código Promocional Activado!",
+    "planActivated": "Plan Activado:",
+    "duration": "Duración:",
+    "days": "días",
+    "benefits": "Beneficios del plan:",
+    "goToDashboard": "Ir al Dashboard"
+  },
+  "errors": {
+    "generic": "Error al reclamar el código promocional",
+    "unexpected": "Error inesperado",
+    "errorTitle": "Error"
+  },
+  "redirect": {
+    "loading": "Redirigiendo al login..."
+  }
+}

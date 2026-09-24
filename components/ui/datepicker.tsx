@@ -18,7 +18,7 @@ export const DatePicker = ({ selected, onChange, placeholder }: DatePickerProps)
         selected={selected}
         onChange={onChange}
         placeholderText={placeholder}
-        className="border border-mist bg-ivory rounded-xl px-4 py-2 w-full text-ink focus:outline-none focus:ring-2 focus:ring-iris"
+        className="border border-bg bg-bg-light rounded-xl px-4 py-2 w-full text-text focus:outline-none focus:ring-2 focus:ring-custom-accent"
         dateFormat="MMMM d, yyyy"
       />
     </motion.div>

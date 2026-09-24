@@ -6,12 +6,12 @@ interface BadgeProps {
 
 export const Badge = ({ label, variant = 'default' }: BadgeProps) => {
   const variants = {
-    default: 'bg-iris text-white',
-    outline: 'border border-iris text-iris',
-    secondary: 'bg-mist text-ink',
-    defaultrounded: 'bg-iris text-white rounded-xl',
-    outlinerounded: 'border border-iris text-iris rounded-xl',
-    secondaryrounded: 'bg-mist text-ink rounded-xl',
+    default: 'bg-accent text-primary',
+    outline: 'border border-accent text-accent',
+    secondary: 'bg-bg text-primary',
+    defaultrounded: 'bg-accent text-primary rounded-xl',
+    outlinerounded: 'border border-accent text-accent rounded-xl',
+    secondaryrounded: 'bg-bg text-primary rounded-xl',
   };
 
   return (

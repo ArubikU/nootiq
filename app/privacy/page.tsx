@@ -1,158 +1,139 @@
 "use client";
 
 import { AlertTriangle, FileText, Mail, ShieldCheck, Users } from "lucide-react";
+import { useTranslation } from "@/hooks/use-translation";
+import { useDateFormatter } from "@/hooks/use-date-formatter";
+import "@/lib/i18n";
+import Link from "next/link";
 
 export default function PrivacyPage() {
+  const { t } = useTranslation();
+  const { formatSpecificDate } = useDateFormatter();
+
+  // Format the last updated date (14 de mayo de 2025)
+  const lastUpdated = formatSpecificDate(14, 5, 2025);
+
   return (
+    <div className="bg-secondary">
+
     <div className="container mx-auto px-4 py-16 animate-fade-in">
       <div className="max-w-3xl mx-auto space-y-12">
         <header className="text-center">
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-2">Política de Privacidad</h1>
-          <p className="text-sm text-ink">Última actualización: 14 de mayo de 2025</p>
+          <h1 className="text-4xl font-extrabold text-primary mb-2">{t('privacy.title')}</h1>
+          <p className="text-sm text-text">
+            {t('privacy.last_updated').replace('{{date}}', lastUpdated)}
+          </p>
         </header>
 
         <section className="space-y-4">
-          <p className="text-ink leading-relaxed text-lg">
-            En <strong>Nootiq</strong>, proteger tu privacidad es una prioridad. Esta política detalla qué datos
-            recopilamos, cómo los usamos y tus derechos como usuario.
+          <p className="leading-relaxed text-lg">
+            {t('privacy.introduction.content')}
           </p>
         </section>
 
         <Section
-          icon={<FileText className="text-iris w-6 h-6" />}
-          title="Información que recopilamos"
+          icon={<FileText className="text-accent w-6 h-6" />}
+          title={t('privacy.data_collection.title')}
+          description={t('privacy.data_collection.content')}
           items={[
             {
-              title: "Información de la cuenta",
-              description:
-                "Nombre, correo electrónico y contraseña al momento de registrarte.",
+              title: t('privacy.data_collection.types.personal'),
+              description: t('privacy.data_collection_descriptions.personal_desc'),
             },
             {
-              title: "Contenido del usuario",
-              description:
-                "Documentos, flashcards, quizzes y todo el contenido que generes.",
+              title: t('privacy.data_collection.types.documents'),
+              description: t('privacy.data_collection_descriptions.documents_desc'),
             },
             {
-              title: "Información de uso",
-              description:
-                "Interacciones, tiempo de uso, páginas visitadas y funciones utilizadas.",
+              title: t('privacy.data_collection.types.usage'),
+              description: t('privacy.data_collection_descriptions.usage_desc'),
             },
             {
-              title: "Datos del dispositivo",
-              description:
-                "Tipo de dispositivo, navegador, sistema operativo y dirección IP.",
+              title: t('privacy.data_collection.types.technical'),
+              description: t('privacy.data_collection_descriptions.technical_desc'),
             },
           ]}
         />
 
         <Section
-          icon={<ShieldCheck className="text-iris w-6 h-6" />}
-          title="Cómo utilizamos tu información"
+          icon={<ShieldCheck className="text-accent w-6 h-6" />}
+          title={t('privacy.data_usage.title')}
           items={[
-            { title: "Mejorar la plataforma", description: "Optimizar funciones y rendimiento." },
-            { title: "Generar tu material de estudio", description: "Procesar documentos y crear contenido útil." },
-            { title: "Personalización", description: "Mostrarte contenido adaptado a ti." },
-            { title: "Comunicación", description: "Enviarte novedades, actualizaciones y beneficios." },
-            { title: "Seguridad", description: "Detectar y prevenir fraudes o actividades no autorizadas." },
-            { title: "Cumplimiento legal", description: "Atender requerimientos legales si aplica." },
+            { title: t('privacy.data_usage.purpose1'), description: "" },
+            { title: t('privacy.data_usage.purpose2'), description: "" },
+            { title: t('privacy.data_usage.purpose3'), description: "" },
+            { title: t('privacy.data_usage.purpose4'), description: "" },
+            { title: t('privacy.data_usage.purpose5'), description: "" },
+            { title: t('privacy.data_usage.purpose6'), description: "" },
           ]}
         />
 
         <Section
-          icon={<Users className="text-iris w-6 h-6" />}
-          title="Con quién compartimos tu información"
+          icon={<ShieldCheck className="text-accent w-6 h-6" />}
+          title={t('privacy.data_protection.title')}
+          paragraph={t('privacy.data_protection.content')}
+        />
+
+        <Section
+          icon={<Users className="text-accent w-6 h-6" />}
+          title={t('privacy.user_rights.title')}
           items={[
-            {
-              title: "Proveedores de servicios",
-              description:
-                "Aliados que nos ayudan a operar la plataforma (como almacenamiento o pagos).",
-            },
-            {
-              title: "Socios",
-              description:
-                "Compartimos datos anónimos y agregados para mejorar la plataforma.",
-            },
-            {
-              title: "Autoridades",
-              description:
-                "Solo si es estrictamente necesario y conforme a la ley.",
-            },
+            { title: t('privacy.user_rights.right1'), description: "" },
+            { title: t('privacy.user_rights.right2'), description: "" },
+            { title: t('privacy.user_rights.right3'), description: "" },
+            { title: t('privacy.user_rights.right4'), description: "" },
+            { title: t('privacy.user_rights.right5'), description: "" },
           ]}
         />
 
         <Section
-          icon={<AlertTriangle className="text-iris w-6 h-6" />}
-          title="Seguridad de los datos"
-          paragraph="Aplicamos medidas de seguridad físicas, técnicas y administrativas. Aunque trabajamos constantemente en proteger tu información, ningún sistema es 100% infalible."
-        />
-
-        <Section
-          icon={<ShieldCheck className="text-iris w-6 h-6" />}
-          title="Tus derechos"
-          items={[
-            { title: "Acceder", description: "Ver los datos que almacenamos sobre ti." },
-            { title: "Corregir", description: "Actualizar información incorrecta o incompleta." },
-            { title: "Eliminar", description: "Solicitar la eliminación de tus datos." },
-            { title: "Oposición", description: "Restringir ciertos usos de tu información." },
-            { title: "Portabilidad", description: "Exportar tus datos personales." },
-          ]}
-        />
-        {/**
-        <p className="text-ink leading-relaxed">
-          Para ejercer estos derechos, contáctanos en{" "}
-          <a href="mailto:privacy@Nootiq.com" className="text-iris hover:underline font-medium">
-            privacy@Nootiq.com
-          </a>
-          .
-        </p>
- */}
-        <Section
-          title="Actualizaciones"
-          paragraph="Podemos actualizar esta política ocasionalmente. Te avisaremos aquí y, si es necesario, también por correo electrónico."
-        />
-
-                <Section
-          icon={<Mail className="text-iris w-6 h-6" />}
-          title="Contacto"
+          icon={<Mail className="text-accent w-6 h-6" />}
+          title={t('privacy.contact_info.title')}
           paragraph={
             <>
-              ¿Dudas o sugerencias?{" "}
-              <a href="/contact" className="text-iris hover:underline font-medium">
-                escribenos
-              </a>
+              {t('privacy.contact_info.content')}{" "}
+              <Link href="/contact" className="text-accent hover:underline font-medium">
+                {t('privacy.contact_info.here')}
+              </Link>
               .
             </>
           }
-        /> 
+        />
+
+        <div className="mt-8 text-center">
+          <Link href="/" className="text-accent font-semibold hover:underline">
+            ← {t('privacy.navigation.back_to_home')}
+          </Link>
+        </div>
       </div>
+    </div>
     </div>
   );
 }
 
-function Section({
-  icon,
-  title,
-  items,
-  paragraph,
-}: {
+interface SectionProps {
   icon?: React.ReactNode;
   title: string;
+  description?: string;
   items?: { title: string; description: string }[];
   paragraph?: React.ReactNode;
-}) {
+}
+
+function Section({ icon, title, description, items, paragraph }: SectionProps) {
   return (
     <section className="space-y-4 animate-fade-in">
       <div className="flex items-center gap-3">
         {icon && <div>{icon}</div>}
-        <h2 className="text-2xl font-semibold text-gray-900">{title}</h2>
+        <h2 className="text-2xl font-semibold text-primary">{title}</h2>
       </div>
-      {paragraph && <p className="text-ink leading-relaxed">{paragraph}</p>}
+      {description && <p className="leading-relaxed">{description}</p>}
+      {paragraph && <p className="leading-relaxed">{paragraph}</p>}
       {items && (
         <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
           {items.map((item, i) => (
-            <li key={i} className="bg-gray-50 p-4 rounded-lg shadow-sm border hover:shadow-md transition">
-              <h3 className="font-semibold text-ink">{item.title}</h3>
-              <p className="text-ink text-sm mt-1">{item.description}</p>
+            <li key={i} className="bg-primary shadow-md p-4 rounded-lg border border-xl border-none rounded-xl hover:shadow-md transition">
+              <h3 className="font-semibold text-primary">{item.title}</h3>
+              {item.description && <p className="text-sm mt-1">{item.description}</p>}
             </li>
           ))}
         </ul>

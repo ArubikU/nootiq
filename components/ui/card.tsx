@@ -6,35 +6,35 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
   title?: string;
   description?: string;
   header?: ReactNode;
-  variant?: 'default' | 'mist' | 'tertiary';
+  variant?: 'default' | 'bg' | 'surface';
   titleClassName?: string;
 }
 
 interface CardContextType {
-  variant: 'default' | 'mist' | 'tertiary';
+  variant: 'default' | 'bg' | 'surface';
 }
 
 const CardContext = createContext<CardContextType>({ variant: 'default' });
 
-const getVariantClasses = (variant: 'default' | 'mist' | 'tertiary') => {
+const getVariantClasses = (variant: 'default' | 'bg' | 'surface') => {
   switch (variant) {
-    case 'mist':
-      return 'bg-mist';
-    case 'tertiary':
-      return 'bg-ivory';
+    case 'bg':
+      return 'bg-accent';
+    case 'surface':
+      return 'bg-primary';
     default:
-      return 'bg-ivory';
+      return 'bg-primary';
   }
 };
 
-const getTitleColorClasses = (variant: 'default' | 'mist' | 'tertiary') => {
+const getTitleColorClasses = (variant: 'default' | 'bg' | 'surface') => {
   switch (variant) {
-    case 'mist':
-      return 'text-ink';
-    case 'tertiary':
-      return 'text-iris';
+    case 'bg':
+      return 'text-primary';
+    case 'surface':
+      return 'text-accent-heavy';
     default:
-      return 'text-ink';
+      return '';
   }
 };
 const Card = forwardRef<HTMLDivElement, CardProps>(
@@ -43,7 +43,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       <div
         ref={ref}
         className={cn(
-          "rounded-2xl shadow-md border shadow-sm",
+          "rounded-2xl shadow-md shadow-sm",
           getVariantClasses(variant),
           className
         )}
@@ -51,7 +51,7 @@ const Card = forwardRef<HTMLDivElement, CardProps>(
       >
         {title && <h2 className={cn(`${getTitleColorClasses(variant)} text-xl font-semibold mb-2 text-center`, titleClassName)}>{title}</h2>}
         {header && <div className="mb-4">{header}</div>}
-        {description && <p className="text-twilight mb-4 text-sm">{description}</p>}
+        {description && <p className="text-center mb-4 text-sm">{description}</p>}
         {children}
       </div>
     </CardContext.Provider>
@@ -96,7 +96,7 @@ const CardDescription = forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-sm text-twilight mb-4", className)}
+    className={cn("text-sm text-custom-muted mb-4", className)}
     {...props}
   />
 ))

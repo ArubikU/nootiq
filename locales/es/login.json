@@ -1,0 +1,30 @@
+{
+  "title": "Iniciar Sesión",
+  "subtitle": "Accede a tu cuenta de Nootiq",
+  "welcome_back": "¡Bienvenido de vuelta!",
+  "continue_learning": "Continúa tu viaje de aprendizaje",
+  "form": {
+    "email": "Correo electrónico",
+    "password": "Contraseña",
+    "remember_me": "Recordarme",
+    "forgot_password": "¿Olvidaste tu contraseña?",
+    "sign_in": "Iniciar Sesión",
+    "signing_in": "Iniciando sesión..."
+  },
+  "social": {
+    "title": "o",
+    "google": "Continuar con Google",
+    "github": "Continuar con GitHub"
+  },
+  "no_account": {
+    "text": "¿No tienes una cuenta?",
+    "link": "Crear una"
+  },
+  "benefits": {
+    "title": "¿Por qué Nootiq?",
+    "benefit1": "Convierte PDFs en material de estudio",
+    "benefit2": "Flashcards generadas automáticamente",
+    "benefit3": "Quizzes personalizados con IA",
+    "benefit4": "Seguimiento de tu progreso"
+  }
+}

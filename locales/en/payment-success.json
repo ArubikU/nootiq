@@ -1,0 +1,5 @@
+{
+  "title": "Payment Successful!",
+  "message": "Your payment has been processed successfully. Your account has been upgraded to the {planName} plan.",
+  "go_to_dashboard": "Go to Dashboard"
+}

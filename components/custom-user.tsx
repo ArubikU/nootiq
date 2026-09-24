@@ -2,58 +2,70 @@
 import { getTierObject } from "@/lib/getLimits";
 import { onUpdateSettings } from "@/lib/updateUnsafe";
 import { useUser } from "@clerk/nextjs";
-import { CreditCard, Settings2 } from "lucide-react";
+import { CreditCard, Settings2, Users } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import CustomUserButton from "./custom-user-button";
 import { getPlanById } from "./pricing/billingLabels";
-
-const SettingsIcon = () => {
-    return (
-        <svg viewBox="0 0 1024 1024" fill="currentColor" version="1.1" xmlns="http://www.w3.org/2000/svg"><path d="M825.6 647.2l-6.4 12.8 8 12 78.4 116 3.2-31.2-139.2 135.2 29.6-3.2-127.2-76-10.4-6.4-11.2 4.8c-8 3.2-16 6.4-24.8 9.6l-13.6 4.8-3.2 13.6-28 131.2 24-19.2H408l24 18.4-34.4-137.6-3.2-12-12-4.8c-7.2-3.2-14.4-5.6-21.6-9.6l-12-5.6-11.2 7.2-120 76.8 30.4 3.2-139.2-136 4 30.4 77.6-124 7.2-11.2-5.6-12c-4-8-7.2-16.8-9.6-24.8l-4.8-12.8-13.6-2.4-134.4-28 19.2 24v-192l-18.4 24 141.6-33.6 12-3.2 4.8-12c3.2-8 7.2-16.8 11.2-24.8l6.4-12.8-8-12-73.6-110.4-3.2 31.2 138.4-136.8-30.4 4L352 186.4l10.4 6.4 11.2-4.8c6.4-2.4 13.6-5.6 20-8l12.8-4 3.2-12.8 32.8-132.8-24 18.4H616l-24-19.2 28.8 136 2.4 12.8 12.8 4.8c10.4 4 20 8 29.6 12.8l12 5.6 11.2-7.2 113.6-71.2-28.8-3.2 140 134.4-4-30.4-76 120-7.2 11.2 5.6 12c3.2 8 7.2 16.8 9.6 24.8l4 12.8 12.8 3.2 134.4 32-18.4-24v192l19.2-24-141.6 28.8-12.8 2.4-4.8 12c-2.4 6.4-5.6 13.6-8.8 20z m32-11.2l4.8 24 141.6-28.8 19.2-4V396l-18.4-4.8-134.4-32-5.6 24 23.2-8c-3.2-9.6-7.2-19.2-11.2-28.8l-22.4 9.6 20.8 12.8 76-120 10.4-16.8-14.4-13.6-140-134.4L793.6 72l-16 10.4L664 153.6l12.8 20.8L688 152c-11.2-5.6-22.4-10.4-34.4-14.4L644.8 160l24-4.8-28.8-136-4-19.2H400.8l-4.8 18.4-32.8 132.8 24 5.6-8-23.2c-8 2.4-15.2 5.6-23.2 8.8l9.6 22.4 12.8-20.8-123.2-73.6-16-9.6-13.6 13.6-138.4 136.8-14.4 14.4 11.2 16.8L157.6 352l20-13.6-21.6-10.4c-4.8 9.6-8.8 18.4-12.8 28l22.4 9.6-5.6-24-141.6 33.6-18.4 4v231.2l19.2 4 135.2 27.2 4.8-24-23.2 8c3.2 9.6 7.2 19.2 11.2 28.8l22.4-9.6-20.8-12.8-77.6 124-10.4 16.8 14.4 13.6 139.2 135.2 13.6 13.6 16-10.4 120-76.8-12.8-20.8-10.4 22.4c8 4 16.8 7.2 24.8 10.4l8.8-22.4-24 5.6 34.4 137.6 4.8 18.4H624.8l4-19.2 28-131.2-24-4.8 8 23.2c9.6-3.2 18.4-6.4 28-10.4l-9.6-22.4-12.8 20.8 127.2 76 16 9.6 13.6-12.8 139.2-136 14.4-14.4-11.2-16.8-78.4-116-20 13.6 21.6 11.2c4-8 8-16 11.2-24l-22.4-9.6z" fill="" /><path d="M512 681.6c-100 0-181.6-81.6-181.6-181.6S412 318.4 512 318.4 693.6 400 693.6 500 612 681.6 512 681.6z m0-315.2c-73.6 0-133.6 60-133.6 133.6S438.4 633.6 512 633.6s133.6-60 133.6-133.6S585.6 366.4 512 366.4z" fill="" /></svg>
-    );
-};
-const BillingIcon = () => {
-    return (<svg version="1.1" baseProfile="tiny" id="Layer_1" xmlns="http://www.w3.org/2000/svg" 
-        viewBox="0 0 24 24" overflow="visible">
-        <g >
-            <rect y="0" fill="none" width="24" height="24" />
-            <g transform="translate(0.000000, 5.000000)">
-                <path fill-rule="evenodd" fill="#85A4E6" d="M22.5,15.2h-21c-0.8,0-1.5-0.7-1.5-1.5V0.2c0-0.8,0.7-1.5,1.5-1.5h21
-			c0.8,0,1.5,0.7,1.5,1.5v13.5C24,14.6,23.3,15.2,22.5,15.2L22.5,15.2z"/>
-                <path fill-rule="evenodd" fill="#5C85DE" d="M22.5,15.2H12V-1.2h10.5c0.8,0,1.5,0.7,1.5,1.5v13.5C24,14.6,23.3,15.2,22.5,15.2
-			L22.5,15.2z"/>
-                <rect y="1" fill-rule="evenodd" fill="#5C85DE" width="24" height="3" />
-                <rect id="Rectangle-path_00000135674211772856346760000002730362558129152162_" x="12" y="1" fill-rule="evenodd" fill="#3367D6" width="12" height="3" />
-                <rect id="Rectangle-path_00000127732411686421387230000005866310280904328323_" x="2.2" y="5.5" fill-rule="evenodd" fill="#FFFFFF" width="19.5" height="2.2" />
-                <rect id="Rectangle-path_00000144336547962367256270000004601864478366739619_" x="2.2" y="10" fill-rule="evenodd" fill="#5C85DE" width="4.5" height="3" />
-                <rect id="Rectangle-path_00000167372342969776731770000010922900929549315211_" x="13.5" y="10.8" fill-rule="evenodd" fill="#FFFFFF" width="1.5" height="1.5" />
-                <rect id="Rectangle-path_00000026865061745408398040000018034195747439422142_" x="16.5" y="10.8" fill-rule="evenodd" fill="#FFFFFF" width="1.5" height="1.5" />
-                <rect id="Rectangle-path_00000169543108220145060960000001220724486439157930_" x="19.5" y="10.8" fill-rule="evenodd" fill="#FFFFFF" width="1.5" height="1.5" />
-            </g>
-        </g>
-    </svg>);
-}
+import { useTranslation } from "@/hooks/use-translation";
+import { CustomCheckbox } from "./ui/custom-checkbox";
+import { LanguageSelector } from "./ui/language-selector";
+import ThemeToggle from "./ui/theme-toggle";
 
 export default function CustomUser({showName = false}: { showName?: boolean }) {
-
+    const { t, i18n } = useTranslation()
     const { user, isLoaded } = useUser()
     const [settings, setSettings] = useState({
         emailNotifications: false,
         productUpdates: false,
         language: "es"
     })
+    const [referralStats, setReferralStats] = useState<any>(null)
 
     useEffect(() => {
-        if (isLoaded) {
+        if (isLoaded && user) {
+            const userLanguage = user.unsafeMetadata.language as string || 
+                                user.publicMetadata.language as string || 
+                                "es"
+            
             setSettings({
-                emailNotifications: Boolean(user?.unsafeMetadata.emailNotifications) || false,
-                productUpdates: Boolean(user?.unsafeMetadata.productUpdates) || false,
-                language: typeof user?.unsafeMetadata.language === "string" ? user.unsafeMetadata.language : "es"
+                emailNotifications: Boolean(user.unsafeMetadata.emailNotifications) || false,
+                productUpdates: Boolean(user.unsafeMetadata.productUpdates) || false,
+                language: userLanguage
             })
+
+            // Actualizar el idioma de la interfaz si es diferente al actual
+            if (i18n.language !== userLanguage) {
+                i18n.changeLanguage(userLanguage)
+            }
+
+            // Fetch referral stats
+            fetchReferralStats()
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [isLoaded])
+    }, [isLoaded, user])
+
+    const fetchReferralStats = async () => {
+        try {
+            const response = await fetch('/api/referral/stats')
+            if (response.ok) {
+                const data = await response.json()
+                if (data.success) {
+                    setReferralStats(data)
+                }
+            }
+        } catch (error) {
+            console.error('Error fetching referral stats:', error)
+        }
+    }
+
+    const copyReferralLink = () => {
+        if (referralStats?.code) {
+            const referralUrl = `${window.location.origin}/register?ref=${referralStats.code}`
+            navigator.clipboard.writeText(referralUrl)
+            // Could add a toast notification here
+        }
+    }
 
 
     if (!isLoaded) return (<CustomUserButton afterSignOutUrl="/" />)
@@ -62,51 +74,53 @@ export default function CustomUser({showName = false}: { showName?: boolean }) {
     const userTier = getTierObject((user?.publicMetadata?.plan as string) || "free")
 
 
-    const userPlan = getPlanById(userTier.id)
+    const userPlan = getPlanById(userTier.id, t)
 
     return (<header>
-        <CustomUserButton afterSignOutUrl="/" showName={showName}>
+        <CustomUserButton afterSignOutUrl="/" showName={showName} >
             {/* You can pass the content as a component */}
             <CustomUserButton.UserProfilePage label="Settings" url="custom" labelIcon={<Settings2 />}>
                 <div>
-                    <h3 className="text-xl font-semibold mb-6">Configuración de la Cuenta</h3>
+                    <h3 className="text-xl font-semibold mb-6">{t('clerk.settings.title')}</h3>
 
                     <div className="space-y-6">
-                        {/* Idioma */}
-                        <div>
-                            <h4 className="font-medium mb-2">Idioma</h4>
-                            <select
-                                className="input"
-                                value={settings.language}
-                                onChange={e => setSettings(prev => ({ ...prev, language: e.target.value }))}
-                            >
-                                <option value="es">Español</option>
-                                <option value="en">English</option>
-                            </select>
-                        </div>
-
                         {/* Notificaciones */}
                         <div>
-                            <h4 className="font-medium mb-2">Notificaciones</h4>
-                            <div className="space-y-2">
-                                <label className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        className="rounded text-iris focus:ring-iris h-4 w-4 mr-2"
-                                        checked={!!settings.emailNotifications}
-                                        onChange={e => setSettings(prev => ({ ...prev, emailNotifications: e.target.checked }))}
-                                    />
-                                    <span>Recibir notificaciones por email</span>
-                                </label>
-                                <label className="flex items-center">
-                                    <input
-                                        type="checkbox"
-                                        className="rounded text-iris focus:ring-iris h-4 w-4 mr-2"
-                                        checked={!!settings.productUpdates}
-                                        onChange={e => setSettings(prev => ({ ...prev, productUpdates: e.target.checked }))}
-                                    />
-                                    <span>Recibir actualizaciones de producto</span>
-                                </label>
+                            <h4 className="font-medium mb-4">{t('clerk.settings.notifications.title')}</h4>
+                            <div className="space-y-4">
+                                <CustomCheckbox
+                                    checked={!!settings.emailNotifications}
+                                    onChange={(checked) => setSettings(prev => ({ ...prev, emailNotifications: checked }))}
+                                    label={t('clerk.settings.notifications.email_notifications')}
+                                />
+                                <CustomCheckbox
+                                    checked={!!settings.productUpdates}
+                                    onChange={(checked) => setSettings(prev => ({ ...prev, productUpdates: checked }))}
+                                    label={t('clerk.settings.notifications.product_updates')}
+                                />
+                            </div>
+                        </div>
+
+                        {/* Apariencia */}
+                        <div>
+                            <h4 className="font-medium mb-4">{t('clerk.settings.appearance.title')}</h4>
+                            <div className="space-y-4">
+                                <div>
+                                    <label className="flex flex-col sm:flex-row sm:items-center text-sm font-medium mb-2 gap-2">
+                                        <span className="min-w-0 flex-shrink-0">{t('clerk.settings.appearance.language')}</span>
+                                        <div className="w-full sm:w-auto">
+                                            <LanguageSelector />
+                                        </div>
+                                    </label>
+                                </div>
+                                <div>
+                                    <label className="flex flex-col sm:flex-row sm:items-center text-sm font-medium mb-2 gap-2">
+                                        <span className="min-w-0 flex-shrink-0">{t('clerk.settings.appearance.theme')}</span>
+                                        <div className="w-full sm:w-auto">
+                                            <ThemeToggle />
+                                        </div>
+                                    </label>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -114,33 +128,32 @@ export default function CustomUser({showName = false}: { showName?: boolean }) {
                     {/* Guardar cambios */}
                     <div className="mt-8">
                         <button
-                            className="bg-iris text-white px-6 py-2 rounded font-medium hover:bg-irisdark transition"
+                            className="bg-accent text-primary px-6 py-2 rounded font-medium hover:bg-accent-heavy transition"
                             onClick={() => {
                                 onUpdateSettings(settings, user)
                             }}
                         >
-                            Guardar cambios
+                            {t('clerk.settings.save_changes')}
                         </button>
                     </div>
                 </div>
             </CustomUserButton.UserProfilePage>
             <CustomUserButton.UserProfilePage label="Plan" url="billing" labelIcon={<CreditCard />}>
-                <div>
+                <div className="">
                     <div className="flex  items-center mb-6">
-                        <h3 className="text-xl font-semibold">Plan Actual</h3>
+                        <h3 className="text-xl font-semibold">{t('pricing.buttons.currentPlan')}</h3>
                     </div>
 
-                    <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                        <div className="flex justify-between items-center">
-                            <div>
-                                <h4 className={`${userTier.isUltimate ? "text-gradient-nootiq-metallic" : ""} font-semibold text-lg `}>{userTier.formattedName}</h4>
+                    <div className="rounded-lg p-4 mb-6">
+                        <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                            <div className="flex-1 min-w-0">
+                                <h4 className={`${userTier.isUltimate ? "text-gradient-accent" : "text-primary"} font-semibold text-lg break-words`}>{userTier.formattedName}</h4>
                             </div>
-                            <div>
-                                
-                            <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Activo</span>
-                        <Link href="/pricing" className="px-4 text-iris hover:underline text-sm font-medium">
-                            Cambiar Plan
-                        </Link>
+                            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+                                <span className="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded whitespace-nowrap">{t('common.active')}</span>
+                                <Link href="/pricing" className="px-4 text-accent hover:underline text-sm font-medium whitespace-nowrap">
+                                    {t('common.changePlan')}
+                                </Link>
                             </div>
                         </div>
                     </div>
@@ -160,6 +173,85 @@ export default function CustomUser({showName = false}: { showName?: boolean }) {
                                 <span>{feature}</span>
                             </div>
                         ))}
+                    </div>
+                </div>
+            </CustomUserButton.UserProfilePage>
+            <CustomUserButton.UserProfilePage label={t('referral.tab_title')} url="referrals" labelIcon={<Users />}>
+                <div className="">
+                    <div className="flex items-center mb-6">
+                        <h3 className="text-xl font-semibold">{t('referral.title')}</h3>
+                    </div>
+
+                    {/* Referral Code Section */}
+                    <div className=" rounded-lg p-6 mb-6">
+                        <h4 className="font-semibold text-lg mb-4">{t('referral.your_code')}</h4>
+                        
+                        {referralStats ? (
+                            <div className="space-y-4">
+                                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between rounded-lg p-4 gap-4">
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm text-muted">{t('referral.your_referral_code')}</p>
+                                        <p className="text-xl font-mono font-bold text-accent break-all">{referralStats.code}</p>
+                                    </div>
+                                    <button
+                                        onClick={copyReferralLink}
+                                        className="bg-accent text-negated-primary px-4 py-2 rounded font-medium hover:bg-accent-heavy transition whitespace-nowrap self-start sm:self-center"
+                                    >
+                                        {t('referral.copy_link')}
+                                    </button>
+                                </div>
+                                
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                    <div className="rounded-lg p-4 text-center">
+                                        <p className="text-2xl font-bold text-accent">{referralStats.totalUses}</p>
+                                        <p className="text-sm text-muted">{t('referral.total_referrals')}</p>
+                                    </div>
+                                    <div className="rounded-lg p-4 text-center">
+                                        <p className="text-2xl font-bold text-success">{referralStats.usesLeft}</p>
+                                        <p className="text-sm text-muted">{t('referral.remaining_uses')}</p>
+                                    </div>
+                                </div>
+                                
+                                {referralStats.claims && referralStats.claims.length > 0 && (
+                                    <div>
+                                        <h5 className="font-medium mb-3">{t('referral.recent_referrals')}</h5>
+                                        <div className="space-y-2">
+                                            {referralStats.claims.slice(0, 5).map((claim: any, index: number) => (
+                                                <div key={index} className="rounded p-3 flex flex-col sm:flex-row sm:justify-between gap-2">
+                                                    <span className="text-sm break-all">{claim.email}</span>
+                                                    <span className="text-xs text-muted whitespace-nowrap">
+                                                        {new Date(claim.claimed_at).toLocaleDateString()}
+                                                    </span>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        ) : (
+                            <div className="text-center py-8">
+                                <p className="text-muted mb-4">{t('referral.loading')}</p>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* How it works */}
+                    <div className="rounded-lg p-6">
+                        <h4 className="font-semibold text-lg mb-4">{t('referral.how_it_works')}</h4>
+                        <div className="space-y-3">
+                            <div className="flex items-start">
+                                <div className="bg-accent text-negated-primary rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">1</div>
+                                <p className="text-sm">{t('referral.step_1')}</p>
+                            </div>
+                            <div className="flex items-start">
+                                <div className="bg-accent text-negated-primary rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">2</div>
+                                <p className="text-sm">{t('referral.step_2')}</p>
+                            </div>
+                            <div className="flex items-start">
+                                <div className="bg-accent text-negated-primary rounded-full w-6 h-6 flex items-center justify-center text-sm font-bold mr-3 mt-0.5">3</div>
+                                <p className="text-sm">{t('referral.step_3')}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </CustomUserButton.UserProfilePage>

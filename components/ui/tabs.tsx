@@ -15,17 +15,17 @@ interface TabsProps {
 export const Tabs = ({ tabs, defaultValue = tabs[0]?.value }: TabsProps) => {
   return (
     <TabsPrimitive.Root defaultValue={defaultValue}>
-      <TabsPrimitive.List className="flex border-b border-mist">
+      <TabsPrimitive.List className="flex border-b border-bg">
         {tabs.map((tab) => (
           <TabsPrimitive.Trigger
             key={tab.value}
             value={tab.value}
-            className="px-4 py-2 text-ink/70 data-[state=active]:text-ink relative"
+            className="px-4 py-2 text-text/70 data-[state=active]:text-text relative"
           >
             {tab.label}
             <motion.div
               layoutId="activeTab"
-              className="absolute bottom-0 left-0 right-0 h-0.5 bg-iris"
+              className="absolute bottom-0 left-0 right-0 h-0.5 bg-custom-accent"
               initial={false}
               transition={{ type: "spring", stiffness: 500, damping: 30 }}
             />

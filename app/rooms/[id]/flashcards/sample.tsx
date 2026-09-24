@@ -1,7 +1,10 @@
 "use client";
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/hooks/use-translation';
 
 export default function ShortCards({cards}: {cards: any[]}) {
+    const { t } = useTranslation();
+
     return (
         <>
             {cards.length > 0 ? (
@@ -12,16 +15,16 @@ export default function ShortCards({cards}: {cards: any[]}) {
                             initial={{ opacity: 0, y: 10 }} 
                             animate={{ opacity: 1, y: 0 }} 
                             transition={{ duration: 0.3 }} 
-                            className="bg-orange-50 rounded-xl p-4"
+                            className="bg-accent-light rounded-xl p-4 border border-accent-light shadow-md"
                         >
-                            <p className="font-medium">{card.front}</p>
-                            <p className="text-sm text-ink mt-1">{card.back.substring(0, 100)}...</p>
+                            <p className="font-medium text-primary">{card.front}</p>
+                            <p className="text-sm text-secondary mt-1">{card.back.substring(0, 100)}...</p>
                         </motion.div>
                     ))}
-                    {cards.length > 3 && <p className="text-sm text-center text-irisdark">+{cards.length - 3} más</p>}
+                    {cards.length > 3 && <p className="text-sm text-center text-accent">+{cards.length - 3} {t('common.more')}</p>}
                 </div>
             ) : (
-                <p className="text-center text-sm text-ink">No hay flashcards aún.</p>
+                <p className="text-center text-sm text-secondary">{t('flashcards.no_flashcards_available')}</p>
             )}
         </>
     );

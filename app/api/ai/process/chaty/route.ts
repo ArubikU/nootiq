@@ -1,9 +1,10 @@
 import { questionText } from "@/lib/cohere"
-import { createChatHistory, extractTextFromDocument, getChatHistoryByDocumentId, getSummaryById, getUserByClerkId } from "@/lib/db"
-import { getTierObject } from "@/lib/getLimits"
+import { createChatHistory, extractTextFromDocument, getChatHistoryByDocumentId, getSummaryById } from "@/lib/db"
 import { chatHistory } from "@/lib/types"
-import { auth, clerkClient } from "@clerk/nextjs/server"
-import { type NextRequest, NextResponse } from "next/server"
+import { createApiError, createSuccessResponse, handleApiError } from "@/lib/api-errors"
+import { getUserContext } from "@/lib/user-utils"
+import { auth } from "@clerk/nextjs/server"
+import { type NextRequest } from "next/server"
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,36 +12,33 @@ export async function POST(request: NextRequest) {
     const { userId: clerkId } = authObj
 
     if (!clerkId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+      return createApiError('UNAUTHORIZED')
     }
 
-    const user = await getUserByClerkId(clerkId)
+    const userContext = await getUserContext()
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    if (!userContext) {
+      return createApiError('USER_NOT_FOUND')
     }
-    const client = await clerkClient()
-    const userData = await client.users.getUser(clerkId)
-    const currentPlan = getTierObject(userData?.publicMetadata?.plan as string | undefined || "free")
-    if(!(currentPlan.isUltimate || currentPlan.isUltra)){
-        return NextResponse.json({ error: "This feature is only available for Ultimate and Ultra plans" }, { status: 403 })
+
+    if(!(userContext.currentPlan.isUltimate || userContext.currentPlan.isUltra)){
+        return createApiError('FORBIDDEN')
     }
 
     const { lastMessages, message, documentId } = await request.json()
     if (!lastMessages || !message || !documentId) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+      return createApiError('REQUIRED_FIELD', { fields: ['lastMessages', 'message', 'documentId'] })
     }
     const summary = await getSummaryById(documentId)
     const document = await extractTextFromDocument(documentId)
-    const response = await questionText(message,  summary, "You are a chatbot from Nootiq devs, dont answer with things not related to study.",lastMessages,document)
+    const response = await questionText(message,  summary, "You are a chatbot from Nootiq devs, dont answer with things not related to study.",lastMessages,document, userContext.userLanguage)
     if (!response) {
-      return NextResponse.json({ error: "Failed to generate question" }, { status: 500 })
+      return createApiError('AI_GENERATION_FAILED')
     }
     createChatHistory(documentId, clerkId, message, response)
-    return NextResponse.json({ response }, { status: 200 })
+    return createSuccessResponse({ response }, 'Respuesta generada exitosamente')
   } catch (error) {
-    console.error("Error creating document:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    return handleApiError(error)
   }
 }
 
@@ -50,30 +48,29 @@ export async function GET(request: NextRequest) {
         const { userId: clerkId } = authObj
 
         if (!clerkId) {
-            return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+            return createApiError('UNAUTHORIZED')
         }
 
-        const user = await getUserByClerkId(clerkId)
+        const userContext = await getUserContext()
 
-        if (!user) {
-            return NextResponse.json({ error: "User not found" }, { status: 404 })
+        if (!userContext) {
+            return createApiError('USER_NOT_FOUND')
         }
 
         const { searchParams } = new URL(request.url)
         const documentId = searchParams.get('documentId')
         
         if (!documentId) {
-            return NextResponse.json({ error: "Missing documentId parameter" }, { status: 400 })
+            return createApiError('REQUIRED_FIELD', { field: 'documentId' })
         }
         
         const chat_history: chatHistory = await getChatHistoryByDocumentId(documentId, clerkId) as any
         if (!chat_history) {
             //return empty array if no chat history found
-            return NextResponse.json({ chat_history: [] }, { status: 200 })
+            return createSuccessResponse({ chat_history: [] })
         }
-        return NextResponse.json({ chat_history }, { status: 200 })
+        return createSuccessResponse({ chat_history })
     } catch (error) {
-        console.error("Error creating document:", error)
-        return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+        return handleApiError(error)
     }
 }

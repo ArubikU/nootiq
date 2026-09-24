@@ -20,12 +20,12 @@ export const Select = ({ options, value, onChange, label }: SelectProps) => {
       {({ open }) => (
         <div className="relative">
           {label && (
-            <Listbox.Label className="block text-sm font-medium text-ink mb-1">
+            <Listbox.Label className="block text-sm font-medium text-text mb-1">
               {label}
             </Listbox.Label>
           )}
           <motion.div whileTap={{ scale: 0.98 }}>
-            <Listbox.Button className="relative w-full bg-ivory border border-mist rounded-xl py-2 px-4 text-left focus:outline-none focus:ring-2 focus:ring-iris">
+            <Listbox.Button className="relative w-full bg-primary border border-bg rounded-xl py-4 px-4 text-left focus:outline-none focus:ring-2 focus:ring-accent">
               <span className="block truncate">{value.label}</span>
             </Listbox.Button>
           </motion.div>
@@ -36,14 +36,14 @@ export const Select = ({ options, value, onChange, label }: SelectProps) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Listbox.Options className="absolute z-10 mt-1 w-full bg-ivory shadow-lg max-h-60 rounded-xl py-1 overflow-auto focus:outline-none">
+            <Listbox.Options className="absolute z-10 mt-1 w-full bg-primary shadow-lg max-h-60 rounded-xl py-1 overflow-auto focus:outline-none">
               {options.map((option) => (
                 <Listbox.Option
                   key={option.id}
                   value={option}
                   className={({ active }) =>
                     `cursor-pointer select-none relative py-2 px-4 ${
-                      active ? 'bg-iris text-white' : 'text-ink'
+                      active ? 'bg-accent text-primary' : 'text-secondary'
                     }`
                   }
                 >

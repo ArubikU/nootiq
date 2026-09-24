@@ -4,6 +4,7 @@ import { TierObject } from "@/lib/getLimits"
 import { jsPDF } from "jspdf"
 import { ChevronLeft, ChevronRight, Download, Search, Shuffle, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
+import { useTranslation } from "@/hooks/use-translation"
 
 interface EnhancedFlashcardProps {
   cards: {
@@ -16,6 +17,7 @@ interface EnhancedFlashcardProps {
 }
 
 export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcardProps) {
+  const { t } = useTranslation()
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isFlipped, setIsFlipped] = useState(false)
   const [isAnimating, setIsAnimating] = useState(false)
@@ -403,7 +405,7 @@ export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcard
   if (!cards.length) {
     return (
       <div className="text-center py-12">
-        <p className="text-xl text-ink">No hay flashcards disponibles</p>
+        <p className="text-xl text-secondary">{t('flashcards.no_flashcards_available')}</p>
       </div>
     )
   }
@@ -412,19 +414,19 @@ export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcard
     <div className="flex flex-col h-full">
       {/* Barra de progreso */}
       <div className="mb-4 space-y-2">
-        <div className="flex justify-between items-center text-sm text-ink mb-1">
-          <span>Progreso: {Math.round(progress)}% ({cardsProgress.length}/{cards.length})</span>
-          <span>Aprendidas: {Math.round(knownProgress)}% ({knownCards.length}/{cards.length})</span>
+        <div className="flex justify-between items-center text-sm text-secondary mb-1">
+          <span>{t('flashcards.progress')}: {Math.round(progress)}% ({cardsProgress.length}/{cards.length})</span>
+          <span>{t('flashcards.learned')}: {Math.round(knownProgress)}% ({knownCards.length}/{cards.length})</span>
         </div>
-        <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
           <div 
-            className="h-full bg-iris transition-all duration-300" 
+            className="h-full bg-accent transition-all duration-300" 
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
+        <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
           <div 
-            className="h-full bg-green-500 transition-all duration-300" 
+            className="h-full bg-success transition-all duration-300" 
             style={{ width: `${knownProgress}%` }}
           />
         </div>
@@ -434,13 +436,13 @@ export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcard
       <div className="flex flex-wrap justify-between items-center gap-3 mb-4">
         {/* Buscador por keywords */}
         <div className="relative" ref={searchRef}>
-          <div className="flex flex-wrap gap-2 items-center border rounded-lg p-2 bg-ivory w-full md:w-96">
+          <div className="flex flex-wrap gap-2 items-center border border-accent-light rounded-lg p-2 bg-surface w-full md:w-96">
             {selectedKeywords.map(keyword => (
-              <div key={keyword} className="flex items-center bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm">
+              <div key={keyword} className="flex items-center bg-accent-light text-accent-heavy px-2 py-1 rounded text-sm">
                 <span>{keyword}</span>
                 <button
                   onClick={() => handleRemoveKeyword(keyword)}
-                  className="ml-1 hover:text-blue-500"
+                  className="ml-1 hover:text-accent"
                 >
                   <X className="w-3 h-3" />
                 </button>
@@ -448,11 +450,11 @@ export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcard
             ))}
             <div className="flex-1 min-w-[150px]">
               <div className="flex items-center">
-                <Search className="w-4 h-4 text-gray-400 mr-1" />
+                <Search className="w-4 h-4 text-muted mr-1" />
                 <input
                   type="text"
-                  placeholder="Buscar por keyword..."
-                  className="border-none outline-none w-full text-sm bg-transparent"
+                  placeholder={t('flashcards.search_by_keyword')}
+                  className="border-none outline-none w-full text-sm bg-transparent text-primary"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   onFocus={() => setShowSuggestions(true)}
@@ -463,7 +465,7 @@ export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcard
           
           {/* Sugerencias de autocompletado */}
           {showSuggestions && suggestions.length > 0 && (
-            <div className="absolute z-10 mt-1 w-full md:w-96 max-h-60 overflow-auto bg-ivory rounded-md shadow-lg border">
+            <div className="absolute z-10 mt-1 w-full md:w-96 max-h-60 overflow-auto bg-bg-light rounded-md shadow-lg border">
               {suggestions.map(keyword => (
                 <div
                   key={keyword}
@@ -498,7 +500,7 @@ export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcard
             className="flex items-center space-x-1 px-3 py-1 bg-blue-100 text-blue-800 hover:bg-blue-200 rounded-md text-sm transition-colors"
           >
             <Download className="w-4 h-4" />
-            <span>Descargar</span>
+            <span>{t('flashcards.download_text')}</span>
           </button>
         </div>
       </div>
@@ -507,81 +509,83 @@ export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcard
       {selectedKeywords.length > 0 && (
         <div className="mb-4 text-sm">
           <span className="font-medium">
-            Mostrando {filteredCards.length} {filteredCards.length === 1 ? 'tarjeta' : 'tarjetas'} 
-            {filteredCards.length === 0 ? ' (Ninguna coincidencia)' : ''}
+            {t('flashcards.showing')} {filteredCards.length} {filteredCards.length === 1 ? t('flashcards.card') : t('flashcards.cards')} 
+            {filteredCards.length === 0 ? ` ${t('flashcards.no_matches')}` : ''}
           </span>
           {filteredCards.length > 0 && (
             <button 
               onClick={() => setSelectedKeywords([])}
               className="ml-2 text-blue-600 hover:underline"
             >
-              Mostrar todas
+              {t('flashcards.show_all')}
             </button>
           )}
         </div>
       )}
       
       {/* Contador de tarjetas */}
-      <div className="text-center mb-4 text-sm text-ink">
+      <div className="text-center mb-4 text-sm text-text">
         {filteredCards.length > 0 && `Tarjeta ${currentIndex + 1} de ${filteredCards.length}`}
       </div>
-        {/* Tarjeta */}
+      {/* Tarjeta */}
       <div className="flex-grow flex justify-center items-center">
         {filteredCards.length > 0 ? (
-          <div 
-            className={`flashcard-enhanced ${isFlipped ? "flipped" : ""} ${isAnimating ? "animating" : ""} ${isCardKnown ? "known" : ""}`} 
-            onClick={handleFlip}
-          >
-            <div className="flashcard-front-enhanced">
-              <div className="p-8 h-full flex flex-col justify-center">
-                <p className="text-2xl font-medium text-center">{currentCard.front}</p>
-                
-                <div className="absolute bottom-4 right-4 opacity-50 text-xs">
-                  Haz clic para ver la respuesta
-                </div>
-                
-                {isCardKnown && (
-                  <div className="absolute top-4 right-4">
-                    <span className="px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs">
-                      Aprendida
-                    </span>
+          <div className="flashcard-container">
+            <div 
+              className={`flashcard-enhanced bg-secondary ${isFlipped ? "flipped" : ""} ${isAnimating ? "animating" : ""} ${isCardKnown ? "known" : ""}`} 
+              onClick={handleFlip}
+            >
+              <div className="flashcard-front-enhanced">
+                <div className="p-8 h-full flex flex-col justify-center">
+                  <p className="text-2xl font-medium text-center">{currentCard.front}</p>
+                  
+                  <div className="absolute bottom-4 right-4 opacity-50 text-xs">
+                    Haz clic para ver la respuesta
                   </div>
-                )}
-                
-                {/* Mostrar keywords si existen */}
-                {currentCard.keywords && (
-                  <div className="absolute top-4 left-4 flex flex-wrap gap-1 max-w-[70%]">
-                    {currentCard.keywords.split('-').map(keyword => keyword.trim()).filter(k => k).map((keyword, idx) =>
-                      idx > 1 ? (
-                        <div className="md:hidden" key={idx}>
-                          <span className="px-2 py-0.5 rounded-full bg-gray-100 text-ink text-xs">
+                  
+                  {isCardKnown && (
+                    <div className="absolute top-4 right-4">
+                      <span className="px-2 py-1 rounded-full bg-green-100 text-green-800 text-xs">
+                        Aprendida
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Mostrar keywords si existen */}
+                  {currentCard.keywords && (
+                    <div className="absolute top-4 left-4 flex flex-wrap gap-1 max-w-[70%]">
+                      {currentCard.keywords.split('-').map(keyword => keyword.trim()).filter(k => k).map((keyword, idx) =>
+                        idx > 1 ? (
+                          <div className="md:hidden" key={idx}>
+                            <span className="px-2 py-0.5 rounded-full bg-gray-100 text-text text-xs">
+                              {keyword}
+                            </span>
+                          </div>
+                        ) : (
+                          <span key={idx} className="px-2 py-0.5 rounded-full bg-gray-100 text-text text-xs">
                             {keyword}
                           </span>
-                        </div>
-                      ) : (
-                        <span key={idx} className="px-2 py-0.5 rounded-full bg-gray-100 text-ink text-xs">
-                          {keyword}
-                        </span>
-                      )
-                    )}
-                  </div>
-                )}
+                        )
+                      )}
+                    </div>
+                  )}
+                </div>
               </div>
-            </div>
-            
-            <div className="flashcard-back-enhanced">
-              <div className="p-8 h-full flex flex-col justify-center overflow-auto">
-                <p className="text-lg">{currentCard.back}</p>
-                
-                <div className="absolute bottom-4 right-4 opacity-50 text-xs">
-                  Haz clic para ver la pregunta
+              
+              <div className="flashcard-back-enhanced">
+                <div className="p-8 h-full flex flex-col justify-center overflow-auto">
+                  <p className="text-lg">{currentCard.back}</p>
+                  
+                  <div className="absolute bottom-4 right-4 opacity-50 text-xs">
+                    Haz clic para ver la pregunta
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         ) : (
           <div className="text-center p-8 bg-gray-50 rounded-lg">
-            <p className="text-lg text-ink mb-2">No hay tarjetas que coincidan con tu búsqueda</p>
+            <p className="text-lg text-text mb-2">No hay tarjetas que coincidan con tu búsqueda</p>
             <button 
               onClick={() => setSelectedKeywords([])}
               className="text-blue-600 hover:underline"
@@ -600,7 +604,7 @@ export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcard
             className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
             aria-label="Anterior"
           >
-            <ChevronLeft className="w-6 h-6 text-ink" />
+            <ChevronLeft className="w-6 h-6 text-text" />
           </button>
           
           <button 
@@ -608,7 +612,7 @@ export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcard
             className={`px-4 py-2 rounded-lg transition-colors ${
               isCardKnown 
                 ? "bg-green-100 text-green-800 hover:bg-green-200" 
-                : "bg-gray-100 text-ink hover:bg-gray-200"
+                : "bg-gray-100 text-text hover:bg-gray-200"
             }`}
           >
             {isCardKnown ? "Aprendida ✓" : "Marcar como aprendida"}
@@ -619,7 +623,7 @@ export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcard
             className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
             aria-label="Barajar"
           >
-            <Shuffle className="w-5 h-5 text-ink" />
+            <Shuffle className="w-5 h-5 text-text" />
           </button>
           
           <button 
@@ -627,7 +631,7 @@ export default function EnhancedFlashcardView({ cards, plan }: EnhancedFlashcard
             className="p-3 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
             aria-label="Siguiente"
           >
-            <ChevronRight className="w-6 h-6 text-ink" />
+            <ChevronRight className="w-6 h-6 text-text" />
           </button>
         </div>
       )}

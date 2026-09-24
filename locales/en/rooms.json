@@ -1,0 +1,33 @@
+{
+  "title": "Rooms",
+  "sections": {
+    "documents": "Documents",
+    "flashcards": "Flashcards", 
+    "quizzes": "Quizzes"
+  },
+  "actions": {
+    "view_all": "View all",
+    "view_summary": "View summary",
+    "generate_flashcards": "Generate Flashcards",
+    "generate_quiz": "Generate Quiz"
+  },
+  "upload": {
+    "title": "Upload Document",
+    "uploading": "Uploading document...",
+    "url_placeholder": "https://example.com/document.pdf"
+  },
+  "empty_states": {
+    "no_documents": "No documents",
+    "no_documents_description": "Upload a document to get started",
+    "no_flashcards": "No flashcards",
+    "no_quizzes": "No quizzes"
+  },
+  "quiz": {
+    "options": "Options:",
+    "download_formats": {
+      "markdown": "Markdown",
+      "csv": "CSV", 
+      "pdf": "PDF"
+    }
+  }
+}

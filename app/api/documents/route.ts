@@ -1,7 +1,8 @@
 import { createDocument, getDocumentsByRoomId, getUserByClerkId } from "@/lib/db"
 import { getTierObject, importTypes } from "@/lib/getLimits"
+import { createApiError, createSuccessResponse, handleApiError } from "@/lib/api-errors"
 import { auth, clerkClient } from "@clerk/nextjs/server"
-import { type NextRequest, NextResponse } from "next/server"
+import { type NextRequest } from "next/server"
 
 export async function POST(request: NextRequest) {
   try {
@@ -9,19 +10,19 @@ export async function POST(request: NextRequest) {
     const { userId: clerkId } = authObj
 
     if (!clerkId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+      return createApiError('UNAUTHORIZED')
     }
 
     const user = await getUserByClerkId(clerkId)
 
     if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 })
+      return createApiError('USER_NOT_FOUND')
     }
 
     const { roomId, url, type } = await request.json()
 
     if (!roomId || !url || !type) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+      return createApiError('REQUIRED_FIELD', { fields: ['roomId', 'url', 'type'] })
     }
 
     // Verificar el límite de archivos por sala
@@ -32,27 +33,18 @@ export async function POST(request: NextRequest) {
     const limits = currentPlan.limits
 
     if(currentPlan.importTypes.includes(type as importTypes) === false) {
-      return NextResponse.json(
-        { error: "Tipo de archivo no permitido" },
-        { status: 403 }
-      )
+      return createApiError('INVALID_FILE_TYPE', { allowedTypes: currentPlan.importTypes.join(', ') })
     }
 
-
-
     if (existingDocuments.length >= limits.filesPerRoom) {
-      return NextResponse.json(
-        { error: "Has alcanzado el límite de documentos para esta sala" }, 
-        { status: 403 }
-      )
+      return createApiError('STORAGE_LIMIT_REACHED')
     }
 
     // Create document in database
     const documentId = await createDocument(roomId, url, type as importTypes)
 
-    return NextResponse.json({ id: documentId, success: true })
+    return createSuccessResponse({ id: documentId }, 'Documento creado exitosamente')
   } catch (error) {
-    console.error("Error creating document:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    return handleApiError(error)
   }
 }

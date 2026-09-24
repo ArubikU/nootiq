@@ -1,0 +1,150 @@
+{
+  "settings": {
+    "title": "Configuración de la Cuenta",
+    "notifications": {
+      "title": "Notificaciones",
+      "email_notifications": "Recibir notificaciones por email",
+      "product_updates": "Recibir actualizaciones de producto"
+    },
+    "appearance": {
+      "title": "Apariencia",
+      "theme": "Tema",
+      "language": "Idioma"
+    },
+    "save_changes": "Guardar cambios"
+  },
+  "profile": {
+    "title": "Detalles del perfil",
+    "profile_section": {
+      "title": "Perfil",
+      "update_profile": "Actualizar perfil",
+      "upload": "Subir",
+      "upload_recommendation": "Tamaño recomendado 1:1, hasta 10MB.",
+      "first_name": "Nombre",
+      "last_name": "Apellido",
+      "cancel": "Cancelar",
+      "save": "Guardar"
+    },
+    "username_section": {
+      "title": "Nombre de usuario",
+      "update_username": "Actualizar nombre de usuario",
+      "no_username": "Sin nombre de usuario establecido",
+      "set_username": "Establecer nombre de usuario",
+      "username_placeholder": "Nombre de usuario",
+      "cancel": "Cancelar",
+      "save": "Guardar"
+    },
+    "email_section": {
+      "title": "Direcciones de correo electrónico",
+      "primary": "Principal",
+      "unverified": "Sin verificar",
+      "add_email": "Agregar dirección de correo",
+      "remove": "Eliminar",
+      "make_primary": "Hacer principal",
+      "resend_verification": "Reenviar verificación"
+    },
+    "connected_accounts": {
+      "title": "Cuentas conectadas",
+      "connect": "Conectar",
+      "connected": "Conectado",
+      "disconnect": "Desconectar",
+      "no_accounts": "No hay cuentas conectadas",
+      "unverified": "Sin verificar",
+      "all_providers_connected": "Todos los proveedores conectados"
+    }
+  },
+  "security": {
+    "title": "Seguridad",
+    "password_section": {
+      "title": "Contraseña",
+      "update_password": "Actualizar contraseña",
+      "set_password": "Establecer contraseña",
+      "new_password": "Nueva contraseña",
+      "current_password": "Contraseña actual",
+      "confirm_password": "Confirmar contraseña",
+      "confirm_new_password": "Confirmar nueva contraseña",
+      "enter_current_password": "Ingresa tu contraseña actual",
+      "enter_new_password": "Ingresa nueva contraseña",
+      "confirm_new_password_placeholder": "Confirma nueva contraseña",
+      "password_security_message": "Por tu seguridad, confirma tu contraseña actual para continuar.",
+      "confirm_your_password": "Confirma tu contraseña",
+      "update_your_password": "Actualiza tu contraseña",
+      "password_required": "La contraseña es requerida",
+      "cancel": "Cancelar",
+      "save": "Guardar"
+    },
+    "passkey_section": {
+      "title": "Llaves de acceso",
+      "add_passkey": "Agregar llave de acceso",
+      "remove": "Eliminar",
+      "created": "Creada",
+      "last_used": "Último uso",
+      "passkey_name_label": "Nombre de la passkey",
+      "passkey_name_placeholder": "Ej. Laptop del trabajo"
+    },
+    "mfa_section": {
+      "title": "Autenticación de dos factores",
+      "description": "Aumenta la seguridad de tu cuenta añadiendo métodos adicionales de autenticación.",
+      "enable_totp": "Habilitar autenticador TOTP",
+      "disable_totp": "Deshabilitar autenticador TOTP",
+      "backup_codes": "Códigos de respaldo",
+      "generate_codes": "Generar códigos",
+      "view_codes": "Ver códigos",
+      "setup_authenticator": "Configurar autenticador",
+      "enter_6_digit_code": "Ingresa el código de 6 dígitos",
+      "methods": {
+        "totp": {
+          "name": "Autenticador",
+          "description": "Usa una aplicación de autenticación como Google Authenticator"
+        },
+        "sms": {
+          "name": "SMS",
+          "description": "Recibe un código por mensaje de texto"
+        },
+        "backup_code": {
+          "name": "Códigos de respaldo",
+          "description": "Códigos de un solo uso para emergencias"
+        }
+      },
+      "status": {
+        "enabled": "Activado",
+        "disabled": "Desactivado"
+      },
+      "actions": {
+        "configure": "Configurar",
+        "disable": "Desactivar",
+        "cancel": "Cancelar",
+        "verify": "Verificar"
+      },
+      "setup": {
+        "totp": {
+          "title": "Configurar autenticador",
+          "scan_instruction": "Escanea este código QR con tu aplicación de autenticación:",
+          "manual_instruction": "O ingresa este código manualmente:",
+          "verification_label": "Código de verificación",
+          "verification_placeholder": "Ingresa el código de 6 dígitos",
+          "qr_example": "Código QR de ejemplo"
+        }
+      }
+    },
+    "active_devices": {
+      "title": "Dispositivos activos",
+      "current_device": "Dispositivo actual",
+      "revoke": "Revocar",
+      "last_active": "Última actividad"
+    },
+    "delete_account": {
+      "title": "Eliminar cuenta",
+      "description": "Eliminar permanentemente tu cuenta y todos los datos asociados.",
+      "delete_button": "Eliminar cuenta",
+      "warning": "Esta acción no se puede deshacer.",
+      "question": "¿Estás seguro de que quieres eliminar tu cuenta?",
+      "deleting": "Eliminando...",
+      "confirm_deletion": "Confirmar eliminación"
+    }
+  },
+  "account": {
+    "title": "Cuenta",
+    "manage_info": "Administra la información de tu cuenta."
+  }
+}

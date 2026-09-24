@@ -1,8 +1,10 @@
 import { generateQuizQuestions } from "@/lib/cohere"
-import { consumeGenerations, createQuiz, createQuizQuestion, getSummariesByRoomId, getUserByClerkId } from "@/lib/db"
+import { consumeGenerations, createQuiz, createQuizQuestion, getSummariesByRoomId } from "@/lib/db"
 import { Quiz } from "@/lib/types"
+import { createApiError, createSuccessResponse, handleApiError } from "@/lib/api-errors"
+import { getUserContext } from "@/lib/user-utils"
 import { auth } from "@clerk/nextjs/server"
-import { type NextRequest, NextResponse } from "next/server"
+import { type NextRequest } from "next/server"
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,25 +12,25 @@ export async function POST(request: NextRequest) {
     const { userId: clerkId } = authObj
 
     if (!clerkId) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+      return createApiError('UNAUTHORIZED')
     }
 
-    const user = await getUserByClerkId(clerkId)
+    const userContext = await getUserContext()
 
-    if (!user) {
-      return NextResponse.json({ error: "User not found" }, { status: 404 })
+    if (!userContext) {
+      return createApiError('USER_NOT_FOUND')
     }
 
     const { roomId } = await request.json()
 
     if (!roomId) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+      return createApiError('REQUIRED_FIELD', { field: 'roomId' })
     }
     const summaries = await getSummariesByRoomId(roomId)
 
-    const quizs: Quiz = await generateQuizQuestions(summaries.join("\n\n"))
+    const quizs: Quiz = await generateQuizQuestions(summaries.join("\n\n"), false, "", userContext.userLanguage)
     if (!quizs) {
-      return NextResponse.json({ error: "Failed to generate quizs" }, { status: 500 })
+      return createApiError('AI_GENERATION_FAILED')
     }
 
     const createdQuiz = await createQuiz(
@@ -59,9 +61,8 @@ export async function POST(request: NextRequest) {
 
     await consumeGenerations(authObj, roomId)
     const createdIds = questions.map((quiz) => quiz)
-    return NextResponse.json({ ids: createdIds, success: true })
+    return createSuccessResponse({ ids: createdIds }, 'Quiz generado exitosamente')
   } catch (error) {
-    console.error("Error creating document:", error)
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 })
+    return handleApiError(error)
   }
 }

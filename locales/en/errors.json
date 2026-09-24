@@ -1,0 +1,127 @@
+{
+  "account": {
+    "not_found": {
+      "title": "Account Error",
+      "message": "Your account could not be found in our database. Please contact support."
+    },
+    "access_denied": {
+      "title": "Access Denied",
+      "message": "You don't have permission to view this content."
+    },
+    "unauthorized": {
+      "title": "Unauthorized",
+      "message": "You must log in to access this page."
+    }
+  },
+  "room": {
+    "not_found": {
+      "title": "Notebook Not Found",
+      "message": "This notebook does not exist or you don't have access to it."
+    },
+    "access_denied": {
+      "title": "Access Denied",
+      "message": "You don't have permission to view this notebook."
+    },
+    "limited": {
+      "title": "Notebook Limited",
+      "message": "Can't create more notebooks."
+    },
+    "creation_failed": {
+      "title": "Notebook Creation Failed",
+      "message": "Could not create the notebook. Please try again."
+    }
+  },
+  "document": {
+    "not_found": {
+      "title": "Document Not Found",
+      "message": "The requested document does not exist or you don't have access to it."
+    },
+    "upload_failed": {
+      "title": "Upload Failed",
+      "message": "Could not upload the document. Check the format and try again."
+    },
+    "processing_failed": {
+      "title": "Processing Failed",
+      "message": "Could not process the document. Please try again later."
+    }
+  },
+  "flashcard": {
+    "not_found": {
+      "title": "Flashcard Not Found",
+      "message": "The requested flashcard does not exist or you don't have access to it."
+    },
+    "generation_failed": {
+      "title": "Flashcard Generation Failed",
+      "message": "Could not generate flashcards. Please try again."
+    }
+  },
+  "quiz": {
+    "not_found": {
+      "title": "Quiz Not Found",
+      "message": "The requested quiz does not exist or you don't have access to it."
+    },
+    "generation_failed": {
+      "title": "Quiz Generation Failed",
+      "message": "Could not generate the quiz. Please try again."
+    }
+  },
+  "payment": {
+    "failed": {
+      "title": "Payment Error",
+      "message": "Could not process payment. Check your details and try again."
+    },
+    "subscription_expired": {
+      "title": "Subscription Expired",
+      "message": "Your subscription has expired. Renew to continue using all features."
+    }
+  },
+  "network": {
+    "connection_failed": {
+      "title": "Connection Error",
+      "message": "Could not connect to server. Check your internet connection."
+    },
+    "server_error": {
+      "title": "Server Error",
+      "message": "Internal server error. Please try again later."
+    },
+    "timeout": {
+      "title": "Timeout",
+      "message": "The operation took too long to complete. Please try again."
+    }
+  },
+  "validation": {
+    "invalid_email": {
+      "title": "Invalid Email",
+      "message": "Please enter a valid email address."
+    },
+    "required_field": {
+      "title": "Required Field",
+      "message": "This field is required."
+    },
+    "file_too_large": {
+      "title": "File Too Large",
+      "message": "The file is too large. Maximum size is {maxSize}."
+    },
+    "invalid_file_type": {
+      "title": "Invalid File Type",
+      "message": "File type not supported. Allowed formats are: {allowedTypes}."
+    }
+  },
+  "generic": {
+    "unexpected_error": {
+      "title": "Unexpected Error",
+      "message": "An unexpected error occurred. Please try again."
+    },
+    "maintenance": {
+      "title": "Maintenance",
+      "message": "The site is under maintenance. We'll be back soon."
+    }
+  },
+  "buttons": {
+    "back_to_rooms": "Back to Rooms",
+    "back_to_dashboard": "Back to Dashboard",
+    "try_again": "Try Again",
+    "contact_support": "Contact Support",
+    "go_home": "Go Home"
+  }
+}

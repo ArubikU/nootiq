@@ -1,0 +1,32 @@
+{
+  "tab_title": "Referidos",
+  "title": "Sistema de Referidos",
+  "your_code": "Tu Código de Referido",
+  "your_referral_code": "Tu código de referido:",
+  "copy_link": "Copiar Enlace",
+  "total_referrals": "Total Referidos",
+  "remaining_uses": "Usos Restantes",
+  "recent_referrals": "Referidos Recientes",
+  "loading": "Cargando estadísticas...",
+  "how_it_works": "¿Cómo Funciona?",
+  "step_1": "Comparte tu código de referido con amigos",
+  "step_2": "Cuando se registren usando tu código, obtienen 1 día de Premium gratis",
+  "step_3": "Puedes usar hasta 100 códigos de referido",
+  "popup": {
+    "title": "¡Felicidades!",
+    "subtitle": "Has recibido una recompensa por usar un código de referido",
+    "plan_activated": "Activado",
+    "day": "día",
+    "days": "días",
+    "free": "gratis",
+    "features_included": "Características incluidas",
+    "start_exploring": "Empezar a Explorar",
+    "thanks_message": "¡Gracias por unirte a Nootiq!",
+    "success_message": "¡Código de referido aplicado exitosamente!",
+    "features": {
+      "unlimited_rooms": "Hasta 20 salas de estudio",
+      "advanced_ai": "20 generaciones de IA por sala",
+      "priority_support": "100 generaciones de IA mensuales"
+    }
+  }
+}

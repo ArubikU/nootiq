@@ -1,0 +1,79 @@
+{
+  "title": "Plans and Pricing",
+  "subtitle": "Choose the plan that best suits your study needs. All plans include access to our AI technology to generate study materials.",
+  "billing": {
+    "monthly": "Monthly",
+    "quarterly": "Quarterly (-10%)",
+    "yearly": "Annual (-20%)",
+    "perMonth": "/month",
+    "billedAnnually": "Billed annually",
+    "billedQuarterly": "Billed quarterly",
+    "year": "/year",
+    "quarter": "/quarter"
+  },
+  "plans": {
+    "free": {
+      "name": "Free",
+      "description": "For basic personal use",
+      "features": [
+        "Up to 5 Notebooks",
+        "5 AI generations per Notebook",
+        "25 monthly AI generations",
+        "3 Files per notebook",
+        "Basic flashcard export"
+      ],
+      "unavailable": ["Priority support"]
+    },
+    "premium": {
+      "name": "Premium",
+      "description": "For students and professionals",
+      "features": [
+        "Up to 20 Notebooks",
+        "20 AI generations per Notebook",
+        "100 monthly AI generations",
+        "10 Files per notebook",
+        "Advanced export (CSV)",
+        "Special documents (CSV)"
+      ],
+      "unavailable": ["Priority support"]
+    },
+    "ultimate": {
+      "name": "Ultimate",
+      "description": "For intensive use",
+      "features": [
+        "Unlimited Notebooks",
+        "Unlimited AI generations",
+        "Ultimate export (CSV, Anki)",
+        "Priority support",
+        "Special documents (CSV, IMG)",
+        "Chat with document"
+      ],
+      "unavailable": []
+    }
+  },
+  "buttons": {
+    "recommended": "Recommended",
+    "free": "Free",
+    "ultimate": "Ultimate Plan",
+    "chooseFreePlan": "Start Free",
+    "choosePlan": "Choose Plan",
+    "processing": "Processing...",
+    "currentPlan": "Current Plan",
+    "upgradeToUltimate": "Upgrade to Ultimate",
+    "upgradeToPremium": "Upgrade to Premium",
+    "forceToFree": "Force to Free Plan",
+    "alreadySuperior": "You're already on a superior plan"
+  },
+  "promo": {
+    "title": "Do you have a promotional code?",
+    "claim": "Claim"
+  },
+  "support": {
+    "title": "Have questions?",
+    "description": "Contact us for more information about our plans and how we can help you.",
+    "contact": "Contact support team"
+  },
+  "errors": {
+    "paymentError": "Error processing payment. Please try again."
+  }
+}

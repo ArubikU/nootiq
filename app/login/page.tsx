@@ -1,97 +1,104 @@
 "use client";
 
 import ProtectedByClerkFooter from "@/components/clerk/protected-by";
+import { useRedirectAfterAuth } from "@/hooks/use-redirect-after-auth";
 import * as Clerk from "@clerk/elements/common";
 import * as SignIn from "@clerk/elements/sign-in";
+import { useUser } from "@clerk/nextjs";
 import { AnimatePresence, motion } from "framer-motion";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useTranslation } from "@/hooks/use-translation";
+import "@/lib/i18n";
 
-const logoComponent = (<></>)
-const OlogoComponent = (<motion.div
-  className="h-16 w-16 bg-irisdark rounded-full mx-auto mb-6 flex items-center justify-center shadow-md shadow-irisdark/40"
-  initial={{ scale: 0.8, opacity: 0 }}
-  animate={{ scale: 1, opacity: 1 }}
-  transition={{ duration: 0.5 }}
->
-  <span className="text-2xl font-extrabold text-white">R</span>
-</motion.div>)
+const logoComponent = (
+  <div className="flex justify-center mb-4">
+    <img 
+      src="/logo.svg" 
+      alt="Logo" 
+      className="w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24 object-contain" 
+    />
+  </div>
+);
 export default function SignInPage() {
   const [mounted, setMounted] = useState(false);
+  const { t } = useTranslation();
+  const { isSignedIn } = useUser();
+  const router = useRouter();
+  const { handleRedirectAfterAuth } = useRedirectAfterAuth();
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Manejar redirección después del login exitoso
+  useEffect(() => {
+    if (isSignedIn && mounted) {
+      // Intentar redireccionar a la URL guardada, si no existe ir al dashboard
+      const redirected = handleRedirectAfterAuth();
+      if (!redirected) {
+        router.push('/dashboard');
+      }
+    }
+  }, [isSignedIn, mounted, router, handleRedirectAfterAuth]);
+
   if (!mounted) return null;
 
   return (
-    <div className="flex min-h-screen w-full items-center justify-center bg-gray-100 px-4 py-16">
-      <SignIn.Root>
+    <div className="flex min-h-screen w-full items-center justify-center bg-secondary py-4">
+      <SignIn.Root routing="virtual">
         <SignIn.Step
           name="start"
-          className="w-full  max-w-md space-y-8 rounded-3xl bg-ivory p-10 shadow-xl transition-all duration-300 hover:shadow-xl hover:shadow-irislight/50"
+          className="w-full max-w-md bg-primary rounded-4xl p-10 shadow-3xl transition-all duration-300 hover:shadow-4xl hover:shadow-accent-light/50"
         >
           <header className="text-center">
             {logoComponent}
             <motion.h1
-              className="text-2xl font-semibold text-ink"
+              className="text-2xl font-semibold text-primary"
               initial={{ y: -50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.2 }}
             >
-              Sign in to Nootiq
+              {t('login.title')}
             </motion.h1>
             <motion.p
-              className="mt-2 text-rage"
+              className=" text-secondary"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.4 }}
             >
-              Welcome back! Please sign in to continue
+              {t('login.subtitle')}
             </motion.p>
           </header>
 
-
-          <div className="space-y-3">
+          <div className="mt-6 py-2">
+          <div className="space-y-1">
             <div className="grid grid-cols-3 gap-4">
               <Clerk.Connection
                 name="google"
-                className="flex items-center justify-center rounded-lg bg-gray-100 p-3 shadow-md transition-all duration-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="flex items-center justify-center rounded-xl bg-surface p-3 shadow-sm transition-all duration-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <g>
-                    <path d="M21.805 10.023h-9.765v3.977h5.637c-.243 1.243-1.37 3.65-5.637 3.65-3.39 0-6.15-2.803-6.15-6.25s2.76-6.25 6.15-6.25c1.93 0 3.23.82 3.97 1.52l2.71-2.63C17.09 2.98 14.97 2 12.5 2 6.98 2 2.5 6.48 2.5 12s4.48 10 10 10c5.74 0 9.52-4.03 9.52-9.72 0-.65-.07-1.14-.15-1.61z" fill="#FFC107" />
-                    <path d="M3.653 7.345l3.27 2.4c.89-1.7 2.57-2.79 4.577-2.79 1.18 0 2.24.41 3.08 1.09l2.72-2.63C15.97 2.98 13.97 2 11.5 2 8.08 2 5.09 4.18 3.65 7.35z" fill="#FF3D00" />
-                    <path d="M12.5 22c2.43 0 4.47-.8 5.96-2.18l-2.75-2.25c-.8.6-1.87.96-3.21.96-2.47 0-4.57-1.67-5.32-3.93l-3.23 2.5C5.09 19.82 8.08 22 12.5 22z" fill="#4CAF50" />
-                    <path d="M21.805 10.023h-9.765v3.977h5.637c-.243 1.243-1.37 3.65-5.637 3.65-3.39 0-6.15-2.803-6.15-6.25s2.76-6.25 6.15-6.25c1.93 0 3.23.82 3.97 1.52l2.71-2.63C17.09 2.98 14.97 2 12.5 2 6.98 2 2.5 6.48 2.5 12s4.48 10 10 10c5.74 0 9.52-4.03 9.52-9.72 0-.65-.07-1.14-.15-1.61z" fill="#FFC107" fillOpacity=".2" />
-                  </g>
-                </svg>
+                <img src="/google.svg" alt="Google" className="w-6 h-6" />
               </Clerk.Connection>
               <Clerk.Connection
                 name="github"
-                className="flex items-center justify-center rounded-lg bg-gray-100 p-3 shadow-md transition-all duration-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="flex items-center justify-center rounded-xl bg-surface p-3 shadow-sm  transition-all duration-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.021c0 4.428 2.865 8.184 6.839 9.504.5.092.682-.217.682-.483 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.342-3.369-1.342-.454-1.156-1.11-1.464-1.11-1.464-.908-.62.069-.608.069-.608 1.004.07 1.532 1.032 1.532 1.032.892 1.53 2.341 1.088 2.91.832.091-.647.35-1.088.636-1.338-2.221-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.025A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.295 2.748-1.025 2.748-1.025.546 1.378.202 2.397.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.847-2.337 4.695-4.566 4.944.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.749 0 .268.18.579.688.481C19.138 20.203 22 16.447 22 12.021 22 6.484 17.523 2 12 2z" fill="#181717" />
-                </svg>
+                <img src="/github.svg" alt="GitHub" className="w-6 h-6" />
               </Clerk.Connection>
               <Clerk.Connection
                 name="linkedin_oidc"
-                className="flex items-center justify-center rounded-lg bg-gray-100 p-3 shadow-md transition-all duration-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="flex items-center justify-center rounded-xl bg-surface p-3 shadow-sm  transition-all duration-300 hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
               >
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <g>
-                    <rect width="24" height="24" rx="4" fill="#0077B5" />
-                    <path d="M7.75 17H5.5V9.5h2.25V17zM6.625 8.5a1.125 1.125 0 1 1 0-2.25 1.125 1.125 0 0 1 0 2.25zM18.5 17h-2.25v-3.25c0-.776-.014-1.775-1.083-1.775-1.084 0-1.25.847-1.25 1.72V17h-2.25V9.5h2.16v1.025h.03c.3-.567 1.034-1.166 2.13-1.166 2.278 0 2.7 1.5 2.7 3.448V17z" fill="#fff" />
-                  </g>
-                </svg>
+                <img src="/linkedin.svg" alt="LinkedIn" className="w-6 h-6" />
               </Clerk.Connection>
             </div>
           </div>
-          <div className="relative mt-6 flex items-center">
-            <div className="flex-grow border-t border-gray-300" />
-            <span className="mx-4 text-sm text-rage">or</span>
-            <div className="flex-grow border-t border-gray-300" />
+          </div>
+          <div className="relative mt-2 mb-1 flex items-center">
+            <div className="flex-grow border-t border-secondary" />
+            <span className="mx-2 text-sm text-text-secondary">{t('login.social.title')}</span>
+            <div className="flex-grow border-t border-secondary" />
           </div>
 
           <AnimatePresence mode="wait">
@@ -101,30 +108,34 @@ export default function SignInPage() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4 }}
+              className="mt-2"
             >
-              <Clerk.Field name="identifier" className="space-y-2">
-                <Clerk.Label className="text-sm font-medium text-ink">Email address or username</Clerk.Label>
+              <Clerk.Field name="identifier" className="py-3 space-y-1">
+                <Clerk.Label className="text-sm font-medium text-text">{t('login.form.email')}</Clerk.Label>
                 <Clerk.Input
                   type="text"
                   required
-                  className="w-full rounded-xl bg-gray-50 px-4 py-3 text-sm outline-none ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-irisdark"
+                  className="w-full rounded-xl bg-surface px-4 py-3 text-sm outline-none ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-accent-dark shadow-xl"
                 />
-                <Clerk.FieldError className="block text-sm text-red-500" />
+                <Clerk.FieldError className="block text-sm text-error" />
               </Clerk.Field>
-              <Clerk.Field name="password" className="space-y-2">
-                <Clerk.Label className="text-sm font-medium text-ink">Password</Clerk.Label>
+              <Clerk.Field name="password" className="py-3 space-y-1">
+                <Clerk.Label className="text-sm font-medium text-text">{t('login.form.password')}</Clerk.Label>
                 <Clerk.Input
                   type="password"
                   required
-                  className="w-full rounded-full bg-gray-50 px-4 py-3 text-sm outline-none ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-irisdark"
+                  className="w-full rounded-xl bg-surface px-4 py-3 text-sm outline-none ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-accent-dark shadow-xl"
                 />
-                <Clerk.FieldError className="block text-sm text-red-500" />
+                <Clerk.FieldError className="block text-sm text-error" />
               </Clerk.Field>
+              
+
               <SignIn.Action
                 submit
-                className="w-full rounded-xl bg-irisdark px-4 py-3 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:bg-iris focus:outline-none focus:ring-2 focus:ring-irisdark mt-4 flex items-center justify-center gap-2"
+                
+                className="w-full rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-negated-primary shadow-md transition-all duration-300 hover:bg-custom-accent focus:outline-none focus:ring-2 focus:ring-accent-dark mt-4 flex items-center justify-center gap-2"
               >
-                Continue
+                {t('login.form.sign_in')}
                 <svg
                   className="w-5 h-5 ml-1"
                   fill="none"
@@ -138,18 +149,17 @@ export default function SignInPage() {
             </motion.div>
 
           </AnimatePresence>
-          <footer className="">
+          <footer className="mt-4 space-y-8">
 
-            <p className="text-center text-sm text-rage">
-              Don’t have an account?{' '}
+            <p className="text-center text-sm text-text-secondary">
+              {t('login.no_account.text')}{' '}
               <Clerk.Link
                 navigate="sign-up"
-                className="font-medium text-irisdark underline-offset-4 hover:underline"
+                className="font-medium text-accent underline-offset-4 hover:underline"
               >
-                Create one
+                {t('login.no_account.link')}
               </Clerk.Link>
             </p>
-            <ProtectedByClerkFooter></ProtectedByClerkFooter>
           </footer>
         </SignIn.Step>
       </SignIn.Root>
